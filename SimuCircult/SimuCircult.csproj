@@ -49,12 +49,14 @@
     <Compile Include="Common\Element\Wire.cs" />
     <Compile Include="Common\Graph\Circult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Drawing\GraphicsElement.cs" />
+    <Compile Include="UI\Drawing\GraphicsRenderer.cs" />
+    <Compile Include="UI\Drawing\INameable.cs" />
     <Compile Include="UI\Global\Storage.cs" />
-    <Compile Include="UI\Graphics\IGraphicsElementFactory.cs" />
-    <Compile Include="UI\Graphics\IGraphicsElement.cs" />
-    <Compile Include="UI\Graphics\IGraphicsRendererFactory.cs" />
-    <Compile Include="UI\Graphics\IGraphicsRenderer.cs" />
-    <Compile Include="UI\Graphics\IGraphicsRenderTarget.cs" />
+    <Compile Include="UI\Drawing\IGraphicsElementFactory.cs" />
+    <Compile Include="UI\Drawing\IGraphicsElement.cs" />
+    <Compile Include="UI\Drawing\IGraphicsRendererFactory.cs" />
+    <Compile Include="UI\Drawing\IGraphicsRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Simulator\" />

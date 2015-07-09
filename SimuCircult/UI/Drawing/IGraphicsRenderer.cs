@@ -4,14 +4,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace SimuCircult.UI.Graphics
+namespace SimuCircult.UI.Drawing
 {
 	interface IGraphicsRenderer
 	{
-		IGraphicsElementFactory GetFactory();
-		void Initialize(IGraphicsElement element);
-		void Finalize();
-		void SetRenderTarget(IGraphicsRenderTarget renderTarget);
+		IGraphicsRendererFactory GetFactory();
+		void Start(IGraphicsElement element);
+		void Stop();
+		void SetGraphics(Graphics graphics);
 		void Render(Rectangle bound);
 		void OnChanged();
 	}
