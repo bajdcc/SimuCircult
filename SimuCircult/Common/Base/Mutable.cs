@@ -23,5 +23,19 @@ namespace SimuCircult.Common.Base
 			get { return _next; }
 			set { _next = value; }
 		}
+
+		private bool _active = true;
+
+		public bool Active
+		{
+			get { return _active; }
+			set { _active = value; }
+		}
+
+		public void Update()
+		{
+			if (_active)
+				_local = _next;
+		}
 	}
 }

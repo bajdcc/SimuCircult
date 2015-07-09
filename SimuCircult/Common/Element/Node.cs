@@ -7,19 +7,21 @@ using System.Text;
 namespace SimuCircult.Common.Element
 {
 	abstract class Node<T> : Markable, Mutable<T>
-		where T : Status
 	{
-		private List<Wire<T>> _wires;
+		private List<Wire<T>> _inWires = new List<Wire<T>>();
 
-		public Node()
+		public List<Wire<T>> InWires
 		{
-			_wires = new List<Wire<T>>();
+			get { return _inWires; }
+			set { _inWires = value; }
 		}
 
-		public List<Wire<T>> Wires
+		private List<Wire<T>> _outWires = new List<Wire<T>>();
+
+		public List<Wire<T>> OutWires
 		{
-			get { return _wires; }
-			set { _wires = value; }
+			get { return _outWires; }
+			set { _outWires = value; }
 		}
 	}
 }
