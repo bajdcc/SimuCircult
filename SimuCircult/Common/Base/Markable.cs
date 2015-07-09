@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimuCircult.Common.Element
+namespace SimuCircult.Common.Base
 {
 	class Markable
 	{

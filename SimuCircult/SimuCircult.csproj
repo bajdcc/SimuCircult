@@ -44,8 +44,11 @@
     <Compile Include="Common\ElementX\NodeX.cs" />
     <Compile Include="Common\ElementX\GraphicsX.cs" />
     <Compile Include="Common\ElementX\WireX.cs" />
-    <Compile Include="Common\Element\Markable.cs" />
+    <Compile Include="Common\Base\Markable.cs" />
+    <Compile Include="Common\Base\Mutable.cs" />
     <Compile Include="Common\Element\Node.cs" />
+    <Compile Include="Common\Base\Status.cs" />
+    <Compile Include="Common\Element\Unit.cs" />
     <Compile Include="Common\Element\Wire.cs" />
     <Compile Include="Common\Graph\Circult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

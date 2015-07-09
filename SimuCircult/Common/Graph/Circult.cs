@@ -12,6 +12,8 @@ namespace SimuCircult.Common.Graph
 	{
 		private Dictionary<Guid, _NODE> _nodes = new Dictionary<Guid, _NODE>();
 		private Dictionary<Guid, _WIRE> _wires = new Dictionary<Guid, _WIRE>();
+		private Dictionary<Guid, _STATUS> _wires = new Dictionary<Guid, _WIRE>();
+		private Dictionary<Guid, _WIRE> _wires = new Dictionary<Guid, _WIRE>();
 
 		public Node CreateNode()
 		{
