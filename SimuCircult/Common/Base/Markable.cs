@@ -25,7 +25,6 @@ namespace SimuCircult.Common.Base
 		public Guid Id
 		{
 			get { return _guid; }
-			set { _guid = value; }
 		}
 	}
 }

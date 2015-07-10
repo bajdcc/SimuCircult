@@ -15,10 +15,39 @@ namespace SimuCircult.Common.Graph
 		where _UNIT : Unit<_STATUS>, new()
 	{
 		private Dictionary<Guid, _NODE> _nodes = new Dictionary<Guid, _NODE>();
+
+		public Dictionary<Guid, _NODE> Nodes
+		{
+			get { return _nodes; }
+		}
+
 		private Dictionary<Guid, _WIRE> _wires = new Dictionary<Guid, _WIRE>();
+
+		public Dictionary<Guid, _WIRE> Wires
+		{
+			get { return _wires; }
+		}
+
 		private Dictionary<Guid, Mutable<_STATUS>> _nodeStatus = new Dictionary<Guid, Mutable<_STATUS>>();
+
+		public Dictionary<Guid, Mutable<_STATUS>> NodeStatus
+		{
+			get { return _nodeStatus; }
+		}
+
 		private Dictionary<Guid, Mutable<_STATUS>> _wireStatus = new Dictionary<Guid, Mutable<_STATUS>>();
+
+		public Dictionary<Guid, Mutable<_STATUS>> WireStatus
+		{
+			get { return _wireStatus; }
+		}
+
 		private Dictionary<Guid, _UNIT> _units = new Dictionary<Guid, _UNIT>();
+
+		public Dictionary<Guid, _UNIT> Units
+		{
+			get { return _units; }
+		}
 
 		public _NODE CreateNode()
 		{
@@ -59,9 +88,9 @@ namespace SimuCircult.Common.Graph
 
 		public void Update()
 		{
+			Parallel.ForEach(_units.Values, a => a.Activate());
 			Parallel.ForEach(_nodeStatus.Values, a => a.Update());
 			Parallel.ForEach(_wireStatus.Values, a => a.Update());
-			.AsParallel().Where(a => a.Active)
 		}
 	}
 }

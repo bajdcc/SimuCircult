@@ -59,11 +59,13 @@ namespace SimuCircult.UI.Drawing
 
 		override public void SetGraphics(Graphics graphics)
 		{
+			Graphics tmp = _graphics;
 			_graphics = graphics;
+			OnChangedGraphics(tmp, graphics);
 		}
 
 		abstract public void Render(Rectangle bound);
 
-		abstract public void OnChanged();
+		abstract protected void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics);
 	}
 }
