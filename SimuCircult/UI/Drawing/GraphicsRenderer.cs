@@ -8,27 +8,22 @@ using System.Text;
 
 namespace SimuCircult.UI.Drawing
 {
-	class GraphicsRenderer<T, U> : IGraphicsRenderer
+	abstract class GraphicsRenderer<T, U> : IGraphicsRenderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
 		private IGraphicsRendererFactory _factory;
 		private U _element;
-		private Graphics _graphics;
+		protected Graphics _graphics;
 
 		private class Factory : IGraphicsRendererFactory
 		{
-			IGraphicsRenderer Create()
+			public IGraphicsRenderer Create()
 			{
 				T renderer = new T();
 				renderer._factory = this;
 				return renderer;
 			}
-		}
-
-		public Factory CreateFactory()
-		{
-			return new Factory();
 		}
 
 		static public void Register()
@@ -37,18 +32,18 @@ namespace SimuCircult.UI.Drawing
 			typeof(U).InvokeMember("Register", BindingFlags.NonPublic | BindingFlags.Static, null, new Type[] { }, null);
 		}
 
-		override public IGraphicsRendererFactory GetFactory()
+		public IGraphicsRendererFactory GetFactory()
 		{
 			return _factory;
 		}
 
-		override public void Start(IGraphicsElement element)
+		public void Start(IGraphicsElement element)
 		{
 			_element = element as U;
 			_Start();
 		}
 
-		override public void Stop()
+		public void Stop()
 		{
 			_Stop();
 		}
@@ -57,7 +52,7 @@ namespace SimuCircult.UI.Drawing
 
 		abstract protected void _Stop();
 
-		override public void SetGraphics(Graphics graphics)
+		public void SetGraphics(Graphics graphics)
 		{
 			Graphics tmp = _graphics;
 			_graphics = graphics;

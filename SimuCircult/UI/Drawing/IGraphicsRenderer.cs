@@ -13,6 +13,5 @@ namespace SimuCircult.UI.Drawing
 		void Stop();
 		void SetGraphics(Graphics graphics);
 		void Render(Rectangle bound);
-		void OnChanged();
 	}
 }

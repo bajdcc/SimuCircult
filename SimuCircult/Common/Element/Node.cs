@@ -6,7 +6,8 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	abstract class Node<T> : Markable, Mutable<T>
+	abstract class Node<T> : Mutable<T>
+		where T : Status, new()
 	{
 		private List<Wire<T>> _inWires = new List<Wire<T>>();
 
@@ -23,5 +24,14 @@ namespace SimuCircult.Common.Element
 			get { return _outWires; }
 			set { _outWires = value; }
 		}
+
+		public void Advance()
+		{
+			var inputs = _inWires.Select(a => a.Left.Local);
+			var outputs = _outWires.Select(a => a.Right.Next);
+			_Advance(inputs, outputs);
+		}
+
+		protected abstract void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs);
 	}
 }

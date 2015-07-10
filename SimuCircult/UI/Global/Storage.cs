@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimuCircult.UI.Global
 {
-	static sealed class Storage
+	static class Storage
 	{
 		static private Dictionary<string, IGraphicsRendererFactory> _rendererFactory = new Dictionary<string, IGraphicsRendererFactory>();
 		static public Dictionary<string, IGraphicsRendererFactory> RendererFactory

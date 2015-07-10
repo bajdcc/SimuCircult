@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Base
 {
-	class Mutable<T>
+	class Mutable<T> : Markable
 		where T : Status, new()
 	{
 		private T _local = new T();

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimuCircult.Common.Element
+namespace SimuCircult.Common.Drawing
 {
-	abstract class WireX : Wire, Markable
+	interface IDraw
 	{
-		
+		void Draw();
 	}
 }

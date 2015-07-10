@@ -6,27 +6,25 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	public enum UnitType
+	abstract class Unit<T> : Mutable<T>
+		where T : Status, new()
 	{
-		None,
-		Switch,
-	}
+		private List<Node<T>> _inputs = new List<Node<T>>();
 
-	class Unit<T> : Markable, Mutable<T>
-	{
-		private UnitType _unitType = UnitType.None;
-
-		public UnitType UnitType
+		public List<Node<T>> Inputs
 		{
-			get { return _unitType; }
+			get { return _inputs; }
+			set { _inputs = value; }
 		}
 
-		public void Activate()
-		{
-			if (_unitType == Element.UnitType.Switch)
-			{
+		private List<Node<T>> _outputs = new List<Node<T>>();
 
-			}
+		public List<Node<T>> Outputs
+		{
+			get { return _outputs; }
+			set { _outputs = value; }
 		}
+
+		public abstract void Activate();
 	}
 }

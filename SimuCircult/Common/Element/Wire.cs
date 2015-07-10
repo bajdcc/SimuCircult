@@ -13,7 +13,8 @@ namespace SimuCircult.Common.Element
 		Both,
 	}
 
-	abstract class Wire<T> : Markable, Mutable<T>
+	abstract class Wire<T> : Mutable<T>
+		where T : Status, new()
 	{
 		private Node<T> _left;
 
@@ -37,6 +38,14 @@ namespace SimuCircult.Common.Element
 		{
 			get { return _direction; }
 			set { _direction = value; }
+		}
+
+		private bool external = false;
+
+		public bool External
+		{
+			get { return external; }
+			set { external = value; }
 		}
 	}
 }

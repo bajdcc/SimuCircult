@@ -41,20 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ElementX\NodeX.cs" />
-    <Compile Include="Common\ElementX\GraphicsX.cs" />
-    <Compile Include="Common\ElementX\WireX.cs" />
+    <Compile Include="Common\Drawing\DrawBag.cs" />
     <Compile Include="Common\Base\Markable.cs" />
     <Compile Include="Common\Base\Mutable.cs" />
+    <Compile Include="Common\Drawing\IDraw.cs" />
+    <Compile Include="Common\Element\NodeX.cs" />
     <Compile Include="Common\Element\Node.cs" />
     <Compile Include="Common\Base\Status.cs" />
+    <Compile Include="Common\Element\UnitX.cs" />
     <Compile Include="Common\Element\Unit.cs" />
+    <Compile Include="Common\Element\WireX.cs" />
     <Compile Include="Common\Element\Wire.cs" />
     <Compile Include="Common\Graph\Circult.cs" />
+    <Compile Include="Common\Node\Logic.cs" />
+    <Compile Include="Common\Node\Or.cs" />
+    <Compile Include="Common\Unit\Switch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Drawing\GraphicsElement.cs" />
     <Compile Include="UI\Drawing\GraphicsRenderer.cs" />
     <Compile Include="UI\Drawing\INameable.cs" />
+    <Compile Include="UI\Renderer\BrushRenderer.cs" />
     <Compile Include="UI\Global\Storage.cs" />
     <Compile Include="UI\Drawing\IGraphicsElementFactory.cs" />
     <Compile Include="UI\Drawing\IGraphicsElement.cs" />
@@ -64,6 +70,7 @@
   <ItemGroup>
     <Folder Include="Simulator\" />
     <Folder Include="Tool\Pool\" />
+    <Folder Include="UI\Element\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

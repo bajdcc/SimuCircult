@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SimuCircult.Common.Graph
 {
@@ -88,9 +87,10 @@ namespace SimuCircult.Common.Graph
 
 		public void Update()
 		{
-			Parallel.ForEach(_units.Values, a => a.Activate());
-			Parallel.ForEach(_nodeStatus.Values, a => a.Update());
-			Parallel.ForEach(_wireStatus.Values, a => a.Update());
+			_units.Values.AsParallel().ForAll(a => a.Activate());
+			_nodes.Values.AsParallel().ForAll(a => a.Advance());
+			_nodeStatus.Values.AsParallel().ForAll(a => a.Update());
+			_wireStatus.Values.AsParallel().ForAll(a => a.Update());
 		}
 	}
 }

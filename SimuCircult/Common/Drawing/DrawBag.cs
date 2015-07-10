@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace SimuCircult.Common.ElementX
+namespace SimuCircult.Common.Drawing
 {
-	class GraphicsX
+	class DrawBag
 	{
 		private Dictionary<string, object> _dict = new Dictionary<string, object>();
 

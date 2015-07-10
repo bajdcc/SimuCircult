@@ -12,7 +12,7 @@ namespace SimuCircult.Common.Base
 
 		public Markable()
 		{
-			_guid = new Guid();
+			_guid = Guid.NewGuid();
 			_name = _guid.ToString();
 		}
 
