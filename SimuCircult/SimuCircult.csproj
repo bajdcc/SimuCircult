@@ -53,10 +53,17 @@
     <Compile Include="Common\Element\WireX.cs" />
     <Compile Include="Common\Element\Wire.cs" />
     <Compile Include="Common\Graph\Circult.cs" />
-    <Compile Include="Common\Node\Logic.cs" />
-    <Compile Include="Common\Node\Or.cs" />
-    <Compile Include="Common\Unit\Switch.cs" />
+    <Compile Include="Common\Graph\CircultBase.cs" />
+    <Compile Include="Common\Graph\CircultHelper.cs" />
+    <Compile Include="Common\Node\GenNode.cs" />
+    <Compile Include="Common\Node\CommonNode.cs" />
+    <Compile Include="Common\Node\LogicNode.cs" />
+    <Compile Include="Common\Node\OrNode.cs" />
+    <Compile Include="Common\Unit\CommonUnit.cs" />
+    <Compile Include="Common\Unit\SwitchUnit.cs" />
+    <Compile Include="Common\Wire\CommonWire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simulator\ISimulate.cs" />
     <Compile Include="UI\Drawing\GraphicsElement.cs" />
     <Compile Include="UI\Drawing\GraphicsRenderer.cs" />
     <Compile Include="UI\Drawing\INameable.cs" />
@@ -68,7 +75,6 @@
     <Compile Include="UI\Drawing\IGraphicsRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Simulator\" />
     <Folder Include="Tool\Pool\" />
     <Folder Include="UI\Element\" />
   </ItemGroup>

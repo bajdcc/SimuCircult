@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SimuCircult.UI.Drawing
 {
-	abstract class GraphicsRenderer<T, U> : IGraphicsRenderer
+	public abstract class GraphicsRenderer<T, U> : IGraphicsRenderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{

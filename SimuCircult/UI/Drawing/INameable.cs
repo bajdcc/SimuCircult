@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimuCircult.UI.Drawing
 {
-	interface INameable
+	public interface INameable
 	{
 		string GetName();
 	}

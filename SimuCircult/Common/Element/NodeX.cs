@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
+using SimuCircult.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	abstract class NodeX<T> : Node<T>, IDraw
+	public abstract class NodeX<T> : Node<T>, IDraw
 		where T : Status, new()
 	{
 		private DrawBag _graphics;
@@ -28,9 +29,6 @@ namespace SimuCircult.Common.Element
 			return _graphics.Dict[key];
 		}
 
-		public void Draw()
-		{
-			throw new NotImplementedException();
-		}
+		public abstract void Draw();
 	}
 }

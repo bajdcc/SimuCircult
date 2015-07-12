@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Base
 {
-	class Status
+	public class Status
 	{
 		private int _code = 0;
 

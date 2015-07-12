@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Base
 {
-	class Markable
+	public class Markable
 	{
 		private Guid _guid;
 		private string _name;

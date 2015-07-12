@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	abstract class Node<T> : Mutable<T>
+	public abstract class Node<T> : Mutable<T>
 		where T : Status, new()
 	{
 		private List<Wire<T>> _inWires = new List<Wire<T>>();
@@ -25,7 +25,7 @@ namespace SimuCircult.Common.Element
 			set { _outWires = value; }
 		}
 
-		public void Advance()
+		public override void Advance()
 		{
 			var inputs = _inWires.Select(a => a.Left.Local);
 			var outputs = _outWires.Select(a => a.Right.Next);

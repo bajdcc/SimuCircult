@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SimuCircult.Simulator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace SimuCircult.Common.Base
 {
-	class Mutable<T> : Markable
+	public abstract class Mutable<T> : Markable, ISimulate
 		where T : Status, new()
 	{
 		private T _local = new T();
@@ -24,18 +25,14 @@ namespace SimuCircult.Common.Base
 			set { _next = value; }
 		}
 
-		private bool _active = true;
-
-		public bool Active
-		{
-			get { return _active; }
-			set { _active = value; }
-		}
-
 		public void Update()
 		{
-			if (_active)
+			if (_local != _next)
 				_local = _next;
 		}
+
+		public abstract void Activate();
+
+		public abstract void Advance();
 	}
 }

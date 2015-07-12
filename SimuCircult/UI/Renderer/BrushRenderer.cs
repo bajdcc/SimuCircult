@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
-	abstract class BrushRenderer<T, U> : GraphicsRenderer<T, U>
+	public abstract class BrushRenderer<T, U> : GraphicsRenderer<T, U>
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{

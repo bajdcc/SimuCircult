@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	abstract class UnitX<T> : Unit<T>, IDraw
+	public abstract class UnitX<T> : Unit<T>, IDraw
 		where T : Status, new()
 	{
 		private DrawBag _graphics;
@@ -28,9 +28,6 @@ namespace SimuCircult.Common.Element
 			return _graphics.Dict[key];
 		}
 
-		public void Draw()
-		{
-			throw new NotImplementedException();
-		}
+		public abstract void Draw();
 	}
 }

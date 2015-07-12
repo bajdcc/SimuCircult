@@ -6,14 +6,14 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	enum WireType
+	public enum WireType
 	{
 		LeftToRight,
 		RightToLeft,
 		Both,
 	}
 
-	abstract class Wire<T> : Mutable<T>
+	public abstract class Wire<T> : Mutable<T>
 		where T : Status, new()
 	{
 		private Node<T> _left;
@@ -46,6 +46,14 @@ namespace SimuCircult.Common.Element
 		{
 			get { return external; }
 			set { external = value; }
+		}
+
+		private WireType _heading = WireType.Both;
+
+		public WireType Heading
+		{
+			get { return _heading; }
+			set { _heading = value; }
 		}
 	}
 }

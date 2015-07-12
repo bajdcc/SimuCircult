@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimuCircult.UI.Drawing
 {
-	interface IGraphicsRendererFactory
+	public interface IGraphicsRendererFactory
 	{
 		IGraphicsRenderer Create();
 	}

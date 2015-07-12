@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Drawing
 {
-	class DrawBag
+	public class DrawBag
 	{
 		private Dictionary<string, object> _dict = new Dictionary<string, object>();
 

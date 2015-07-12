@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Drawing
 {
-	interface IDraw
+	public interface IDraw
 	{
 		void Draw();
 	}

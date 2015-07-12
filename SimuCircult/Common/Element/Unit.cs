@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	abstract class Unit<T> : Mutable<T>
+	public abstract class Unit<T> : Node<T>
 		where T : Status, new()
 	{
 		private List<Node<T>> _inputs = new List<Node<T>>();
@@ -25,6 +25,12 @@ namespace SimuCircult.Common.Element
 			set { _outputs = value; }
 		}
 
-		public abstract void Activate();
+		private List<Node<T>> _hidden = new List<Node<T>>();
+
+		public List<Node<T>> Hidden
+		{
+			get { return _hidden; }
+			set { _hidden = value; }
+		}
 	}
 }
