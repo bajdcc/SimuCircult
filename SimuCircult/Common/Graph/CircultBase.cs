@@ -59,7 +59,7 @@ namespace SimuCircult.Common.Graph
 		public T CreateUnit<T>()
 			where T : _UNIT, new()
 		{
-			T unit = new T();
+			var unit = new T();
 			_units.Add(unit.Id, unit);
 			return unit;
 		}
@@ -68,11 +68,25 @@ namespace SimuCircult.Common.Graph
 			where U : _NODE, new()
 			where V : _NODE, new()
 		{
-			_WIRE wire = new _WIRE();
+			var wire = new _WIRE();
 			_wires.Add(wire.Id, wire);
 			wire.Direction = WireType.LeftToRight;
 			wire.Left = left;
 			wire.Right = right;
+			left.OutWires.Add(wire);
+			right.InWires.Add(wire);
+		}
+
+		public void ConnectUnitDirect<U, V>(U left, V right)
+			where U : _UNIT, new()
+			where V : _UNIT, new()
+		{
+			var wire = new _WIRE();
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.GetSingleOutput();
+			wire.Right = right.GetSingleInput();
 			left.OutWires.Add(wire);
 			right.InWires.Add(wire);
 		}
@@ -108,10 +122,11 @@ namespace SimuCircult.Common.Graph
 			return wire;
 		}
 
-		public void Update()
+		public virtual void Update()
 		{
 			_units.Values.AsParallel().ForAll(a => a.Activate());
 			_nodes.Values.AsParallel().ForAll(a => a.Advance());
+			_wires.Values.AsParallel().ForAll(a => a.Advance());
 			_nodeStatus.Values.AsParallel().ForAll(a => a.Update());
 			_wireStatus.Values.AsParallel().ForAll(a => a.Update());
 		}

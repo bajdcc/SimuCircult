@@ -14,12 +14,24 @@ namespace SimuCircult.Common.Graph
 	{
 		public static SwitchUnit<Status> CreateSwitchUnit(this Circult circult)
 		{
-			var genUnit = circult.CreateUnit<SwitchUnit<Status>>();
+			var unit = circult.CreateUnit<SwitchUnit<Status>>();
 			var genNode = circult.CreateNode<GenNode<Status>>();
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
-			genUnit.Hidden.Add(genNode);
+			unit.Hidden.Add(genNode);
+			unit.Outputs.Add(outputNode);
 			circult.ConnectNode(genNode, outputNode);
-			return genUnit;
+			return unit;
+		}
+
+		public static OutputUnit<Status> CreateOutputUnit(this Circult circult)
+		{
+			var unit = circult.CreateUnit<OutputUnit<Status>>();
+			var inputNode = circult.CreateNode<CommonNode<Status>>();
+			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			unit.Hidden.Add(outputNode);
+			unit.Inputs.Add(inputNode);
+			circult.ConnectNode(inputNode, outputNode);
+			return unit;
 		}
 	}
 }

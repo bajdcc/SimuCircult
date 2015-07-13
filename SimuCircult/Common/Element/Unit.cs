@@ -32,5 +32,15 @@ namespace SimuCircult.Common.Element
 			get { return _hidden; }
 			set { _hidden = value; }
 		}
+
+		public Node<T> GetSingleInput()
+		{
+			return Inputs.Single();
+		}
+
+		public Node<T> GetSingleOutput()
+		{
+			return Outputs.Single();
+		}
 	}
 }
