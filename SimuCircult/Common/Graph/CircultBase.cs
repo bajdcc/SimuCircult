@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Element;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,20 +28,6 @@ namespace SimuCircult.Common.Graph
 			get { return _wires; }
 		}
 
-		private Dictionary<Guid, Mutable<_STATUS>> _nodeStatus = new Dictionary<Guid, Mutable<_STATUS>>();
-
-		public Dictionary<Guid, Mutable<_STATUS>> NodeStatus
-		{
-			get { return _nodeStatus; }
-		}
-
-		private Dictionary<Guid, Mutable<_STATUS>> _wireStatus = new Dictionary<Guid, Mutable<_STATUS>>();
-
-		public Dictionary<Guid, Mutable<_STATUS>> WireStatus
-		{
-			get { return _wireStatus; }
-		}
-
 		private Dictionary<Guid, _UNIT> _units = new Dictionary<Guid, _UNIT>();
 
 		public Dictionary<Guid, _UNIT> Units
@@ -64,17 +51,18 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
-		public void ConnectNode<U, V>(U left, V right)
+		public void ConnectNode<U, V>(U left, V right, bool external = false)
 			where U : _NODE, new()
 			where V : _NODE, new()
 		{
 			var wire = new _WIRE();
 			_wires.Add(wire.Id, wire);
 			wire.Direction = WireType.LeftToRight;
+			wire.External = external;
 			wire.Left = left;
 			wire.Right = right;
-			left.OutWires.Add(wire);
-			right.InWires.Add(wire);
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
 		}
 
 		public void ConnectUnitDirect<U, V>(U left, V right)
@@ -87,8 +75,36 @@ namespace SimuCircult.Common.Graph
 			wire.External = true;
 			wire.Left = left.GetSingleOutput();
 			wire.Right = right.GetSingleInput();
-			left.OutWires.Add(wire);
-			right.InWires.Add(wire);
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+		}
+
+		public void ConnectUnitMoreInput<U, V>(U left, V right, int position)
+			where U : _UNIT, new()
+			where V : _UNIT, new()
+		{
+			var wire = new _WIRE();
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.GetSingleOutput();
+			wire.Right = right.Inputs[position];
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+		}
+
+		public void ConnectUnitMoreOutput<U, V>(U left, V right, int position)
+			where U : _UNIT, new()
+			where V : _UNIT, new()
+		{
+			var wire = new _WIRE();
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.Outputs[position];
+			wire.Right = right.GetSingleInput();
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
 		}
 
 		public T ConnectNode<T, U, V>(U left, V right, T wire, WireType type)
@@ -125,10 +141,14 @@ namespace SimuCircult.Common.Graph
 		public virtual void Update()
 		{
 			_units.Values.AsParallel().ForAll(a => a.Activate());
-			_nodes.Values.AsParallel().ForAll(a => a.Advance());
-			_wires.Values.AsParallel().ForAll(a => a.Advance());
-			_nodeStatus.Values.AsParallel().ForAll(a => a.Update());
-			_wireStatus.Values.AsParallel().ForAll(a => a.Update());
+			_nodes.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			_nodes.Values.AsParallel().ForAll(a => a.Update());
+			_wires.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			_wires.Values.AsParallel().ForAll(a => a.Update());
+			_nodes.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			_nodes.Values.AsParallel().ForAll(a => a.Update());
+			_wires.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			_wires.Values.AsParallel().ForAll(a => a.Update());
 		}
 	}
 }

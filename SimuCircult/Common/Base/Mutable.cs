@@ -33,6 +33,6 @@ namespace SimuCircult.Common.Base
 
 		public abstract void Activate();
 
-		public abstract void Advance();
+		public abstract void Advance(AdvanceType type);
 	}
 }

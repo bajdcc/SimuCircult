@@ -10,4 +10,10 @@ namespace SimuCircult.Common.Simulator
 		public const int LOW_LEVEL = 0;
 		public const int HIGH_LEVEL = 1;
 	}
+
+	public enum AdvanceType
+	{
+		NodeToWire,
+		WireToNode,
+	}
 }

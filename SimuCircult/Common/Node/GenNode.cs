@@ -11,17 +11,9 @@ namespace SimuCircult.Common.Node
 	public class GenNode<T> : CommonNode<T>
 		where T : Status, new()
 	{
-		private int _power = 0;
-
-		public int Power
+		protected override void _FromWireToNode(IEnumerable<T> inputs)
 		{
-			get { return _power; }
-			set { _power = value; }
-		}
 
-		protected override void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs)
-		{
-			outputs.Single().Code = _power;
 		}
 
 		public new void Draw()

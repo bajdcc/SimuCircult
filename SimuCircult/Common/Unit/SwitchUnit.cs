@@ -1,6 +1,7 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
+using SimuCircult.Common.Node;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,14 @@ namespace SimuCircult.Common.Unit
 	public class SwitchUnit<T> : CommonUnit<T>
 		where T : Status, new()
 	{
+		private GenNode<T> _gen;
+
+		public GenNode<T> Gen
+		{
+			get { return _gen; }
+			set { _gen = value; }
+		}
+
 		private int _power = 0;
 
 		public int Power
@@ -21,7 +30,7 @@ namespace SimuCircult.Common.Unit
 
 		public override void Activate()
 		{
-
+			_gen.Next.Code = _power;
 		}
 	}
 }

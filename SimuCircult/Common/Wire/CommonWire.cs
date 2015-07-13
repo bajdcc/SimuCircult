@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Element;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace SimuCircult.Common.Wire
 			set { _power = value; }
 		}
 
-		public override void Advance()
+		public override void Activate()
 		{
 
 		}
 
-		public override void Activate()
+		public override void Advance(AdvanceType type)
 		{
 
 		}

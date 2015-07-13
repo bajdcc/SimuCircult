@@ -10,16 +10,21 @@ namespace SimuCircult.Common.Unit
 	public class CommonUnit<T> : UnitX<T>
 		where T : Status, new()
 	{
-		protected override void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs)
-		{
-
-		}
-
 		public override void Activate()
 		{
 			Inputs.AsParallel().ForAll(a => a.Activate());
 			Hidden.AsParallel().ForAll(a => a.Activate());
 			Outputs.AsParallel().ForAll(a => a.Activate());
+		}
+
+		protected override void _FromWireToNode(IEnumerable<T> inputs)
+		{
+			
+		}
+
+		protected override void _FromNodeToWire(IEnumerable<T> outputs)
+		{
+			
 		}
 
 		public override void Draw()

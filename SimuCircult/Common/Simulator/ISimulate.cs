@@ -9,6 +9,6 @@ namespace SimuCircult.Common.Simulator
 	{
 		void Update();
 		void Activate();
-		void Advance();
+		void Advance(AdvanceType type);
 	}
 }

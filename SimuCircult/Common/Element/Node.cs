@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,23 @@ namespace SimuCircult.Common.Element
 			set { _outWires = value; }
 		}
 
-		public override void Advance()
+		public override void Advance(AdvanceType type)
 		{
-			var inputs = _inWires.Select(a => a.Left.Next);
-			var outputs = _outWires.Select(a => a.Right.Next);
-			_Advance(inputs, outputs);
+			switch (type)
+			{
+				case AdvanceType.NodeToWire:
+					_FromWireToNode(_inWires.Select(a => a.Next));
+					break;
+				case AdvanceType.WireToNode:
+					_FromNodeToWire(_outWires.Select(a => a.Next));
+					break;
+				default:
+					break;
+			}
 		}
 
-		protected abstract void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs);
+		protected abstract void _FromWireToNode(IEnumerable<T> inputs);
+
+		protected abstract void _FromNodeToWire(IEnumerable<T> outputs);
 	}
 }

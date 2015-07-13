@@ -19,6 +19,7 @@ namespace SimuCircult.Common.Graph
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
 			unit.Hidden.Add(genNode);
 			unit.Outputs.Add(outputNode);
+			unit.Gen = genNode;
 			circult.ConnectNode(genNode, outputNode);
 			return unit;
 		}
@@ -31,6 +32,23 @@ namespace SimuCircult.Common.Graph
 			unit.Hidden.Add(outputNode);
 			unit.Inputs.Add(inputNode);
 			circult.ConnectNode(inputNode, outputNode);
+			return unit;
+		}
+
+		public static OrUnit<Status> CreateOrUnit(this Circult circult, int inputCount = 2)
+		{
+			var unit = circult.CreateUnit<OrUnit<Status>>();
+			var orNode = circult.CreateNode<OrNode<Status>>();
+			for (int i = 0; i < inputCount; i++)
+			{
+				var inputNode = circult.CreateNode<CommonNode<Status>>();
+				unit.Inputs.Add(inputNode);
+				circult.ConnectNode(inputNode, orNode);
+			}
+			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			unit.Hidden.Add(orNode);
+			unit.Outputs.Add(outputNode);
+			circult.ConnectNode(orNode, outputNode);
 			return unit;
 		}
 	}

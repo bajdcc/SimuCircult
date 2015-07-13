@@ -11,18 +11,12 @@ namespace SimuCircult.Common.Node
 	public class CommonNode<T> : NodeX<T>
 		where T : Status, new()
 	{
-		protected override void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs)
-		{
-			_FromWireToNode(inputs);
-			_FromNodeToWire(outputs);
-		}
-
-		protected virtual void _FromWireToNode(IEnumerable<T> inputs)
+		protected override void _FromWireToNode(IEnumerable<T> inputs)
 		{
 			Next.Code = inputs.Single().Code;
 		}
 
-		protected virtual void _FromNodeToWire(IEnumerable<T> outputs)
+		protected override void _FromNodeToWire(IEnumerable<T> outputs)
 		{
 			outputs.AsParallel().ForAll(a => a.Code = Next.Code);
 		}
