@@ -26,23 +26,47 @@ namespace SimuCircult.Common.Element
 			set { _outWires = value; }
 		}
 
-		public override void Advance(AdvanceType type)
+		public override void Activate(ActivateType type)
 		{
 			switch (type)
 			{
-				case AdvanceType.NodeToWire:
-					_FromNodeToWire(_outWires.Select(a => a.Next));
+				case ActivateType.FilterNode:
+					base.Activate(type);
 					break;
-				case AdvanceType.WireToNode:
-					_FromWireToNode(_inWires.Select(a => a.Next));
+				case ActivateType.FilterWire:
+					break;
+				case ActivateType.FilterUnit:
+					base.Activate(type);
 					break;
 				default:
 					break;
 			}
 		}
 
+		public override void Advance(AdvanceType type)
+		{
+			switch (type)
+			{
+				case AdvanceType.NodeToWire:
+					_FromNodeToWire(_outWires.Select(a => a.Next));
+					_ActivateWiresOfNode();					
+					break;
+				case AdvanceType.WireToNode:
+					_FromWireToNode(_inWires.Select(a => a.Next));
+					Update();
+					break;
+				default:
+					break;
+			}			
+		}
+
 		protected abstract void _FromWireToNode(IEnumerable<T> inputs);
 
 		protected abstract void _FromNodeToWire(IEnumerable<T> outputs);
+
+		protected virtual void _ActivateWiresOfNode()
+		{
+			_outWires.AsParallel().ForAll(a => a.Activate(ActivateType.FilterWire));
+		}
 	}
 }

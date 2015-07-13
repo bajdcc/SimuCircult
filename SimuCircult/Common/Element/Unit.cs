@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,26 @@ namespace SimuCircult.Common.Element
 			set { _hidden = value; }
 		}
 
+		public override void Activate(ActivateType type)
+		{
+			switch (type)
+			{
+				case ActivateType.FilterNode:
+					break;
+				case ActivateType.FilterWire:
+					break;
+				case ActivateType.FilterUnit:
+					if (_Active())
+					{
+						base.Activate(type);
+					}
+					Inputs.Union(Hidden).Union(Outputs).AsParallel().ForAll(a => a.Activate(type));
+					break;
+				default:
+					break;
+			}
+		}
+
 		public Node<T> GetSingleInput()
 		{
 			return Inputs.Single();
@@ -41,6 +62,10 @@ namespace SimuCircult.Common.Element
 		public Node<T> GetSingleOutput()
 		{
 			return Outputs.Single();
+		}
+		protected virtual bool _Active()
+		{
+			return false;
 		}
 	}
 }

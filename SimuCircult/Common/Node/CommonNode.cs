@@ -18,12 +18,7 @@ namespace SimuCircult.Common.Node
 
 		protected override void _FromNodeToWire(IEnumerable<T> outputs)
 		{
-			outputs.AsParallel().ForAll(a => { a.Code = Next.Code; });
-		}
-
-		public override void Activate()
-		{
-
+			outputs.AsParallel().ForAll(a => a.Code = Next.Code);
 		}
 
 		public override void Draw()

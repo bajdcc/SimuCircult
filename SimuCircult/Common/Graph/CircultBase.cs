@@ -140,15 +140,17 @@ namespace SimuCircult.Common.Graph
 
 		public virtual void Update()
 		{
-			_units.Values.AsParallel().ForAll(a => a.Activate());
-			_nodes.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
-			_nodes.Values.AsParallel().ForAll(a => a.Update());
-			_wires.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
-			_wires.Values.AsParallel().ForAll(a => a.Update());
-			_nodes.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
-			_nodes.Values.AsParallel().ForAll(a => a.Update());
-			_wires.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
-			_wires.Values.AsParallel().ForAll(a => a.Update());
+			_units.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Activate(ActivateType.FilterUnit));
+			_nodes.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			_wires.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			_nodes.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			_wires.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+		}
+
+		public void Initialize()
+		{
+			_nodes.Values.AsParallel().ForAll(a => a.Activate(ActivateType.FilterNode));
+			_units.Values.AsParallel().ForAll(a => a.Activate(ActivateType.FilterUnit));
 		}
 	}
 }

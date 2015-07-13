@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,48 @@ namespace SimuCircult.Common.Element
 		{
 			get { return _heading; }
 			set { _heading = value; }
+		}
+
+		public override void Activate(ActivateType type)
+		{
+			switch (type)
+			{
+				case ActivateType.FilterNode:
+					break;
+				case ActivateType.FilterWire:
+					base.Activate(type);
+					break;
+				case ActivateType.FilterUnit:
+					break;
+				default:
+					break;
+			}
+		}
+
+		public override void Advance(AdvanceType type)
+		{
+			switch (type)
+			{
+				case AdvanceType.NodeToWire:
+					_FromNodeToWire(_left.Next);
+					Update();
+					break;
+				case AdvanceType.WireToNode:
+					_FromWireToNode(_right.Next);
+					_ActivateNodeOfWire();
+					break;
+				default:
+					break;
+			}
+		}
+
+		protected abstract void _FromWireToNode(T inputs);
+
+		protected abstract void _FromNodeToWire(T outputs);
+
+		protected virtual void _ActivateNodeOfWire()
+		{
+			_right.Activate(ActivateType.FilterNode);
 		}
 	}
 }

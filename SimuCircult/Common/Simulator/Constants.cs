@@ -21,4 +21,11 @@ namespace SimuCircult.Common.Simulator
 		NodeToWire,
 		WireToNode,
 	}
+
+	public enum ActivateType
+	{
+		FilterNode,
+		FilterWire,
+		FilterUnit
+	}
 }

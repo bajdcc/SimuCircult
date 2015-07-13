@@ -28,5 +28,10 @@ namespace SimuCircult.Common.Base
 			a._code |= b._code;
 			return a;
 		}
+
+		public override string ToString()
+		{
+			return _code.ToString();
+		}
 	}
 }

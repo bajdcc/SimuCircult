@@ -2,6 +2,7 @@
 using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
 using SimuCircult.Common.Node;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,19 @@ namespace SimuCircult.Common.Unit
 			set { _power = value; }
 		}
 
-		public override void Activate()
+		public override void Activate(ActivateType type)
 		{
-			_gen.Next.Code = _power;
+			base.Activate(type);
+			if (_gen.Next.Code != _power)
+			{
+				_gen.Next.Code = _power;
+				_gen.Activate(ActivateType.FilterNode);
+			}
+		}
+
+		protected override bool _Active()
+		{
+			return true;
 		}
 	}
 }

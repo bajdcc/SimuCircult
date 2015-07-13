@@ -26,5 +26,10 @@ namespace SimuCircult.Common.Base
 		{
 			get { return _guid; }
 		}
+
+		public override string ToString()
+		{
+			return _name.ToString();
+		}
 	}
 }

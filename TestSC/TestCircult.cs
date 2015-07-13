@@ -18,6 +18,7 @@ namespace TestSC
 			gen.Power = Constants.HIGH_LEVEL;
 			var output = circult.CreateOutputUnit();
 			circult.ConnectUnitDirect(gen, output);
+			circult.Initialize();
 			for (int i = 0; i < 5; i++)
 			{
 				//Console.WriteLine(output.Hidden[0].Local.Code);
@@ -54,6 +55,60 @@ namespace TestSC
 		}
 
 		[TestMethod]
+		public void TestSC1_1()
+		{
+			var circult = new Circult();
+			var gen = circult.CreateSwitchUnit();
+			gen.Power = Constants.HIGH_LEVEL;
+			var output = circult.CreateOutputUnit();
+			circult.ConnectUnitDirect(gen, output);
+			circult.Initialize();
+			for (int i = 0; i < 5; i++)
+			{
+				//Console.WriteLine(output.Hidden[0].Local.Code);
+				//Console.WriteLine(gen.Outputs[0].Local.Code);
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Active);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Active);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Units.Values)
+				{
+					Console.Write(k.Active);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+			gen.Power = Constants.LOW_LEVEL;
+			for (int i = 0; i < 5; i++)
+			{
+				//Console.WriteLine(output.Hidden[0].Local.Code);
+				//Console.WriteLine(gen.Outputs[0].Local.Code);
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Active);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Active);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Units.Values)
+				{
+					Console.Write(k.Active);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+		}
+
+		[TestMethod]
 		public void TestSC2()
 		{
 			var circult = new Circult();
@@ -66,6 +121,7 @@ namespace TestSC
 			circult.ConnectUnitMoreInput(gen1, or, 0);
 			circult.ConnectUnitMoreInput(gen2, or, 1);
 			circult.ConnectUnitDirect(or, output);
+			circult.Initialize();
 			for (int i = 0; i < 5; i++)
 			{
 				//Console.WriteLine(output.Hidden[0].Local.Code);
@@ -136,6 +192,7 @@ namespace TestSC
 			circult.ConnectUnitMoreInput(an2, an1, 1);
 			circult.ConnectUnitDirect(an1, o1);
 			circult.ConnectUnitDirect(an2, o2);
+			circult.Initialize();
 			for (int i = 0; i < 10; i++)
 			{
 				Console.Write(o1.Hidden[0].Local.Code);

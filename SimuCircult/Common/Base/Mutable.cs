@@ -25,7 +25,7 @@ namespace SimuCircult.Common.Base
 			set { _next = value; }
 		}
 
-		private bool _active = true;
+		private bool _active = false;
 
 		public bool Active
 		{
@@ -33,11 +33,11 @@ namespace SimuCircult.Common.Base
 			set { _active = value; }
 		}
 
-		public void Update()
+		public virtual void Update()
 		{
-			if (_local != _next)
+			if (_local.Code != _next.Code)
 			{
-				_local = _next;
+				_local.Code = _next.Code;
 			}
 			else
 			{
@@ -45,8 +45,19 @@ namespace SimuCircult.Common.Base
 			}
 		}
 
-		public abstract void Activate();
+		public virtual void Activate(ActivateType type)
+		{
+			_active = true;
+		}
 
-		public abstract void Advance(AdvanceType type);
+		public virtual void Advance(AdvanceType type)
+		{
+
+		}
+
+		public override string ToString()
+		{
+			return _active.ToString();
+		}
 	}
 }

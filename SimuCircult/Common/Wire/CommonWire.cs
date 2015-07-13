@@ -11,20 +11,12 @@ namespace SimuCircult.Common.Wire
 	public class CommonWire<T> : WireX<T>
 		where T : Status, new()
 	{
-		private int _power = 0;
-
-		public int Power
-		{
-			get { return _power; }
-			set { _power = value; }
-		}
-
-		public override void Activate()
+		protected override void _FromWireToNode(T inputs)
 		{
 
 		}
 
-		public override void Advance(AdvanceType type)
+		protected override void _FromNodeToWire(T outputs)
 		{
 
 		}

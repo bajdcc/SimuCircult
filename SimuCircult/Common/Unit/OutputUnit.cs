@@ -11,9 +11,6 @@ namespace SimuCircult.Common.Unit
 	public class OutputUnit<T> : CommonUnit<T>
 		where T : Status, new()
 	{
-		public override void Activate()
-		{
 
-		}
 	}
 }
