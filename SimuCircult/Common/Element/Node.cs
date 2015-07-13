@@ -31,10 +31,10 @@ namespace SimuCircult.Common.Element
 			switch (type)
 			{
 				case AdvanceType.NodeToWire:
-					_FromWireToNode(_inWires.Select(a => a.Next));
+					_FromNodeToWire(_outWires.Select(a => a.Next));
 					break;
 				case AdvanceType.WireToNode:
-					_FromNodeToWire(_outWires.Select(a => a.Next));
+					_FromWireToNode(_inWires.Select(a => a.Next));
 					break;
 				default:
 					break;

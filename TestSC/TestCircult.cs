@@ -117,5 +117,118 @@ namespace TestSC
 				circult.Update();
 			}
 		}
+
+		[TestMethod]
+		public void TestSC3()
+		{
+			var circult = new Circult();
+			var genS = circult.CreateSwitchUnit();
+			genS.Power = Constants.HIGH_LEVEL;
+			var genR = circult.CreateSwitchUnit();
+			genR.Power = Constants.HIGH_LEVEL;
+			var an1 = circult.CreateAndNotUnit();
+			var an2 = circult.CreateAndNotUnit();
+			var o1 = circult.CreateOutputUnit();
+			var o2 = circult.CreateOutputUnit();
+			circult.ConnectUnitMoreInput(genS, an1, 0);
+			circult.ConnectUnitMoreInput(genR, an2, 0);
+			circult.ConnectUnitMoreInput(an1, an2, 1);
+			circult.ConnectUnitMoreInput(an2, an1, 1);
+			circult.ConnectUnitDirect(an1, o1);
+			circult.ConnectUnitDirect(an2, o2);
+			for (int i = 0; i < 10; i++)
+			{
+				Console.Write(o1.Hidden[0].Local.Code);
+				Console.Write(o2.Hidden[0].Local.Code);
+				Console.Write("  ");
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+			Console.WriteLine();
+			genS.Power = Constants.LOW_LEVEL;
+			for (int i = 0; i < 20; i++)
+			{
+				Console.Write(o1.Hidden[0].Local.Code);
+				Console.Write(o2.Hidden[0].Local.Code);
+				Console.Write("  ");
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+			Console.WriteLine();
+			genS.Power = Constants.HIGH_LEVEL;
+			for (int i = 0; i < 20; i++)
+			{
+				Console.Write(o1.Hidden[0].Local.Code);
+				Console.Write(o2.Hidden[0].Local.Code);
+				Console.Write("  ");
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+			Console.WriteLine();
+			genR.Power = Constants.LOW_LEVEL;
+			for (int i = 0; i < 20; i++)
+			{
+				Console.Write(o1.Hidden[0].Local.Code);
+				Console.Write(o2.Hidden[0].Local.Code);
+				Console.Write("  ");
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+			Console.WriteLine();
+			genR.Power = Constants.HIGH_LEVEL;
+			for (int i = 0; i < 20; i++)
+			{
+				Console.Write(o1.Hidden[0].Local.Code);
+				Console.Write(o2.Hidden[0].Local.Code);
+				Console.Write("  ");
+				foreach (var k in circult.Nodes.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.Write("  ");
+				foreach (var k in circult.Wires.Values)
+				{
+					Console.Write(k.Local.Code);
+				}
+				Console.WriteLine();
+				circult.Update();
+			}
+		}
 	}
 }

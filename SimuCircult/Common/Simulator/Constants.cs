@@ -9,6 +9,11 @@ namespace SimuCircult.Common.Simulator
 	{
 		public const int LOW_LEVEL = 0;
 		public const int HIGH_LEVEL = 1;
+
+		public static int Inverse(int code)
+		{
+			return code == LOW_LEVEL ? HIGH_LEVEL : LOW_LEVEL;
+		}
 	}
 
 	public enum AdvanceType

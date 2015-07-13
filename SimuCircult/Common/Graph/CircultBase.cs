@@ -57,7 +57,7 @@ namespace SimuCircult.Common.Graph
 		{
 			var wire = new _WIRE();
 			_wires.Add(wire.Id, wire);
-			wire.Direction = WireType.LeftToRight;
+			wire.Direction = external ? WireType.Both : WireType.LeftToRight;
 			wire.External = external;
 			wire.Left = left;
 			wire.Right = right;
@@ -71,7 +71,7 @@ namespace SimuCircult.Common.Graph
 		{
 			var wire = new _WIRE();
 			_wires.Add(wire.Id, wire);
-			wire.Direction = WireType.LeftToRight;
+			wire.Direction = WireType.Both;
 			wire.External = true;
 			wire.Left = left.GetSingleOutput();
 			wire.Right = right.GetSingleInput();

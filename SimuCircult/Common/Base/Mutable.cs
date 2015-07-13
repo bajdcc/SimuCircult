@@ -25,10 +25,24 @@ namespace SimuCircult.Common.Base
 			set { _next = value; }
 		}
 
+		private bool _active = true;
+
+		public bool Active
+		{
+			get { return _active; }
+			set { _active = value; }
+		}
+
 		public void Update()
 		{
 			if (_local != _next)
+			{
 				_local = _next;
+			}
+			else
+			{
+				_active = false;
+			}
 		}
 
 		public abstract void Activate();

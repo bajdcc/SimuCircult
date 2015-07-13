@@ -38,17 +38,74 @@ namespace SimuCircult.Common.Graph
 		public static OrUnit<Status> CreateOrUnit(this Circult circult, int inputCount = 2)
 		{
 			var unit = circult.CreateUnit<OrUnit<Status>>();
-			var orNode = circult.CreateNode<OrNode<Status>>();
+			var node = circult.CreateNode<OrNode<Status>>();
 			for (int i = 0; i < inputCount; i++)
 			{
 				var inputNode = circult.CreateNode<CommonNode<Status>>();
 				unit.Inputs.Add(inputNode);
-				circult.ConnectNode(inputNode, orNode);
+				circult.ConnectNode(inputNode, node);
 			}
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
-			unit.Hidden.Add(orNode);
+			unit.Hidden.Add(node);
 			unit.Outputs.Add(outputNode);
-			circult.ConnectNode(orNode, outputNode);
+			circult.ConnectNode(node, outputNode);
+			return unit;
+		}
+
+		public static AndUnit<Status> CreateAndUnit(this Circult circult, int inputCount = 2)
+		{
+			var unit = circult.CreateUnit<AndUnit<Status>>();
+			var node = circult.CreateNode<AndNode<Status>>();
+			for (int i = 0; i < inputCount; i++)
+			{
+				var inputNode = circult.CreateNode<CommonNode<Status>>();
+				unit.Inputs.Add(inputNode);
+				circult.ConnectNode(inputNode, node);
+			}
+			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			unit.Hidden.Add(node);
+			unit.Outputs.Add(outputNode);
+			circult.ConnectNode(node, outputNode);
+			return unit;
+		}
+
+		public static OrUnit<Status> CreateOrNotUnit(this Circult circult, int inputCount = 2)
+		{
+			var unit = circult.CreateUnit<OrUnit<Status>>();
+			var node = circult.CreateNode<OrNode<Status>>();
+			for (int i = 0; i < inputCount; i++)
+			{
+				var inputNode = circult.CreateNode<CommonNode<Status>>();
+				unit.Inputs.Add(inputNode);
+				circult.ConnectNode(inputNode, node);
+			}
+			var notNode = circult.CreateNode<NotNode<Status>>();
+			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			unit.Hidden.Add(node);
+			unit.Hidden.Add(notNode);
+			unit.Outputs.Add(outputNode);
+			circult.ConnectNode(node, notNode);
+			circult.ConnectNode(notNode, outputNode);
+			return unit;
+		}
+
+		public static AndUnit<Status> CreateAndNotUnit(this Circult circult, int inputCount = 2)
+		{
+			var unit = circult.CreateUnit<AndUnit<Status>>();
+			var node = circult.CreateNode<AndNode<Status>>();
+			for (int i = 0; i < inputCount; i++)
+			{
+				var inputNode = circult.CreateNode<CommonNode<Status>>();
+				unit.Inputs.Add(inputNode);
+				circult.ConnectNode(inputNode, node);
+			}
+			var notNode = circult.CreateNode<NotNode<Status>>();
+			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			unit.Hidden.Add(node);
+			unit.Hidden.Add(notNode);
+			unit.Outputs.Add(outputNode);
+			circult.ConnectNode(node, notNode);
+			circult.ConnectNode(notNode, outputNode);
 			return unit;
 		}
 	}

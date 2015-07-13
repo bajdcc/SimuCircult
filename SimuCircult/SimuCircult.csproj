@@ -55,12 +55,16 @@
     <Compile Include="Common\Graph\Circult.cs" />
     <Compile Include="Common\Graph\CircultBase.cs" />
     <Compile Include="Common\Graph\CircultHelper.cs" />
+    <Compile Include="Common\Node\NotNode.cs" />
     <Compile Include="Common\Node\GenNode.cs" />
     <Compile Include="Common\Node\CommonNode.cs" />
     <Compile Include="Common\Node\LogicNode.cs" />
     <Compile Include="Common\Node\AndNode.cs" />
     <Compile Include="Common\Node\OrNode.cs" />
     <Compile Include="Common\Simulator\Constants.cs" />
+    <Compile Include="Common\Unit\AndNotUnit.cs" />
+    <Compile Include="Common\Unit\OrNotUnit.cs" />
+    <Compile Include="Common\Unit\NotUnit.cs" />
     <Compile Include="Common\Unit\OrUnit.cs" />
     <Compile Include="Common\Unit\AndUnit.cs" />
     <Compile Include="Common\Unit\CommonUnit.cs" />
