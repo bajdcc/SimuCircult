@@ -14,5 +14,19 @@ namespace SimuCircult.Common.Base
 			get { return _code; }
 			set { _code = value; }
 		}
+
+		public static T _And<T>(T a, T b)
+			where T : Status, new()
+		{
+			a._code &= b._code;
+			return a;
+		}
+
+		public static T _Or<T>(T a, T b)
+			where T : Status, new()
+		{
+			a._code |= b._code;
+			return a;
+		}
 	}
 }

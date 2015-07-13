@@ -17,7 +17,9 @@ namespace SimuCircult.Common.Unit
 
 		public override void Activate()
 		{
-
+			Inputs.AsParallel().ForAll(a => a.Activate());
+			Hidden.AsParallel().ForAll(a => a.Activate());
+			Outputs.AsParallel().ForAll(a => a.Activate());
 		}
 
 		public override void Draw()

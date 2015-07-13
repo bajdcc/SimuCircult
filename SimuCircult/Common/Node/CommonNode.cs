@@ -13,9 +13,18 @@ namespace SimuCircult.Common.Node
 	{
 		protected override void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs)
 		{
-			var input = inputs.Single().Code;
-			foreach (var output in outputs)
-				output.Code = input;
+			_FromWireToNode(inputs);
+			_FromNodeToWire(outputs);
+		}
+
+		protected virtual void _FromWireToNode(IEnumerable<T> inputs)
+		{
+			Next.Code = inputs.Single().Code;
+		}
+
+		protected virtual void _FromNodeToWire(IEnumerable<T> outputs)
+		{
+			outputs.AsParallel().ForAll(a => a.Code = Next.Code);
 		}
 
 		public override void Activate()

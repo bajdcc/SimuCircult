@@ -27,7 +27,7 @@ namespace SimuCircult.Common.Element
 
 		public override void Advance()
 		{
-			var inputs = _inWires.Select(a => a.Left.Local);
+			var inputs = _inWires.Select(a => a.Left.Next);
 			var outputs = _outWires.Select(a => a.Right.Next);
 			_Advance(inputs, outputs);
 		}

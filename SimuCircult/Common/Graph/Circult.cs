@@ -12,7 +12,6 @@ namespace SimuCircult.Common.Graph
 {
 	public class Circult : CircultBase<Status, CommonNode<Status>, CommonWire<Status>, CommonUnit<Status>>
 	{
-		public static const int LOW_LEVEL = 0;
-		public static const int HIGH_LEVEL = 1;
+		
 	}
 }

@@ -18,10 +18,9 @@ namespace SimuCircult.Common.Node
 			_aggregate = aggregate;
 		}
 
-		protected override void _Advance(IEnumerable<T> inputs, IEnumerable<T> outputs)
+		protected override void _FromWireToNode(IEnumerable<T> inputs)
 		{
-			T result = inputs.Aggregate(_InitialSeed(new T()), _aggregate);
-			outputs.AsParallel().ForAll(a => a.Code = result.Code);
+			inputs.Aggregate(_InitialSeed(Next), _aggregate);
 		}
 
 		protected abstract T _InitialSeed(T seed);

@@ -58,7 +58,9 @@
     <Compile Include="Common\Node\GenNode.cs" />
     <Compile Include="Common\Node\CommonNode.cs" />
     <Compile Include="Common\Node\LogicNode.cs" />
+    <Compile Include="Common\Node\AndNode.cs" />
     <Compile Include="Common\Node\OrNode.cs" />
+    <Compile Include="Common\Simulator\Constants.cs" />
     <Compile Include="Common\Unit\CommonUnit.cs" />
     <Compile Include="Common\Unit\OutputUnit.cs" />
     <Compile Include="Common\Unit\SwitchUnit.cs" />
