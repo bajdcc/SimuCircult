@@ -76,7 +76,12 @@
     <Compile Include="UI\Drawing\GraphicsElement.cs" />
     <Compile Include="UI\Drawing\GraphicsRenderer.cs" />
     <Compile Include="UI\Drawing\INameable.cs" />
+    <Compile Include="UI\Element\BorderElement.cs" />
+    <Compile Include="UI\Global\GraphicsDefines.cs" />
+    <Compile Include="UI\Renderer\BorderElementRenderer.cs" />
     <Compile Include="UI\Renderer\BrushRenderer.cs" />
+    <Compile Include="UI\Renderer\GradientBrushRenderer.cs" />
+    <Compile Include="UI\Renderer\SolidBrushRenderer.cs" />
     <Compile Include="UI\Global\Storage.cs" />
     <Compile Include="UI\Drawing\IGraphicsElementFactory.cs" />
     <Compile Include="UI\Drawing\IGraphicsElement.cs" />
@@ -85,7 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tool\Pool\" />
-    <Folder Include="UI\Element\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

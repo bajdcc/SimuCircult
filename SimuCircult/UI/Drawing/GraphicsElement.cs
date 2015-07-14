@@ -12,6 +12,28 @@ namespace SimuCircult.UI.Drawing
 		private IGraphicsElementFactory _factory;
 		private IGraphicsRenderer _renderer;
 
+		private Dictionary<int, object> _attr = new Dictionary<int,object>();
+
+		public object this[int key]
+		{
+			get { return _attr.ContainsKey(key) ? _attr[key] : null; }
+			set
+			{
+				if (_attr.ContainsKey(key))
+				{
+					if (!_attr[key].Equals(value))
+					{
+						_attr[key] = value;
+						_renderer.OnElementStateChanged(key);
+					}
+				}
+				else
+				{
+					_attr.Add(key, value);
+				}
+			}
+		}
+
 		private class Factory : IGraphicsElementFactory
 		{
 			public IGraphicsElement Create()

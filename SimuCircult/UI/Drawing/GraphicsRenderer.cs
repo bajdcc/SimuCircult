@@ -13,8 +13,26 @@ namespace SimuCircult.UI.Drawing
 		where U : GraphicsElement<U>, new()
 	{
 		private IGraphicsRendererFactory _factory;
-		private U _element;
+		protected U _element;
 		protected Graphics _graphics;
+
+		private Dictionary<int, object> _attr = new Dictionary<int,object>();
+
+		public object this[int key]
+		{
+			get { return _attr.ContainsKey(key) ? _attr[key] : null; }
+			set
+			{
+				if (_attr.ContainsKey(key))
+				{
+					_attr[key] = value;
+				}
+				else
+				{
+					_attr.Add(key, value);
+				}
+			}
+		}
 
 		private class Factory : IGraphicsRendererFactory
 		{
@@ -48,9 +66,15 @@ namespace SimuCircult.UI.Drawing
 			_Stop();
 		}
 
-		abstract protected void _Start();
+		protected virtual void _Start()
+		{
 
-		abstract protected void _Stop();
+		}
+
+		protected virtual void _Stop()
+		{
+
+		}
 
 		public void SetGraphics(Graphics graphics)
 		{
@@ -59,8 +83,19 @@ namespace SimuCircult.UI.Drawing
 			OnChangedGraphics(tmp, graphics);
 		}
 
-		abstract public void Render(Rectangle bound);
+		public virtual void Render(Rectangle bound)
+		{
 
-		abstract protected void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics);
+		}
+
+		protected virtual void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)
+		{
+
+		}
+
+		public virtual void OnElementStateChanged(int state)
+		{
+
+		}
 	}
 }

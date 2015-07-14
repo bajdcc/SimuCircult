@@ -193,15 +193,20 @@ namespace TestSC
 			circult.ConnectUnitDirect(an1, o1);
 			circult.ConnectUnitDirect(an2, o2);
 			circult.Initialize();
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 30; i++)
 			{
 				Console.Write(o1.Hidden[0].Local.Code);
 				Console.Write(o2.Hidden[0].Local.Code);
 				Console.Write("  ");
+				int l = 0;
 				foreach (var k in circult.Nodes.Values)
 				{
+					if (k.Active)
+						l++;
 					Console.Write(k.Local.Code);
 				}
+				Console.Write("  ");
+				Console.Write(l);
 				Console.Write("  ");
 				foreach (var k in circult.Wires.Values)
 				{
@@ -212,15 +217,20 @@ namespace TestSC
 			}
 			Console.WriteLine();
 			genS.Power = Constants.LOW_LEVEL;
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 30; i++)
 			{
 				Console.Write(o1.Hidden[0].Local.Code);
 				Console.Write(o2.Hidden[0].Local.Code);
 				Console.Write("  ");
+				int l = 0;
 				foreach (var k in circult.Nodes.Values)
 				{
+					if (k.Active)
+						l++;
 					Console.Write(k.Local.Code);
 				}
+				Console.Write("  ");
+				Console.Write(l);
 				Console.Write("  ");
 				foreach (var k in circult.Wires.Values)
 				{
@@ -231,15 +241,20 @@ namespace TestSC
 			}
 			Console.WriteLine();
 			genS.Power = Constants.HIGH_LEVEL;
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 30; i++)
 			{
 				Console.Write(o1.Hidden[0].Local.Code);
 				Console.Write(o2.Hidden[0].Local.Code);
 				Console.Write("  ");
+				int l = 0;
 				foreach (var k in circult.Nodes.Values)
 				{
+					if (k.Active)
+						l++;
 					Console.Write(k.Local.Code);
 				}
+				Console.Write("  ");
+				Console.Write(l);
 				Console.Write("  ");
 				foreach (var k in circult.Wires.Values)
 				{
@@ -250,15 +265,20 @@ namespace TestSC
 			}
 			Console.WriteLine();
 			genR.Power = Constants.LOW_LEVEL;
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 30; i++)
 			{
 				Console.Write(o1.Hidden[0].Local.Code);
 				Console.Write(o2.Hidden[0].Local.Code);
 				Console.Write("  ");
+				int l = 0;
 				foreach (var k in circult.Nodes.Values)
 				{
+					if (k.Active)
+						l++;
 					Console.Write(k.Local.Code);
 				}
+				Console.Write("  ");
+				Console.Write(l);
 				Console.Write("  ");
 				foreach (var k in circult.Wires.Values)
 				{
@@ -269,15 +289,20 @@ namespace TestSC
 			}
 			Console.WriteLine();
 			genR.Power = Constants.HIGH_LEVEL;
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				Console.Write(o1.Hidden[0].Local.Code);
 				Console.Write(o2.Hidden[0].Local.Code);
 				Console.Write("  ");
+				int l = 0;
 				foreach (var k in circult.Nodes.Values)
 				{
+					if (k.Active)
+						l++;
 					Console.Write(k.Local.Code);
 				}
+				Console.Write("  ");
+				Console.Write(l);
 				Console.Write("  ");
 				foreach (var k in circult.Wires.Values)
 				{

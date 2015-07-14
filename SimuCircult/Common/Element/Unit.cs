@@ -47,7 +47,6 @@ namespace SimuCircult.Common.Element
 					{
 						base.Activate(type);
 					}
-					Inputs.Union(Hidden).Union(Outputs).AsParallel().ForAll(a => a.Activate(type));
 					break;
 				default:
 					break;

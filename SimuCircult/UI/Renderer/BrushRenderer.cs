@@ -7,54 +7,44 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
-	public abstract class BrushRenderer<T, U> : GraphicsRenderer<T, U>
+	public class BrushRenderer<T, U> : GraphicsRenderer<T, U>
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		private Brush _brush;
-
-		public Brush Brush
+		protected virtual void CreateBrush(Graphics graphics)
 		{
-			get { return _brush; }
-			set { _brush = value; }
+
 		}
 
-		private Color _color;
-
-		public Color Color
+		protected virtual void DestroyBrush(Graphics graphics)
 		{
-			get { return _color; }
-			set { _color = value; }
+
 		}
 
-		abstract protected void CreateBrush(Graphics graphics);
-
-		abstract protected void DestroyBrush(Graphics graphics);
-
-		override protected void _Start()
+		protected override void _Start()
 		{
-			_Continue();
+			_Create();
 		}
 
-		override protected void _Stop()
+		protected override void _Stop()
 		{
-			_Suspend();
+			_Destroy();
 		}
 
-		protected void _Suspend()
+		protected void _Destroy()
 		{
 			DestroyBrush(_graphics);
 		}
 
-		protected void _Continue()
+		protected void _Create()
 		{
 			CreateBrush(_graphics);
 		}
 
-		override protected void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)
+		protected override void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)
 		{
-			_Suspend();
-			_Continue();
+			_Destroy();
+			_Create();
 		}
 	}
 }
