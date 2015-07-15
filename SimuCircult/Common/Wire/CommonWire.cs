@@ -21,10 +21,5 @@ namespace SimuCircult.Common.Wire
 		{
 
 		}
-
-		public override void Draw(Rectangle bound)
-		{
-
-		}
 	}
 }

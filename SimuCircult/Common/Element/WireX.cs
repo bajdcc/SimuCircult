@@ -1,6 +1,9 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
+using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Drawing;
+using SimuCircult.UI.Element;
+using SimuCircult.UI.Global;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,12 +15,35 @@ namespace SimuCircult.Common.Element
 	public abstract class WireX<T> : Wire<T>, IDraw
 		where T : Status, new()
 	{
-		private Rectangle _bound = Rectangle.Empty;
-
-		public Rectangle Bound
+		public WireX()
 		{
-			get { return _bound; }
-			set { _bound = value; }
+			_L1_line = LineElement.Create();
+			_elements.Add(_L1_line);
+			OnStateUpdated += WireX_OnStateUpdated;
+			OnValueUpdated += WireX_OnValueUpdated;
+		}
+
+		void WireX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
+		{
+			switch (e.Status.Code)
+			{
+				case Constants.LOW_LEVEL:
+					_L1_line[GraphicsDefines.Line_Color] = Color.Red;
+					break;
+				case Constants.HIGH_LEVEL:
+					_L1_line[GraphicsDefines.Line_Color] = Color.Blue;
+					break;
+				default:
+					break;
+			}
+		}
+
+		void WireX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
+		{
+			if (!e.Active)
+			{
+				_L1_line[GraphicsDefines.Text_Color] = Color.Gray;
+			}
 		}
 
 		private List<IGraphicsElement> _elements = new List<IGraphicsElement>();
@@ -28,12 +54,21 @@ namespace SimuCircult.Common.Element
 			set { _elements = value; }
 		}
 
+		private LineElement _L1_line;
+
 		public virtual void Draw(Rectangle bound)
 		{
 			foreach (var e in _elements)
 			{
-				e.GetRenderer().Render(bound.AdjustBound(_bound));
+				e.GetRenderer().Render(bound);
 			}
+		}
+
+		public virtual void Prepare(Rectangle bound)
+		{
+			_L1_line[GraphicsDefines.Gdi_Bound] = bound;
+			_L1_line[GraphicsDefines.Line_PointBegin] = (Left as NodeX<T>).AbsBound.Center();
+			_L1_line[GraphicsDefines.Line_PointEnd] = (Right as NodeX<T>).AbsBound.Center();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using SimuCircult.UI.Global;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -59,7 +60,9 @@ namespace SimuCircult.UI.Drawing
 
 		static public T Create()
 		{
-			return Storage.ElementFactory[typeof(T).ToString()].Create() as T;
+			T element = Storage.ElementFactory[typeof(T).ToString()].Create() as T;
+			element.GetRenderer().SetGraphics(Storage.Graphics);
+			return element;
 		}
 
 		static public void Register()

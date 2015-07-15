@@ -6,9 +6,22 @@ using System.Text;
 
 namespace SimuCircult.Common.Base
 {
+	public class MutableValueUpdatedEventArgs<T> : EventArgs
+	{
+		public T Status { get; set; }
+	}
+
+	public class MutableStateUpdatedEventArgs : EventArgs
+	{
+		public bool Active { get; set; }
+	}
+
 	public abstract class Mutable<T> : Markable, ISimulate
 		where T : Status, new()
 	{
+		protected event EventHandler<MutableValueUpdatedEventArgs<T>> OnValueUpdated;
+		protected event EventHandler<MutableStateUpdatedEventArgs> OnStateUpdated;
+
 		private T _local = new T();
 
 		public T Local
@@ -38,16 +51,31 @@ namespace SimuCircult.Common.Base
 			if (_local.Code != _next.Code)
 			{
 				_local.Code = _next.Code;
+				var _OnValueUpdated = OnValueUpdated;
+				if (OnValueUpdated != null)
+				{
+					OnValueUpdated(this, new MutableValueUpdatedEventArgs<T>() { Status = _local });
+				}
 			}
 			else
 			{
 				_active = false;
+				var _OnStateUpdated = OnStateUpdated;
+				if (_OnStateUpdated != null)
+				{
+					OnStateUpdated(this, new MutableStateUpdatedEventArgs() { Active = false });
+				}
 			}
 		}
 
 		public virtual void Activate(ActivateType type)
 		{
 			_active = true;
+			var _OnStateUpdated = OnStateUpdated;
+			if (_OnStateUpdated != null)
+			{
+				OnStateUpdated(this, new MutableStateUpdatedEventArgs() { Active = true });
+			}
 		}
 
 		public virtual void Advance(AdvanceType type)

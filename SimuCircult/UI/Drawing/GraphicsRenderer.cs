@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace SimuCircult.UI.Drawing
@@ -47,7 +46,6 @@ namespace SimuCircult.UI.Drawing
 		static public void Register()
 		{
 			Storage.RendererFactory.Add(typeof(U).ToString(), new Factory());
-			typeof(U).InvokeMember("Register", BindingFlags.NonPublic | BindingFlags.Static, null, new Type[] { }, null);
 		}
 
 		public IGraphicsRendererFactory GetFactory()
@@ -104,7 +102,7 @@ namespace SimuCircult.UI.Drawing
 
 		protected Rectangle _AdjustBound(Rectangle bound)
 		{
-			return bound.AdjustBound((Rectangle)this[GraphicsDefines.Gdi_Bound]);
+			return bound.AdjustBound((Rectangle)_element[GraphicsDefines.Gdi_Bound]);
 		}
 
 		protected virtual void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)

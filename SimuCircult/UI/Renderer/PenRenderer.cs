@@ -16,7 +16,7 @@ namespace SimuCircult.UI.Renderer
 	{
 		protected override void CreateGdiObject(Graphics graphics)
 		{
-			var pen = new Pen((Color)_element[GraphicsDefines.Pen_Color], (float)_element[GraphicsDefines.Pen_Color]);
+			var pen = new Pen((Color)_element[GraphicsDefines.Pen_Color], (float)_element[GraphicsDefines.Pen_Width]);
 			pen.DashStyle = (DashStyle)_element[GraphicsDefines.Pen_DashStyle];
 			pen.LineJoin = (LineJoin)_element[GraphicsDefines.Pen_LineJoin];
 			this[GraphicsDefines.Pen_Handle] = pen;			

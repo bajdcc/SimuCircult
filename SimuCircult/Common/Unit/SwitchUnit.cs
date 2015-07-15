@@ -5,6 +5,7 @@ using SimuCircult.Common.Node;
 using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -42,6 +43,11 @@ namespace SimuCircult.Common.Unit
 		protected override bool _Active()
 		{
 			return true;
+		}
+
+		public override void Draw(Rectangle bound)
+		{
+			base.Draw(bound);
 		}
 	}
 }

@@ -5,6 +5,7 @@ using SimuCircult.Common.Unit;
 using SimuCircult.Common.Wire;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -15,8 +16,11 @@ namespace SimuCircult.Common.Graph
 		public static SwitchUnit<Status> CreateSwitchUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<SwitchUnit<Status>>();
+			unit.Size = new Size(160, 120);
 			var genNode = circult.CreateNode<GenNode<Status>>();
+			genNode.Location = new Point(65, 45);
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			outputNode.Location = new Point(130, 45);
 			unit.Hidden.Add(genNode);
 			unit.Outputs.Add(outputNode);
 			unit.Gen = genNode;
@@ -27,8 +31,11 @@ namespace SimuCircult.Common.Graph
 		public static OutputUnit<Status> CreateOutputUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<OutputUnit<Status>>();
+			unit.Size = new Size(160, 120);
 			var inputNode = circult.CreateNode<CommonNode<Status>>();
+			inputNode.Location = new Point(0, 45);
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			outputNode.Location = new Point(65, 45);
 			unit.Hidden.Add(outputNode);
 			unit.Inputs.Add(inputNode);
 			circult.ConnectNode(inputNode, outputNode);

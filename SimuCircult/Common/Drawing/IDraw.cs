@@ -9,5 +9,6 @@ namespace SimuCircult.Common.Drawing
 	public interface IDraw
 	{
 		void Draw(Rectangle bound);
+		void Prepare(Rectangle bound);
 	}
 }

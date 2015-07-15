@@ -21,7 +21,7 @@ namespace SimuCircult.Common.Node
 
 		public override void Draw(Rectangle bound)
 		{
-
+			base.Draw(bound);
 		}
 	}
 }

@@ -76,11 +76,13 @@
     <Compile Include="UI\Drawing\GraphicsElement.cs" />
     <Compile Include="UI\Drawing\GraphicsRenderer.cs" />
     <Compile Include="UI\Drawing\INameable.cs" />
+    <Compile Include="UI\Element\LineElement.cs" />
     <Compile Include="UI\Element\TextElement.cs" />
     <Compile Include="UI\Element\GradientBackgroundElement.cs" />
     <Compile Include="UI\Element\BackgroundElement.cs" />
     <Compile Include="UI\Element\BorderElement.cs" />
     <Compile Include="UI\Global\GraphicsDefines.cs" />
+    <Compile Include="UI\Renderer\LineElementRenderer.cs" />
     <Compile Include="UI\Renderer\TextElementRenderer.cs" />
     <Compile Include="UI\Renderer\GradientBackgroundElementRenderer.cs" />
     <Compile Include="UI\Renderer\BackgroundElementRenderer.cs" />

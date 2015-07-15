@@ -20,10 +20,5 @@ namespace SimuCircult.Common.Unit
 		{
 			
 		}
-
-		public override void Draw(Rectangle bound)
-		{
-
-		}
 	}
 }

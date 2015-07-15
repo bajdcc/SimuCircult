@@ -21,10 +21,5 @@ namespace SimuCircult.Common.Node
 		{
 			outputs.AsParallel().ForAll(a => a.Code = Next.Code);
 		}
-
-		public override void Draw(Rectangle bound)
-		{
-			
-		}
 	}
 }

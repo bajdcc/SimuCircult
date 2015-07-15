@@ -13,7 +13,7 @@ namespace SimuCircult.UI.Renderer
 	{
 		protected override void _Render(Rectangle bound)
 		{
-			var shape = (ShapeType)this[GraphicsDefines.Border_Shape];
+			var shape = (ShapeType)_element[GraphicsDefines.Border_Shape];
 			var pen = this[GraphicsDefines.Pen_Handle] as Pen;
 			switch (shape)
 			{
