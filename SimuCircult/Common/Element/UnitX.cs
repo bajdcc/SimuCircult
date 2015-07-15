@@ -76,7 +76,7 @@ namespace SimuCircult.Common.Element
 			set { _relBound.Size = value; }
 		}
 
-		private BorderElement _L1_border;
+		protected BorderElement _L1_border;
 
 		public virtual void Draw(Rectangle bound)
 		{

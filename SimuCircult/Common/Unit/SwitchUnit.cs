@@ -3,6 +3,7 @@ using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
 using SimuCircult.Common.Node;
 using SimuCircult.Common.Simulator;
+using SimuCircult.UI.Global;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +15,11 @@ namespace SimuCircult.Common.Unit
 	public class SwitchUnit<T> : CommonUnit<T>
 		where T : Status, new()
 	{
+		public SwitchUnit()
+		{
+			_L1_text[GraphicsDefines.Text_Text] = Constants.SwitchUnitString;
+		}
+
 		private GenNode<T> _gen;
 
 		public GenNode<T> Gen

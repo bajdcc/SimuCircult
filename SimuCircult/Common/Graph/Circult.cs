@@ -1,6 +1,7 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Element;
 using SimuCircult.Common.Node;
+using SimuCircult.Common.Simulator;
 using SimuCircult.Common.Unit;
 using SimuCircult.Common.Wire;
 using SimuCircult.UI.Global;
@@ -23,19 +24,13 @@ namespace SimuCircult.Common.Graph
 
 		private void _Prepare(Rectangle bound)
 		{
-			foreach (var unit in Units.Values)
-			{
-				unit.Prepare(bound);
-			}
-			foreach (var wire in Wires.Values)
-			{
-				wire.Prepare(bound);
-			}
+			Units.Values.AsParallel().ForAll(a => a.Prepare(bound));
+			Wires.Values.AsParallel().ForAll(a => a.Prepare(bound));
 		}
 
 		private void _Draw(Rectangle bound)
 		{
-			Storage.Graphics.Clear(Color.WhiteSmoke);
+			Storage.Graphics.Clear(Constants.WindowBackground);
 			foreach (var wire in Wires.Values)
 			{
 				wire.Draw(bound);

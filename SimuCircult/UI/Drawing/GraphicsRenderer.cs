@@ -102,7 +102,7 @@ namespace SimuCircult.UI.Drawing
 
 		protected Rectangle _AdjustBound(Rectangle bound)
 		{
-			return bound.AdjustBound((Rectangle)_element[GraphicsDefines.Gdi_Bound]);
+			return (Rectangle)_element[GraphicsDefines.Gdi_Bound];
 		}
 
 		protected virtual void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)

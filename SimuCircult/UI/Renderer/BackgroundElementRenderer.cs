@@ -9,11 +9,11 @@ using System.Text;
 
 namespace SimuCircult.UI.Renderer
 {
-	public class BackgroundElementRenderer : GradientBrushRenderer<BackgroundElementRenderer, BackgroundElement>
+	public class BackgroundElementRenderer : SolidBrushRenderer<BackgroundElementRenderer, BackgroundElement>
 	{
 		protected override void _Render(Rectangle bound)
 		{
-			var shape = (ShapeType)this[GraphicsDefines.Background_Shape];
+			var shape = (ShapeType)_element[GraphicsDefines.Background_Shape];
 			var brush = this[GraphicsDefines.SolidBrush_Handle] as Brush;
 			switch (shape)
 			{

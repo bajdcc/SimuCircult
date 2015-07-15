@@ -2,6 +2,7 @@
 using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
 using SimuCircult.Common.Simulator;
+using SimuCircult.UI.Global;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,6 +24,11 @@ namespace SimuCircult.Common.Node
 		{
 			seed.Code = Constants.HIGH_LEVEL;
 			return seed;
+		}
+
+		protected override void SetString(int code)
+		{
+			_L3_level[GraphicsDefines.Text_Text] = Constants.AndString;
 		}
 
 		public override void Draw(Rectangle bound)

@@ -4,6 +4,7 @@ using SimuCircult.UI.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 
@@ -79,6 +80,9 @@ namespace SimuCircult.UI.Global
 			_size = size;
 			_bitmap = new Bitmap(size.Width, size.Height);
 			_graphics = Graphics.FromImage(_bitmap);
+			_graphics.SmoothingMode = SmoothingMode.AntiAlias;
+			_graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+			_graphics.CompositingQuality = CompositingQuality.HighQuality;
 		}
 	}
 }

@@ -20,32 +20,60 @@ namespace SimuCircult.Common.Element
 			_relBound.Size = new Size(30, 30);
 			_L1_border = BorderElement.Create();
 			_L1_border[GraphicsDefines.Border_Shape] = ShapeType.Ellipse;
-			_L2_level = TextElement.Create();
+			_L2_background = BackgroundElement.Create();
+			_L2_background[GraphicsDefines.Background_Color] = Constants.WindowBackground;
+			_L2_background[GraphicsDefines.Background_Shape] = ShapeType.Ellipse;
+			_L3_level = TextElement.Create();
 			_elements.Add(_L1_border);
-			_elements.Add(_L2_level);
+			_elements.Add(_L2_background);
+			_elements.Add(_L3_level);
 			OnStateUpdated += NodeX_OnStateUpdated;
 			OnValueUpdated += NodeX_OnValueUpdated;
 		}
 
-		void NodeX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
+		protected virtual void NodeX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
 		{
 			if (!e.Active)
 			{
-				_L2_level[GraphicsDefines.Text_Color] = Color.Gray;
+				switch (Local.Code)
+				{
+					case Constants.LOW_LEVEL:
+						_L3_level[GraphicsDefines.Text_Color] = Constants.InactiveLowLevel;
+						break;
+					case Constants.HIGH_LEVEL:
+						_L3_level[GraphicsDefines.Text_Color] = Constants.InactiveHighLevel;
+						break;
+					default:
+						break;
+				}
 			}
 		}
 
-		void NodeX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
+		protected virtual void NodeX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
 		{
 			switch (e.Status.Code)
 			{
 				case Constants.LOW_LEVEL:
-					_L2_level[GraphicsDefines.Text_Color] = Color.Red;
-					_L2_level[GraphicsDefines.Text_Text] = "L";
+					_L3_level[GraphicsDefines.Text_Color] = Constants.ActiveLowLevel;
 					break;
 				case Constants.HIGH_LEVEL:
-					_L2_level[GraphicsDefines.Text_Color] = Color.Blue;
-					_L2_level[GraphicsDefines.Text_Text] = "H";
+					_L3_level[GraphicsDefines.Text_Color] = Constants.ActiveHighLevel;
+					break;
+				default:
+					break;
+			}
+			SetString(e.Status.Code);
+		}
+
+		protected virtual void SetString(int code)
+		{
+			switch (code)
+			{
+				case Constants.LOW_LEVEL:
+					_L3_level[GraphicsDefines.Text_Text] = Constants.LowString;
+					break;
+				case Constants.HIGH_LEVEL:
+					_L3_level[GraphicsDefines.Text_Text] = Constants.HighString;
 					break;
 				default:
 					break;
@@ -81,8 +109,9 @@ namespace SimuCircult.Common.Element
 			set { _elements = value; }
 		}
 
-		private BorderElement _L1_border;
-		private TextElement _L2_level;
+		protected BorderElement _L1_border;
+		protected BackgroundElement _L2_background;
+		protected TextElement _L3_level;
 
 		public virtual void Draw(Rectangle bound)
 		{			
@@ -96,7 +125,8 @@ namespace SimuCircult.Common.Element
 		{
 			_absBound = bound.AdjustBound(_relBound);
 			_L1_border[GraphicsDefines.Gdi_Bound] = _absBound;
-			_L2_level[GraphicsDefines.Gdi_Bound] = _absBound.OffsetBound(new Size(5, 5));
+			_L2_background[GraphicsDefines.Gdi_Bound] = _absBound.Deflate(new Size(1, 1));
+			_L3_level[GraphicsDefines.Gdi_Bound] = _absBound;
 		}
 	}
 }

@@ -15,9 +15,23 @@ namespace SimuCircult.UI.Element
 		{
 			this[GraphicsDefines.Text_Color] = Color.Black;
 			this[GraphicsDefines.Text_Text] = string.Empty;
-			this[GraphicsDefines.Text_Family] = FontFamily.GenericSansSerif;
+			this[GraphicsDefines.Text_Family] = CreateFontFamily();
 			this[GraphicsDefines.Text_Size] = 16.0f;
-			this[GraphicsDefines.Text_Format] = StringFormat.GenericDefault;
+			this[GraphicsDefines.Text_Format] = CreateStringFormat();
+		}
+
+		private static FontFamily CreateFontFamily()
+		{
+			var fontFamily = FontFamily.GenericSansSerif;
+			return fontFamily;
+		}
+
+		private static StringFormat CreateStringFormat()
+		{
+			var stringFormat = StringFormat.GenericDefault;
+			stringFormat.Alignment = StringAlignment.Center;
+			stringFormat.LineAlignment = StringAlignment.Center;
+			return stringFormat;
 		}
 	}
 }

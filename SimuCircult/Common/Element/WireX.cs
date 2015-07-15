@@ -23,26 +23,36 @@ namespace SimuCircult.Common.Element
 			OnValueUpdated += WireX_OnValueUpdated;
 		}
 
-		void WireX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
+		protected virtual void WireX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
+		{
+			if (!e.Active)
+			{
+				switch (Local.Code)
+				{
+					case Constants.LOW_LEVEL:
+						_L1_line[GraphicsDefines.Line_Color] = Constants.InactiveLowLevel;
+						break;
+					case Constants.HIGH_LEVEL:
+						_L1_line[GraphicsDefines.Line_Color] = Constants.InactiveHighLevel;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
+		protected virtual void WireX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
 		{
 			switch (e.Status.Code)
 			{
 				case Constants.LOW_LEVEL:
-					_L1_line[GraphicsDefines.Line_Color] = Color.Red;
+					_L1_line[GraphicsDefines.Line_Color] = Constants.ActiveLowLevel;
 					break;
 				case Constants.HIGH_LEVEL:
-					_L1_line[GraphicsDefines.Line_Color] = Color.Blue;
+					_L1_line[GraphicsDefines.Line_Color] = Constants.ActiveHighLevel;
 					break;
 				default:
 					break;
-			}
-		}
-
-		void WireX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
-		{
-			if (!e.Active)
-			{
-				_L1_line[GraphicsDefines.Text_Color] = Color.Gray;
 			}
 		}
 
@@ -54,7 +64,7 @@ namespace SimuCircult.Common.Element
 			set { _elements = value; }
 		}
 
-		private LineElement _L1_line;
+		protected LineElement _L1_line;
 
 		public virtual void Draw(Rectangle bound)
 		{
