@@ -12,18 +12,24 @@ namespace SimuCircult.UI.Renderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		protected override void CreateGdiObject(Graphics graphics)
+		protected void _CreateBrush()
 		{
 			this[GraphicsDefines.SolidBrush_Handle] = new SolidBrush((Color)_element[GraphicsDefines.SolidBrush_Color]);
 		}
 
+		protected void _DestroyBrush()
+		{
+			_ReleaseHandle(GraphicsDefines.SolidBrush_Handle);
+		}
+
+		protected override void CreateGdiObject(Graphics graphics)
+		{
+			_CreateBrush();
+		}
+
 		protected override void DestroyGdiObject(Graphics graphics)
 		{
-			var brush = this[GraphicsDefines.SolidBrush_Handle] as Brush;
-			if (brush != null)
-			{
-				brush.Dispose();
-			}
+			_DestroyBrush();
 		}
 
 		public override void OnElementStateChanged(int state, object value)

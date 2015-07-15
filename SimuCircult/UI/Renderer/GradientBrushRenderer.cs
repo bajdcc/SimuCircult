@@ -13,7 +13,7 @@ namespace SimuCircult.UI.Renderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		protected override void CreateGdiObject(Graphics graphics)
+		protected void _CreateBrush()
 		{
 			this[GraphicsDefines.GradientBrush_Handle] = new LinearGradientBrush(
 				(Point)_element[GraphicsDefines.GradientBrush_PointBegin],
@@ -22,13 +22,19 @@ namespace SimuCircult.UI.Renderer
 				(Color)_element[GraphicsDefines.GradientBrush_ColorEnd]);
 		}
 
+		protected void _DestroyBrush()
+		{
+			_ReleaseHandle(GraphicsDefines.GradientBrush_Handle);
+		}
+
+		protected override void CreateGdiObject(Graphics graphics)
+		{
+			_CreateBrush();
+		}
+
 		protected override void DestroyGdiObject(Graphics graphics)
 		{
-			var brush = this[GraphicsDefines.SolidBrush_Handle] as Brush;
-			if (brush != null)
-			{
-				brush.Dispose();
-			}
+			_DestroyBrush();
 		}
 
 		public override void OnElementStateChanged(int state, object value)

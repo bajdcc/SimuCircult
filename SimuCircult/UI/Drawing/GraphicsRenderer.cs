@@ -88,6 +88,15 @@ namespace SimuCircult.UI.Drawing
 
 		}
 
+		protected void _ReleaseHandle(int state)
+		{
+			var obj = this[state] as IDisposable;
+			if (obj != null)
+			{
+				obj.Dispose();
+			}
+		}
+
 		protected virtual void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)
 		{
 

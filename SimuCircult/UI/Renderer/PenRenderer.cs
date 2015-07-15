@@ -24,11 +24,7 @@ namespace SimuCircult.UI.Renderer
 
 		protected override void DestroyGdiObject(Graphics graphics)
 		{
-			var pen = this[GraphicsDefines.Pen_Handle] as Pen;
-			if (pen != null)
-			{
-				pen.Dispose();
-			}
+			_ReleaseHandle(GraphicsDefines.Pen_Handle);
 		}
 
 		public override void OnElementStateChanged(int state, object value)
