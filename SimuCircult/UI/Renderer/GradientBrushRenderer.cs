@@ -13,12 +13,13 @@ namespace SimuCircult.UI.Renderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		private static readonly Point _startPoint = Point.Empty;
-		private static readonly Point _endPoint = new Point(1, 1);
-
 		protected override void CreateGdiObject(Graphics graphics)
 		{
-			this[GraphicsDefines.GradientBrush_Handle] = new LinearGradientBrush(_startPoint, _endPoint, (Color)_element[GraphicsDefines.GradientBrush_ColorBegin], (Color)_element[GraphicsDefines.GradientBrush_ColorEnd]);
+			this[GraphicsDefines.GradientBrush_Handle] = new LinearGradientBrush(
+				(Point)_element[GraphicsDefines.GradientBrush_PointBegin],
+				(Point)_element[GraphicsDefines.GradientBrush_PointEnd],
+				(Color)_element[GraphicsDefines.GradientBrush_ColorBegin],
+				(Color)_element[GraphicsDefines.GradientBrush_ColorEnd]);
 		}
 
 		protected override void DestroyGdiObject(Graphics graphics)

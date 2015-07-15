@@ -19,6 +19,8 @@ namespace SimuCircult.UI.Global
 		public const int GradientBrush_Handle = Gdi_Handle;
 		public const int GradientBrush_ColorBegin = Gdi_ColorBegin;
 		public const int GradientBrush_ColorEnd = Gdi_ColorEnd;
+		public const int GradientBrush_PointBegin = 141;
+		public const int GradientBrush_PointEnd = 142;
 
 		public const int Pen_Handle = Gdi_Handle;
 		public const int Pen_Color = Gdi_Color;
@@ -35,9 +37,12 @@ namespace SimuCircult.UI.Global
 		public const int Background_Color = Gdi_Color;
 		public const int Background_Shape = Gdi_Shape;
 
-		public const int GradientBackground_ColorBegin = Gdi_ColorBegin;
-		public const int GradientBackground_ColorEnd = Gdi_ColorEnd;
+		public const int GradientBackground_ColorBegin = GradientBrush_ColorBegin;
+		public const int GradientBackground_ColorEnd = GradientBrush_ColorEnd;
+		public const int GradientBackground_PointBegin = GradientBrush_PointBegin;
+		public const int GradientBackground_PointEnd = GradientBrush_PointEnd;
 		public const int GradientBackground_Shape = Gdi_Shape;
+		public const int GradientBackground_Direction = 161;
 	}
 
 	public enum ShapeType
@@ -48,6 +53,7 @@ namespace SimuCircult.UI.Global
 
 	public enum GradientType
 	{
+		Custom,
 		Horizontal,
 		Vertical,
 		Slash,

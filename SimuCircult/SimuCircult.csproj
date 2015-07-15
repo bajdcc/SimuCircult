@@ -80,6 +80,7 @@
     <Compile Include="UI\Element\BackgroundElement.cs" />
     <Compile Include="UI\Element\BorderElement.cs" />
     <Compile Include="UI\Global\GraphicsDefines.cs" />
+    <Compile Include="UI\Renderer\GradientBackgroundElementRenderer.cs" />
     <Compile Include="UI\Renderer\BackgroundElementRenderer.cs" />
     <Compile Include="UI\Renderer\BorderElementRenderer.cs" />
     <Compile Include="UI\Renderer\GdiRenderer.cs" />

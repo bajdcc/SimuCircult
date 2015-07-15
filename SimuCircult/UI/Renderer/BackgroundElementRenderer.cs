@@ -32,9 +32,8 @@ namespace SimuCircult.UI.Renderer
 		{
 			switch (state)
 			{
-				case GraphicsDefines.GradientBackground_ColorBegin:
-				case GraphicsDefines.GradientBackground_ColorEnd:
-				case GraphicsDefines.GradientBackground_Shape:
+				case GraphicsDefines.Background_Color:
+				case GraphicsDefines.Background_Shape:
 					_Destroy();
 					_Create();
 					break;
