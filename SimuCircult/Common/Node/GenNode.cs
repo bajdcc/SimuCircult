@@ -21,5 +21,10 @@ namespace SimuCircult.Common.Node
 		{
 			base.Draw(bound);
 		}
+
+		protected override int _Click()
+		{
+			return 0;
+		}
 	}
 }

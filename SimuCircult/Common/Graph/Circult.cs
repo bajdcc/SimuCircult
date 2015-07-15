@@ -24,8 +24,14 @@ namespace SimuCircult.Common.Graph
 
 		private void _Prepare(Rectangle bound)
 		{
-			Units.Values.AsParallel().ForAll(a => a.Prepare(bound));
-			Wires.Values.AsParallel().ForAll(a => a.Prepare(bound));
+			foreach (var unit in Units.Values.Where(a => a.External))
+			{
+				unit.Prepare(bound);
+			}
+			foreach (var wire in Wires.Values)
+			{
+				wire.Prepare(bound);
+			}
 		}
 
 		private void _Draw(Rectangle bound)
@@ -35,9 +41,20 @@ namespace SimuCircult.Common.Graph
 			{
 				wire.Draw(bound);
 			}
-			foreach (var unit in Units.Values)
+			foreach (var unit in Units.Values.Where(a => a.External))
 			{
 				unit.Draw(bound);
+			}
+		}
+
+		public void OnClick(Point pt)
+		{
+			foreach (var unit in Units.Values.Where(a => a.External))
+			{
+				if (unit.Handle(HandleType.Click, pt) == 0)
+				{
+					break;
+				}
 			}
 		}
 	}

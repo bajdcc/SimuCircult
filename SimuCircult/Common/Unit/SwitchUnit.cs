@@ -17,7 +17,7 @@ namespace SimuCircult.Common.Unit
 	{
 		public SwitchUnit()
 		{
-			_L1_text[GraphicsDefines.Text_Text] = Constants.SwitchUnitString;
+			_L1_title[GraphicsDefines.Text_Text] = Constants.SwitchUnitString;
 		}
 
 		private GenNode<T> _gen;
@@ -54,6 +54,12 @@ namespace SimuCircult.Common.Unit
 		public override void Draw(Rectangle bound)
 		{
 			base.Draw(bound);
+		}
+
+		protected override int _Click()
+		{
+			Power = Constants.Inverse(Power);
+			return 0;
 		}
 	}
 }

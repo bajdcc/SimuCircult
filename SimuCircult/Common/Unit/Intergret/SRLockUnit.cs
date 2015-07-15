@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
 using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Global;
@@ -10,12 +11,12 @@ using System.Text;
 
 namespace SimuCircult.Common.Unit
 {
-	public class OrNotUnit<T> : CommonUnit<T>
+	public class SRLockUnit<T> : CommonUnit<T>
 		where T : Status, new()
 	{
-		public OrNotUnit()
+		public SRLockUnit()
 		{
-			_L1_title[GraphicsDefines.Text_Text] = Constants.OrNotUnitString;
+			_L1_title[GraphicsDefines.Text_Text] = Constants.SRLockUnitString;
 		}
 
 		public override void Draw(Rectangle bound)

@@ -34,6 +34,14 @@ namespace SimuCircult.Common.Element
 			set { _hidden = value; }
 		}
 
+		private bool external = true;
+
+		public bool External
+		{
+			get { return external; }
+			set { external = value; }
+		}
+
 		public override void Activate(ActivateType type)
 		{
 			switch (type)

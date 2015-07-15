@@ -23,16 +23,36 @@ namespace WinSC
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			Storage.InitializeGui(Size);
+			Storage.InitializeGui(Size - new Size(60, 60));
 			circult = new Circult();
-			var gen = circult.CreateSwitchUnit();
-			gen.Location = new Point(50, 50);
-			gen.Power = Constants.HIGH_LEVEL;
-			var output = circult.CreateOutputUnit();
-			output.Location = new Point(250, 50);
-			circult.ConnectUnitDirect(gen, output);
-			circult.Initialize();
 			pictureBox1.Image = Storage.Bitmap;
+			CreateUnits();
+		}
+
+		private void CreateUnits()
+		{
+			var genS = circult.CreateSwitchUnit();
+			genS.Power = Constants.LOW_LEVEL;
+			var genR = circult.CreateSwitchUnit();
+			genR.Power = Constants.LOW_LEVEL;
+			var o1 = circult.CreateOutputUnit();
+			var o2 = circult.CreateOutputUnit();
+			var SR = circult.CreateSRLockUnit();
+			genS.Display = "S";
+			genR.Display = "R";
+			o1.Display = "Q";
+			o2.Display = "Q'";
+			SR.Display = "Q[n+1]=!S+RQ[n]";
+			genS.Location = new Point(20, 50);
+			genR.Location = new Point(20, 200);
+			o1.Location = new Point(520, 50);
+			o2.Location = new Point(520, 200);
+			SR.Location = new Point(200, 50);
+			circult.ConnectUnitMoreInput(genS, SR, 0);
+			circult.ConnectUnitMoreInput(genR, SR, 1);
+			circult.ConnectUnitMoreOutput(SR, o1, 0);
+			circult.ConnectUnitMoreOutput(SR, o2, 1);
+			circult.Initialize();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -40,6 +60,11 @@ namespace WinSC
 			circult.Update();
 			circult.Draw();
 			pictureBox1.Refresh();
+		}
+
+		private void pictureBox1_Click(object sender, EventArgs e)
+		{
+			circult.OnClick(pictureBox1.PointToClient(MousePosition));
 		}
 	}
 }

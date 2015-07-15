@@ -18,6 +18,7 @@ namespace SimuCircult.Common.Element
 		public WireX()
 		{
 			_L1_line = LineElement.Create();
+			_L1_line[GraphicsDefines.Line_Width] = 2.0f;
 			_elements.Add(_L1_line);
 			OnStateUpdated += WireX_OnStateUpdated;
 			OnValueUpdated += WireX_OnValueUpdated;
@@ -79,6 +80,11 @@ namespace SimuCircult.Common.Element
 			_L1_line[GraphicsDefines.Gdi_Bound] = bound;
 			_L1_line[GraphicsDefines.Line_PointBegin] = (Left as NodeX<T>).AbsBound.Center();
 			_L1_line[GraphicsDefines.Line_PointEnd] = (Right as NodeX<T>).AbsBound.Center();
+		}
+
+		public virtual int Handle(HandleType type, object obj)
+		{
+			return -1;
 		}
 	}
 }

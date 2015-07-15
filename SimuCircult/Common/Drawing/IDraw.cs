@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimuCircult.Common.Simulator;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace SimuCircult.Common.Drawing
 	{
 		void Draw(Rectangle bound);
 		void Prepare(Rectangle bound);
+		int Handle(HandleType type, object obj);
 	}
 }

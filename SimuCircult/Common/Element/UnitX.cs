@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
+using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Drawing;
 using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
@@ -102,6 +103,39 @@ namespace SimuCircult.Common.Element
 			{
 				(e as IDraw).Prepare(_absBound);
 			}
+		}
+
+		public virtual int Handle(HandleType type, object obj)
+		{
+			var pt = (Point)obj;
+			if (_absBound.Contains(pt))
+			{
+				var ret = 0;
+				switch (type)
+				{
+					case HandleType.Click:
+						ret = _Click();
+						break;
+					default:
+						break;
+				}
+				if (ret == 0)
+					return ret;
+			}
+			foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+			{
+				var ret = (k as IDraw).Handle(type, obj);
+				if (ret == 0)
+				{
+					return ret;
+				}
+			}
+			return -1;
+		}
+
+		protected virtual int _Click()
+		{
+			return 0;
 		}
 	}
 }

@@ -79,6 +79,20 @@ namespace SimuCircult.Common.Graph
 			wire.Right.InWires.Add(wire);
 		}
 
+		public void ConnectNodeMoreInput<U, V>(U left, V right, int position)
+			where U : _NODE, new()
+			where V : _UNIT, new()
+		{
+			var wire = new _WIRE();
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left;
+			wire.Right = right.Inputs[position];
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+		}
+
 		public void ConnectUnitMoreInput<U, V>(U left, V right, int position)
 			where U : _UNIT, new()
 			where V : _UNIT, new()
@@ -103,6 +117,20 @@ namespace SimuCircult.Common.Graph
 			wire.External = true;
 			wire.Left = left.Outputs[position];
 			wire.Right = right.GetSingleInput();
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+		}
+
+		public void ConnectNodeMoreOutput<U, V>(U left, V right, int position)
+			where U : _UNIT, new()
+			where V : _NODE, new()
+		{
+			var wire = new _WIRE();
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.Outputs[position];
+			wire.Right = right;
 			wire.Left.OutWires.Add(wire);
 			wire.Right.InWires.Add(wire);
 		}

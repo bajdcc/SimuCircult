@@ -16,7 +16,7 @@ namespace SimuCircult.Common.Unit
 	{
 		public OutputUnit()
 		{
-			_L1_text[GraphicsDefines.Text_Text] = Constants.OutputUnitString;
+			_L1_title[GraphicsDefines.Text_Text] = Constants.OutputUnitString;
 		}
 
 		public override void Draw(Rectangle bound)

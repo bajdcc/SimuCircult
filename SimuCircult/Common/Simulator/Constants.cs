@@ -33,6 +33,8 @@ namespace SimuCircult.Common.Simulator
 		public const string SwitchUnitString = "开关";
 		public const string OutputUnitString = "输出";
 
+		public const string SRLockUnitString = "RS触发器";
+
 		public static int Inverse(int code)
 		{
 			return code == LOW_LEVEL ? HIGH_LEVEL : LOW_LEVEL;
@@ -58,5 +60,10 @@ namespace SimuCircult.Common.Simulator
 		Up,
 		Right,
 		Bottom,
+	}
+
+	public enum HandleType
+	{
+		Click,
 	}
 }

@@ -54,12 +54,12 @@ namespace System.Drawing
 					break;
 				case Direction.Right:
 					_bound.Inflate(0, (size.Height - bound.Height) / 2);
-					_bound.X = bound.Width - size.Width;
+					_bound.X = bound.Right - size.Width;
 					_bound.Width = size.Width;
 					break;
 				case Direction.Bottom:
 					_bound.Inflate((size.Width - bound.Width) / 2, 0);
-					_bound.Y = bound.Height - size.Height;
+					_bound.Y = bound.Bottom - size.Height;
 					_bound.Height = size.Height;
 					break;
 				default:

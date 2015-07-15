@@ -24,6 +24,7 @@ namespace SimuCircult.Common.Element
 			_L2_background[GraphicsDefines.Background_Color] = Constants.WindowBackground;
 			_L2_background[GraphicsDefines.Background_Shape] = ShapeType.Ellipse;
 			_L3_level = TextElement.Create();
+			SetString(Constants.LOW_LEVEL);
 			_elements.Add(_L1_border);
 			_elements.Add(_L2_background);
 			_elements.Add(_L3_level);
@@ -127,6 +128,31 @@ namespace SimuCircult.Common.Element
 			_L1_border[GraphicsDefines.Gdi_Bound] = _absBound;
 			_L2_background[GraphicsDefines.Gdi_Bound] = _absBound.Deflate(new Size(1, 1));
 			_L3_level[GraphicsDefines.Gdi_Bound] = _absBound;
+		}
+
+		public virtual int Handle(HandleType type, object obj)
+		{
+			var pt = (Point)obj;
+			if (_absBound.Contains(pt))
+			{
+				var ret = 0;
+				switch (type)
+				{
+					case HandleType.Click:
+						ret = _Click();
+						break;
+					default:
+						break;
+				}
+				if (ret == 0)
+					return ret;
+			}
+			return -1;
+		}
+
+		protected virtual int _Click()
+		{
+			return 0;
 		}
 	}
 }
