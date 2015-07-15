@@ -9,12 +9,6 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
-	public enum BorderShape
-	{
-		Rectangle,
-		Ellipse,
-	}
-
 	public class BorderElement: GraphicsElement<BorderElement>
 	{
 		public BorderElement()
@@ -23,7 +17,7 @@ namespace SimuCircult.UI.Element
 			this[GraphicsDefines.Border_Width] = 1.0f;
 			this[GraphicsDefines.Border_Style] = DashStyle.Solid;
 			this[GraphicsDefines.Border_Join] = LineJoin.Round;
-			this[GraphicsDefines.Border_Shape] = BorderShape.Rectangle;
+			this[GraphicsDefines.Border_Shape] = ShapeType.Rectangle;
 		}
 	}
 }

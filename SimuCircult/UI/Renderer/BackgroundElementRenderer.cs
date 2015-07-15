@@ -9,19 +9,19 @@ using System.Text;
 
 namespace SimuCircult.UI.Renderer
 {
-	public class BorderElementRenderer : PenRenderer<BorderElementRenderer, BorderElement>
+	public class BackgroundElementRenderer : GradientBrushRenderer<BackgroundElementRenderer, BackgroundElement>
 	{
 		public override void Render(Rectangle bound)
 		{
-			var shape = (ShapeType)this[GraphicsDefines.Border_Shape];
-			var pen = this[GraphicsDefines.Pen_Handle] as Pen;
+			var shape = (ShapeType)this[GraphicsDefines.Background_Shape];
+			var brush = this[GraphicsDefines.SolidBrush_Handle] as Brush;
 			switch (shape)
 			{
 				case ShapeType.Rectangle:
-					_graphics.DrawRectangle(pen, bound);
+					_graphics.FillRectangle(brush, bound);
 					break;
 				case ShapeType.Ellipse:
-					_graphics.DrawEllipse(pen, bound);
+					_graphics.FillEllipse(brush, bound);
 					break;
 				default:
 					break;
@@ -32,10 +32,9 @@ namespace SimuCircult.UI.Renderer
 		{
 			switch (state)
 			{
-				case GraphicsDefines.Border_Color:
-				case GraphicsDefines.Border_Width:
-				case GraphicsDefines.Border_Style:
-				case GraphicsDefines.Border_Join:
+				case GraphicsDefines.GradientBackground_ColorBegin:
+				case GraphicsDefines.GradientBackground_ColorEnd:
+				case GraphicsDefines.GradientBackground_Shape:
 					_Destroy();
 					_Create();
 					break;
