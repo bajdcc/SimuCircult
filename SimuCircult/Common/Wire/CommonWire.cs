@@ -3,6 +3,7 @@ using SimuCircult.Common.Element;
 using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -21,7 +22,7 @@ namespace SimuCircult.Common.Wire
 
 		}
 
-		public override void Draw()
+		public override void Draw(Rectangle bound)
 		{
 
 		}

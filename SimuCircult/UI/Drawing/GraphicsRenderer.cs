@@ -85,6 +85,11 @@ namespace SimuCircult.UI.Drawing
 
 		public virtual void Render(Rectangle bound)
 		{
+			_Render(_AdjustBound(bound));
+		}
+
+		protected virtual void _Render(Rectangle bound)
+		{
 
 		}
 
@@ -95,6 +100,11 @@ namespace SimuCircult.UI.Drawing
 			{
 				obj.Dispose();
 			}
+		}
+
+		protected Rectangle _AdjustBound(Rectangle bound)
+		{
+			return bound.AdjustBound((Rectangle)this[GraphicsDefines.Gdi_Bound]);
 		}
 
 		protected virtual void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)

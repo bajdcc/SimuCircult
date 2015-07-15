@@ -11,7 +11,7 @@ namespace SimuCircult.UI.Renderer
 {
 	public class GradientBackgroundElementRenderer : GradientBrushRenderer<GradientBackgroundElementRenderer, GradientBackgroundElement>
 	{
-		public override void Render(Rectangle bound)
+		protected override void _Render(Rectangle bound)
 		{
 			var shape = (ShapeType)this[GraphicsDefines.GradientBackground_Shape];
 			var direction = (GradientType)this[GraphicsDefines.GradientBackground_Direction];

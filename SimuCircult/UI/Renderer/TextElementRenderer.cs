@@ -35,9 +35,15 @@ namespace SimuCircult.UI.Renderer
 			_DestroyFont();
 		}
 
-		public override void Render(Rectangle bound)
+		protected override void _Render(Rectangle bound)
 		{
-			
+			_graphics.DrawString(
+				_element[GraphicsDefines.Text_Text] as string,
+				this[GraphicsDefines.Font_Handle] as Font,
+				this[GraphicsDefines.SolidBrush_Handle] as Brush,
+				bound,
+				_element[GraphicsDefines.Text_Format] as StringFormat
+				);
 		}
 
 		public override void OnElementStateChanged(int state, object value)

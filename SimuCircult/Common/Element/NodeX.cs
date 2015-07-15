@@ -1,8 +1,10 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Simulator;
+using SimuCircult.UI.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -11,24 +13,28 @@ namespace SimuCircult.Common.Element
 	public abstract class NodeX<T> : Node<T>, IDraw
 		where T : Status, new()
 	{
-		private DrawBag _graphics;
+		private Rectangle _bound = Rectangle.Empty;
 
-		protected DrawBag Graphics
+		public Rectangle Bound
 		{
-			get { return _graphics; }
-			set { _graphics = value; }
+			get { return _bound; }
+			set { _bound = value; }
 		}
 
-		public void SetGraphicsParam(string key, object value)
+		private List<IGraphicsElement> _elements = new List<IGraphicsElement>();
+
+		public List<IGraphicsElement> Elements
 		{
-			_graphics.Dict.Add(key, value);
+			get { return _elements; }
+			set { _elements = value; }
 		}
 
-		public object GetGraphicsParam(string key)
+		public virtual void Draw(Rectangle bound)
 		{
-			return _graphics.Dict[key];
+			foreach (var e in _elements)
+			{
+				e.GetRenderer().Render(bound.AdjustBound(_bound));
+			}
 		}
-
-		public abstract void Draw();
 	}
 }

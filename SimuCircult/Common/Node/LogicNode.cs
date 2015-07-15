@@ -3,6 +3,7 @@ using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -25,9 +26,9 @@ namespace SimuCircult.Common.Node
 
 		protected abstract T _InitialSeed(T seed);
 
-		public new void Draw()
+		public override void Draw(Rectangle bound)
 		{
-			
+
 		}
 	}
 }

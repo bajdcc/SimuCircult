@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Drawing\DrawBag.cs" />
     <Compile Include="Common\Base\Markable.cs" />
     <Compile Include="Common\Base\Mutable.cs" />
+    <Compile Include="Common\Drawing\DrawHelper.cs" />
     <Compile Include="Common\Drawing\IDraw.cs" />
     <Compile Include="Common\Element\NodeX.cs" />
     <Compile Include="Common\Element\Node.cs" />
@@ -95,9 +95,7 @@
     <Compile Include="UI\Drawing\IGraphicsRendererFactory.cs" />
     <Compile Include="UI\Drawing\IGraphicsRenderer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tool\Pool\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

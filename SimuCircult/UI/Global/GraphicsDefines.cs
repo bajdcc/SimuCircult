@@ -12,6 +12,7 @@ namespace SimuCircult.UI.Global
 		public const int Gdi_ColorBegin = Gdi_Color;
 		public const int Gdi_ColorEnd = Gdi_ColorBegin + 1;
 		public const int Gdi_Shape = 109;
+		public const int Gdi_Bound = 110;
 
 		public const int SolidBrush_Handle = Gdi_Handle + 1;
 		public const int SolidBrush_Color = Gdi_Color;

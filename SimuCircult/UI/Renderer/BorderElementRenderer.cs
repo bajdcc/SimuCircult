@@ -11,7 +11,7 @@ namespace SimuCircult.UI.Renderer
 {
 	public class BorderElementRenderer : PenRenderer<BorderElementRenderer, BorderElement>
 	{
-		public override void Render(Rectangle bound)
+		protected override void _Render(Rectangle bound)
 		{
 			var shape = (ShapeType)this[GraphicsDefines.Border_Shape];
 			var pen = this[GraphicsDefines.Pen_Handle] as Pen;

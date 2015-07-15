@@ -4,6 +4,7 @@ using SimuCircult.Common.Element;
 using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -18,9 +19,9 @@ namespace SimuCircult.Common.Node
 			Next.Code = Constants.Inverse(Next.Code);
 		}
 
-		public new void Draw()
+		public override void Draw(Rectangle bound)
 		{
-			
+
 		}
 	}
 }

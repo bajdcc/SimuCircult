@@ -1,7 +1,9 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
+using SimuCircult.UI.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -10,24 +12,45 @@ namespace SimuCircult.Common.Element
 	public abstract class UnitX<T> : Unit<T>, IDraw
 		where T : Status, new()
 	{
-		private DrawBag _graphics;
+		private Rectangle _bound = Rectangle.Empty;
 
-		protected DrawBag Graphics
+		public Rectangle Bound
 		{
-			get { return _graphics; }
-			set { _graphics = value; }
+			get { return _bound; }
+			set { _bound = value; }
 		}
 
-		public void SetGraphicsParam(string key, object value)
+		private List<IGraphicsElement> _beforeElements = new List<IGraphicsElement>();
+
+		public List<IGraphicsElement> BeforeElements
 		{
-			_graphics.Dict.Add(key, value);
+			get { return _beforeElements; }
+			set { _beforeElements = value; }
 		}
 
-		public object GetGraphicsParam(string key)
+		private List<IGraphicsElement> _afterElements = new List<IGraphicsElement>();
+
+		public List<IGraphicsElement> AfterElements
 		{
-			return _graphics.Dict[key];
+			get { return _afterElements; }
+			set { _afterElements = value; }
 		}
 
-		public abstract void Draw();
+		public virtual void Draw(Rectangle bound)
+		{
+			var newBound = bound.AdjustBound(_bound);
+			foreach (var e in _beforeElements)
+			{
+				e.GetRenderer().Render(newBound);
+			}
+			foreach (var e in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+			{
+				(e as IDraw).Draw(newBound);
+			}
+			foreach (var e in _afterElements)
+			{
+				e.GetRenderer().Render(newBound);
+			}
+		}
 	}
 }
