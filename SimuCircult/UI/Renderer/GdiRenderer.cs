@@ -5,18 +5,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace SimuCircult.UI.Element
+namespace SimuCircult.UI.Renderer
 {
-	public class BrushRenderer<T, U> : GraphicsRenderer<T, U>
+	public class GdiRenderer<T, U> : GraphicsRenderer<T, U>
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		protected virtual void CreateBrush(Graphics graphics)
+		protected virtual void CreateGdiObject(Graphics graphics)
 		{
 
 		}
 
-		protected virtual void DestroyBrush(Graphics graphics)
+		protected virtual void DestroyGdiObject(Graphics graphics)
 		{
 
 		}
@@ -33,12 +33,12 @@ namespace SimuCircult.UI.Element
 
 		protected void _Destroy()
 		{
-			DestroyBrush(_graphics);
+			DestroyGdiObject(_graphics);
 		}
 
 		protected void _Create()
 		{
-			CreateBrush(_graphics);
+			CreateGdiObject(_graphics);
 		}
 
 		protected override void OnChangedGraphics(Graphics oldGraphics, Graphics newGraphics)

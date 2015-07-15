@@ -93,7 +93,7 @@ namespace SimuCircult.UI.Drawing
 
 		}
 
-		public virtual void OnElementStateChanged(int state)
+		public virtual void OnElementStateChanged(int state, object value)
 		{
 
 		}

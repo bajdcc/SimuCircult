@@ -13,6 +13,6 @@ namespace SimuCircult.UI.Drawing
 		void Stop();
 		void SetGraphics(Graphics graphics);
 		void Render(Rectangle bound);
-		void OnElementStateChanged(int state);
+		void OnElementStateChanged(int state, object value);
 	}
 }

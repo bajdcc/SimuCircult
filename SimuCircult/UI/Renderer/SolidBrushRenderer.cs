@@ -6,18 +6,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace SimuCircult.UI.Element
+namespace SimuCircult.UI.Renderer
 {
-	public class SolidBrushRenderer<T, U> : BrushRenderer<T, U>
+	public class SolidBrushRenderer<T, U> : GdiRenderer<T, U>
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		protected override void CreateBrush(Graphics graphics)
+		protected override void CreateGdiObject(Graphics graphics)
 		{
 			this[GraphicsDefines.SolidBrush_Handle] = new SolidBrush((Color)_element[GraphicsDefines.SolidBrush_Color]);
 		}
 
-		protected override void DestroyBrush(Graphics graphics)
+		protected override void DestroyGdiObject(Graphics graphics)
 		{
 			var brush = this[GraphicsDefines.SolidBrush_Handle] as Brush;
 			if (brush != null)
@@ -26,7 +26,7 @@ namespace SimuCircult.UI.Element
 			}
 		}
 
-		public override void OnElementStateChanged(int state)
+		public override void OnElementStateChanged(int state, object value)
 		{
 			switch (state)
 			{

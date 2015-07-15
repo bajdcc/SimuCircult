@@ -24,7 +24,7 @@ namespace SimuCircult.UI.Drawing
 					if (!_attr[key].Equals(value))
 					{
 						_attr[key] = value;
-						_renderer.OnElementStateChanged(key);
+						_renderer.OnElementStateChanged(key, value);
 					}
 				}
 				else

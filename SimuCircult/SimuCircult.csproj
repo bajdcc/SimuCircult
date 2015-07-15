@@ -79,8 +79,9 @@
     <Compile Include="UI\Element\BorderElement.cs" />
     <Compile Include="UI\Global\GraphicsDefines.cs" />
     <Compile Include="UI\Renderer\BorderElementRenderer.cs" />
-    <Compile Include="UI\Renderer\BrushRenderer.cs" />
+    <Compile Include="UI\Renderer\GdiRenderer.cs" />
     <Compile Include="UI\Renderer\GradientBrushRenderer.cs" />
+    <Compile Include="UI\Renderer\PenRenderer.cs" />
     <Compile Include="UI\Renderer\SolidBrushRenderer.cs" />
     <Compile Include="UI\Global\Storage.cs" />
     <Compile Include="UI\Drawing\IGraphicsElementFactory.cs" />

@@ -1,4 +1,5 @@
 ﻿using SimuCircult.UI.Drawing;
+using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,24 @@ using System.Text;
 
 namespace SimuCircult.UI.Renderer
 {
-	public class GradientBrushRenderer<T, U> : GdiRenderer<T, U>
+	public class PenRenderer<T, U> : GdiRenderer<T, U>
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		private static readonly Point _startPoint = Point.Empty;
-		private static readonly Point _endPoint = new Point(1, 1);
-
 		protected override void CreateGdiObject(Graphics graphics)
 		{
-			this[GraphicsDefines.GradientBrush_Handle] = new LinearGradientBrush(_startPoint, _endPoint, (Color)_element[GraphicsDefines.GradientBrush_ColorBegin], (Color)_element[GraphicsDefines.GradientBrush_ColorEnd]);
+			var pen = new Pen((Color)_element[GraphicsDefines.Pen_Color], (float)_element[GraphicsDefines.Pen_Color]);
+			pen.DashStyle = (DashStyle)_element[GraphicsDefines.Pen_DashStyle];
+			pen.LineJoin = (LineJoin)_element[GraphicsDefines.Pen_LineJoin];
+			this[GraphicsDefines.Pen_Handle] = pen;			
 		}
 
 		protected override void DestroyGdiObject(Graphics graphics)
 		{
-			var brush = this[GraphicsDefines.SolidBrush_Handle] as Brush;
-			if (brush != null)
+			var pen = this[GraphicsDefines.Pen_Handle] as Pen;
+			if (pen != null)
 			{
-				brush.Dispose();
+				pen.Dispose();
 			}
 		}
 
@@ -34,14 +35,16 @@ namespace SimuCircult.UI.Renderer
 		{
 			switch (state)
 			{
-				case GraphicsDefines.GradientBrush_ColorBegin:
-				case GraphicsDefines.GradientBrush_ColorEnd:
+				case GraphicsDefines.Pen_Color:
+				case GraphicsDefines.Pen_Width:
+				case GraphicsDefines.Pen_DashStyle:
+				case GraphicsDefines.Pen_LineJoin:
 					_Destroy();
 					_Create();
 					break;
 				default:
 					break;
 			}
-		}		
+		}
 	}
 }
