@@ -32,6 +32,7 @@
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -44,7 +45,11 @@
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this.pictureBox1.TabIndex = 0;
 			this.pictureBox1.TabStop = false;
-			this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+			this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+			this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
+			this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
+			this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+			this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
 			// 
 			// timer1
 			// 
@@ -60,6 +65,13 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(784, 561);
 			this.panel1.TabIndex = 1;
+			// 
+			// toolTip1
+			// 
+			this.toolTip1.AutoPopDelay = 5000;
+			this.toolTip1.InitialDelay = 500;
+			this.toolTip1.ReshowDelay = 100;
+			this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
 			// MainForm
 			// 
@@ -83,6 +95,7 @@
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }
 

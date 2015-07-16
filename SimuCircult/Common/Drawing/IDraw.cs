@@ -1,4 +1,5 @@
-﻿using SimuCircult.Common.Simulator;
+﻿using SimuCircult.Common.Base;
+using SimuCircult.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

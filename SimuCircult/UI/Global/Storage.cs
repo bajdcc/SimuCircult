@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace SimuCircult.UI.Global
 {
@@ -48,6 +49,34 @@ namespace SimuCircult.UI.Global
 			set { Storage._size = value; }
 		}
 
+		private static Control _ctrl;
+
+		public static Control Ctrl
+		{
+			get { return Storage._ctrl; }
+			set { Storage._ctrl = value; }
+		}
+
+		private static ToolTip _tip;
+
+		public static ToolTip Tip
+		{
+			get { return Storage._tip; }
+			set { Storage._tip = value; }
+		}
+
+		private static Timer _delay;
+
+		public static Timer Delay
+		{
+			get { return _delay; }
+		}
+
+		public static Point MousePosition
+		{
+			get { return _ctrl.PointToClient(Control.MousePosition); }
+		}
+		
 		static Storage()
 		{
 			RegisterRenderer();			
@@ -83,6 +112,7 @@ namespace SimuCircult.UI.Global
 			_graphics.SmoothingMode = SmoothingMode.AntiAlias;
 			_graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 			_graphics.CompositingQuality = CompositingQuality.HighQuality;
+			_delay = new Timer();
 		}
 	}
 }

@@ -18,6 +18,10 @@ namespace SimuCircult.Common.Simulator
 		public static readonly Color InactiveHighLevel = Color.DarkBlue;
 		public static readonly Color InactiveLowLevel = Color.DarkRed;
 
+		public static readonly Color FocusBorder = Color.Gray;
+		public static readonly Color HoverBorder = Color.DarkGray;
+		public static readonly Color NormalBorder = Color.LightGray;
+
 		public const string LowString = "L";
 		public const string HighString = "H";
 
@@ -64,6 +68,14 @@ namespace SimuCircult.Common.Simulator
 
 	public enum HandleType
 	{
-		Click,
+		Test,
+		Down,
+		Up,
+		Enter,
+		Hover,
+		Leave,
+		Move,
+		Focus,
+		LostFocus,
 	}
 }

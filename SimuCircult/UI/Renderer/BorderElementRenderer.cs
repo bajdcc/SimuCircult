@@ -1,4 +1,5 @@
-﻿using SimuCircult.UI.Drawing;
+﻿using SimuCircult.Common.Simulator;
+using SimuCircult.UI.Drawing;
 using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
 using System;
@@ -39,9 +40,23 @@ namespace SimuCircult.UI.Renderer
 					_Destroy();
 					_Create();
 					break;
+				case GraphicsDefines.Border_Focus:
+				case GraphicsDefines.Border_Hover:
+					_Adjust();
+					break;
 				default:
 					break;
 			}
+		}
+
+		private void _Adjust()
+		{
+			if ((bool)_element[GraphicsDefines.Border_Focus])
+				_element[GraphicsDefines.Border_Color] = Constants.FocusBorder;
+			else if ((bool)_element[GraphicsDefines.Border_Hover])
+				_element[GraphicsDefines.Border_Color] = Constants.HoverBorder;
+			else
+				_element[GraphicsDefines.Border_Color] = Constants.NormalBorder;
 		}
 	}
 }

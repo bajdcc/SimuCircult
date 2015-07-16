@@ -22,7 +22,7 @@ namespace SimuCircult.UI.Element
 
 		private static FontFamily CreateFontFamily()
 		{
-			var fontFamily = FontFamily.GenericSansSerif;
+			var fontFamily = FontFamily.GenericSerif;
 			return fontFamily;
 		}
 

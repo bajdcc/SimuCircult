@@ -80,6 +80,7 @@ namespace SimuCircult.Common.Element
 			_L1_line[GraphicsDefines.Gdi_Bound] = bound;
 			_L1_line[GraphicsDefines.Line_PointBegin] = (Left as NodeX<T>).AbsBound.Center();
 			_L1_line[GraphicsDefines.Line_PointEnd] = (Right as NodeX<T>).AbsBound.Center();
+			_L1_line[GraphicsDefines.LineM_BuildPoint] = null;
 		}
 
 		public virtual int Handle(HandleType type, object obj)

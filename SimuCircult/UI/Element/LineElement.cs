@@ -19,6 +19,8 @@ namespace SimuCircult.UI.Element
 			this[GraphicsDefines.Line_Join] = LineJoin.Round;
 			this[GraphicsDefines.Line_PointBegin] = Point.Empty;
 			this[GraphicsDefines.Line_PointEnd] = Point.Empty;
+			this[GraphicsDefines.Line_PointBeginInternCount] = 0;
+			this[GraphicsDefines.Line_PointEndInternCount] = 0;
 		}
 	}
 }

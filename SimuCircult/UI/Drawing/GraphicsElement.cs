@@ -28,8 +28,14 @@ namespace SimuCircult.UI.Drawing
 						_renderer.OnElementStateChanged(key, value);
 					}
 				}
+				else if (key >= GraphicsDefines.Attr_MessageAddress &&
+					key < GraphicsDefines.Attr_MessageAddress + GraphicsDefines.AttrX_MessageLength)
+				{
+					_renderer.OnElementStateChanged(key, value);
+				}
 				else
 				{
+
 					_attr.Add(key, value);
 				}
 			}

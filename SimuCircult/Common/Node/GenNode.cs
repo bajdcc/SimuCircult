@@ -12,6 +12,8 @@ namespace SimuCircult.Common.Node
 	public class GenNode<T> : CommonNode<T>
 		where T : Status, new()
 	{
+		public Action OnClick { set; get; }
+
 		protected override void _FromWireToNode(IEnumerable<T> inputs)
 		{
 
@@ -22,8 +24,9 @@ namespace SimuCircult.Common.Node
 			base.Draw(bound);
 		}
 
-		protected override int _Click()
+		protected override int _Click(Point pt)
 		{
+			OnClick();
 			return 0;
 		}
 	}

@@ -16,6 +16,12 @@ namespace SimuCircult.UI.Global
 		public const int Gdi_PointBegin = 120;
 		public const int Gdi_PointEnd = Gdi_PointBegin + 1;
 
+		public const int Gdi_Focus = 140;
+		public const int Gdi_Hover = 141;
+
+		public const int Attr_MessageAddress = 20000;
+		public const int AttrX_MessageLength = 1000;
+
 		public const int SolidBrush_Handle = Gdi_Handle + 1;
 		public const int SolidBrush_Color = Gdi_Color;
 
@@ -36,6 +42,8 @@ namespace SimuCircult.UI.Global
 		public const int Border_Style = Pen_DashStyle;
 		public const int Border_Join = Pen_LineJoin;
 		public const int Border_Shape = Gdi_Shape;
+		public const int Border_Focus = Gdi_Focus;
+		public const int Border_Hover = Gdi_Hover;
 
 		public const int Background_Color = Gdi_Color;
 		public const int Background_Shape = Gdi_Shape;
@@ -61,6 +69,13 @@ namespace SimuCircult.UI.Global
 		public const int Line_Join = Pen_LineJoin;
 		public const int Line_PointBegin = Gdi_PointBegin;
 		public const int Line_PointEnd = Gdi_PointEnd;
+		public const int Line_PointBeginInternCount = 181;
+		public const int Line_PointEndInternCount = 182;
+		public const int Line_PointBeginAddress = 10000;
+		public const int Line_PointEndAddress = Line_PointBeginAddress + LineX_PointAddressLength;
+		public const int LineM_Lazy = Attr_MessageAddress + 100;
+		public const int LineM_BuildPoint = Attr_MessageAddress + 101;
+		public const int LineX_PointAddressLength = 100;
 	}
 
 	public enum ShapeType

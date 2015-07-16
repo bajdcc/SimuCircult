@@ -135,6 +135,66 @@ namespace SimuCircult.Common.Graph
 			wire.Right.InWires.Add(wire);
 		}
 
+		public X ConnectNodeMoreInput<U, V, X>(U left, V right, int position, X wire)
+			where U : _NODE, new()
+			where V : _UNIT, new()
+			where X : _WIRE, new()
+		{
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left;
+			wire.Right = right.Inputs[position];
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+			return wire;
+		}
+
+		public X ConnectUnitMoreInput<U, V, X>(U left, V right, int position, X wire)
+			where U : _UNIT, new()
+			where V : _UNIT, new()
+			where X : _WIRE, new()
+		{
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.GetSingleOutput();
+			wire.Right = right.Inputs[position];
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+			return wire;
+		}
+
+		public X ConnectUnitMoreOutput<U, V, X>(U left, V right, int position, X wire)
+			where U : _UNIT, new()
+			where V : _UNIT, new()
+			where X : _WIRE, new()
+		{
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.Outputs[position];
+			wire.Right = right.GetSingleInput();
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+			return wire;
+		}
+
+		public X ConnectNodeMoreOutput<U, V, X>(U left, V right, int position, X wire)
+			where U : _UNIT, new()
+			where V : _NODE, new()
+			where X : _WIRE, new()
+		{
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.External = true;
+			wire.Left = left.Outputs[position];
+			wire.Right = right;
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+			return wire;
+		}
+
 		public T ConnectNode<T, U, V>(U left, V right, T wire, WireType type)
 			where T : _WIRE, new()
 			where U : _NODE, new()

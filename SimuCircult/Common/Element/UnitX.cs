@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Drawing;
+using SimuCircult.Common.Graph;
 using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Drawing;
 using SimuCircult.UI.Element;
@@ -18,8 +19,7 @@ namespace SimuCircult.Common.Element
 		public UnitX()
 		{
 			_L1_border = BorderElement.Create();
-			_L1_border[GraphicsDefines.Border_Color] = Color.LightGray;
-			_beforeElements.Add(_L1_border);
+			_prepareElements.Add(_L1_border);
 			OnStateUpdated += UnitX_OnStateUpdated;
 			OnValueUpdated += UnitX_OnValueUpdated;
 		}
@@ -32,6 +32,14 @@ namespace SimuCircult.Common.Element
 		void UnitX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
 		{
 
+		}
+
+		private List<IGraphicsElement> _prepareElements = new List<IGraphicsElement>();
+
+		public List<IGraphicsElement> PrepareElements
+		{
+			get { return _prepareElements; }
+			set { _prepareElements = value; }
 		}
 
 		private List<IGraphicsElement> _beforeElements = new List<IGraphicsElement>();
@@ -99,6 +107,10 @@ namespace SimuCircult.Common.Element
 		{
 			_absBound = bound.AdjustBound(_relBound);
 			_L1_border[GraphicsDefines.Gdi_Bound] = _absBound;
+			foreach (var e in _prepareElements)
+			{
+				e.GetRenderer().Render(_absBound);
+			}
 			foreach (var e in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
 			{
 				(e as IDraw).Prepare(_absBound);
@@ -107,34 +119,98 @@ namespace SimuCircult.Common.Element
 
 		public virtual int Handle(HandleType type, object obj)
 		{
-			var pt = (Point)obj;
-			if (_absBound.Contains(pt))
+			var ret = 0;
+			if (type == HandleType.Test)
 			{
-				var ret = 0;
-				switch (type)
+				var args = obj as MarkableArgs;
+				if (_absBound.Contains(args.Pt))
 				{
-					case HandleType.Click:
-						ret = _Click();
-						break;
-					default:
-						break;
+					foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+					{
+						ret = (k as IDraw).Handle(type, obj);
+						if (ret == 0)
+							return 0;
+					}
+					args.Id = this;
+					args.Draw = this;
+					return 0;
 				}
-				if (ret == 0)
-					return ret;
+				return -1;
 			}
+			var pt = (Point)obj;			
+			switch (type)
+			{
+				case HandleType.Down:
+					ret = _Click(pt);
+					break;
+				case HandleType.Enter:
+					ret = _Enter(pt);
+					break;
+				case HandleType.Leave:
+					ret = _Leave(pt);
+					break;
+				case HandleType.Focus:
+					ret = _Focus(pt);
+					break;
+				case HandleType.LostFocus:
+					ret = _LostFocus(pt);
+					break;
+				case HandleType.Hover:
+					ret = _Hover(pt);
+					break;
+				default:
+					break;
+			}
+			if (ret == 0)
+				return ret;
 			foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
 			{
-				var ret = (k as IDraw).Handle(type, obj);
+				ret = (k as IDraw).Handle(type, obj);
 				if (ret == 0)
 				{
-					return ret;
+					return 0;
 				}
 			}
 			return -1;
 		}
 
-		protected virtual int _Click()
+		protected virtual int _Click(Point pt)
 		{
+			return 0;
+		}
+
+		protected virtual int _Enter(Point pt)
+		{
+			_L1_border[GraphicsDefines.Border_Hover] = true;
+			return 0;
+		}
+
+		protected virtual int _Leave(Point pt)
+		{
+			_L1_border[GraphicsDefines.Border_Hover] = false;
+			return 0;
+		}
+
+		protected virtual int _Focus(Point pt)
+		{
+			_L1_border[GraphicsDefines.Border_Focus] = true;
+			return 0;
+		}
+
+		protected virtual int _LostFocus(Point pt)
+		{
+			_L1_border[GraphicsDefines.Border_Focus] = false;
+			return 0;
+		}
+
+		protected virtual int _Hover(Point pt)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendFormat("Type: {0}\n", GetType());
+			sb.AppendFormat("Guid: {0}\n", Id);
+			sb.AppendFormat("Name: {0}\n", Name);
+			Storage.Tip.ToolTipTitle = "Unit Infomation";
+			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);
 			return 0;
 		}
 	}

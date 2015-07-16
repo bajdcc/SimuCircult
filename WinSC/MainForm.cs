@@ -26,6 +26,8 @@ namespace WinSC
 			Storage.InitializeGui(Size - new Size(60, 60));
 			circult = new Circult();
 			pictureBox1.Image = Storage.Bitmap;
+			Storage.Ctrl = pictureBox1;
+			Storage.Tip = toolTip1;
 			CreateUnits();
 		}
 
@@ -57,14 +59,32 @@ namespace WinSC
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			circult.Update();
-			circult.Draw();
-			pictureBox1.Refresh();
+			circult.OnTimer();
 		}
 
-		private void pictureBox1_Click(object sender, EventArgs e)
+		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
 		{
-			circult.OnClick(pictureBox1.PointToClient(MousePosition));
+			circult.OnMouseDown(e);
+		}
+
+		private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+		{
+			circult.OnMouseUp(e);
+		}
+
+		private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+		{
+			circult.OnMouseMove(e);
+		}
+
+		private void pictureBox1_MouseEnter(object sender, EventArgs e)
+		{
+			circult.OnMouseEnter(pictureBox1.PointToClient(MousePosition));
+		}
+
+		private void pictureBox1_MouseLeave(object sender, EventArgs e)
+		{
+			circult.OnMouseLeave(pictureBox1.PointToClient(MousePosition));
 		}
 	}
 }

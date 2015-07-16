@@ -25,7 +25,7 @@ namespace SimuCircult.Common.Unit
 		public GenNode<T> Gen
 		{
 			get { return _gen; }
-			set { _gen = value; }
+			set { _gen = value; _gen.OnClick = () => Power = Constants.Inverse(Power); }
 		}
 
 		private int _power = 0;
@@ -54,12 +54,6 @@ namespace SimuCircult.Common.Unit
 		public override void Draw(Rectangle bound)
 		{
 			base.Draw(bound);
-		}
-
-		protected override int _Click()
-		{
-			Power = Constants.Inverse(Power);
-			return 0;
 		}
 	}
 }

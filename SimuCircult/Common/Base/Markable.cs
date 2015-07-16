@@ -27,6 +27,16 @@ namespace SimuCircult.Common.Base
 			get { return _guid; }
 		}
 
+		public override bool Equals(object obj)
+		{
+			return _guid.Equals((obj as Markable)._guid);
+		}
+
+		public override int GetHashCode()
+		{
+			return _guid.GetHashCode();
+		}
+
 		public override string ToString()
 		{
 			return _name.ToString() + " - " +  _guid.ToString();

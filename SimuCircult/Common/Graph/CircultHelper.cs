@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuCircult.Common.Drawing;
 using SimuCircult.Common.Element;
 using SimuCircult.Common.Node;
 using SimuCircult.Common.Simulator;
@@ -12,6 +13,13 @@ using System.Text;
 
 namespace SimuCircult.Common.Graph
 {
+	public class MarkableArgs
+	{
+		public Point Pt { get; set; }
+		public Markable Id { get; set; }
+		public IDraw Draw { get; set; }
+	}
+
 	public static class CircultHelper
 	{
 		public static SwitchUnit<Status> CreateSwitchUnit(this Circult circult)
@@ -147,18 +155,22 @@ namespace SimuCircult.Common.Graph
 			var o2 = circult.CreateNode<CommonNode<Status>>();
 			an1.External = false;
 			an2.External = false;
+			circult.ConnectNodeMoreInput(in1, an1, 0);
+			circult.ConnectNodeMoreInput(in2, an2, 1);
+			var bw1 = circult.ConnectUnitMoreInput(an1, an2, 0, new BrokenWire<Status>());
+			var bw2 = circult.ConnectUnitMoreInput(an2, an1, 1, new BrokenWire<Status>());
+			circult.ConnectNodeMoreOutput(an1, o1, 0);
+			circult.ConnectNodeMoreOutput(an2, o2, 0);
 			in1.Location = new Point(0, 50);
 			in2.Location = new Point(0, 200);
 			an1.Location = new Point(50, 50);
 			an2.Location = new Point(50, 200);
 			o1.Location = new Point(280, 50);
 			o2.Location = new Point(280, 200);
-			circult.ConnectNodeMoreInput(in1, an1, 0);
-			circult.ConnectNodeMoreInput(in2, an2, 1);
-			circult.ConnectUnitMoreInput(an1, an2, 0);
-			circult.ConnectUnitMoreInput(an2, an1, 1);
-			circult.ConnectNodeMoreOutput(an1, o1, 0);
-			circult.ConnectNodeMoreOutput(an2, o2, 0);
+			bw1.PointBegin.Add(new Point(0, 60));
+			bw1.PointEnd.Add(new Point(0, -40));
+			bw2.PointBegin.Add(new Point(0, -60));
+			bw2.PointEnd.Add(new Point(0, 40));
 			unit.Inputs.Add(in1);
 			unit.Inputs.Add(in2);
 			unit.Hidden.Add(an1);
