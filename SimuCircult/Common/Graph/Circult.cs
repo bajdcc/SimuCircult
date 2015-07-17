@@ -19,21 +19,50 @@ namespace SimuCircult.Common.Graph
 		private MarkableArgs _hover;
 		private MarkableArgs _focus;
 		private Timer _delay;
-		private bool _delayTip;
+		private bool _delayTip = false;
+		private bool _drag = false;
+		private DisplayUnit<Status> _display;
 
 		public Circult()
 		{
-			_delay = Storage.Delay;
-			_delay.Tick += Delay_Tick;
-			_delay.Interval = 3000;
-			_delay.Enabled = true;
+			_Init();
+		}
+
+		private void _Init()
+		{
+			if (Storage.Graphics != null)
+			{
+				_delay = Storage.Delay;
+				_delay.Tick += Delay_Tick;
+				_delay.Interval = 3000;
+				_delay.Enabled = true;
+				_display = this.CreateDisplayUnit();
+				_display.Location = new Point(50, 400);
+			}
 		}
 
 		public void Draw()
 		{
 			var bound = new Rectangle(Point.Empty, Storage.Size);
+			_Display();
 			_Prepare(bound);
 			_Draw(bound);
+		}
+
+		private void _Display()
+		{
+			_display.SetText(DisplayOptionType.Active,
+				string.Format("Node = {0}, Wire = {1}",
+				Nodes.Values.Where(a => a.Active).Count(),
+				Wires.Values.Where(a => a.Active).Count()));
+			if (_focus != null)
+				_display.SetText(DisplayOptionType.Focus, _focus.Id.ToString());
+			else
+				_display.SetText(DisplayOptionType.Focus, null);
+			if (_hover != null)
+				_display.SetText(DisplayOptionType.Hover, _hover.Id.ToString());
+			else
+				_display.SetText(DisplayOptionType.Hover, null);
 		}
 
 		private void _Prepare(Rectangle bound)
@@ -76,7 +105,10 @@ namespace SimuCircult.Common.Graph
 
 		void Delay_Tick(object sender, EventArgs e)
 		{
-			_hover.Draw.Handle(HandleType.Hover, Storage.MousePosition);
+			if (_hover != null)
+			{
+				_hover.Draw.Handle(HandleType.Hover, Storage.MousePosition);
+			}
 			_delayTip = false;
 			_delay.Stop();
 		}
@@ -92,12 +124,14 @@ namespace SimuCircult.Common.Graph
 		{
 			_focus = obj;
 			_focus.Draw.Handle(HandleType.Enter, pt);
+			_drag = true;
 		}
 
 		private void DoLostFocus(Point pt)
 		{
 			_focus.Draw.Handle(HandleType.Leave, pt);
 			_focus = null;
+			_drag = false;
 		}
 
 		public void OnMouseDown(MouseEventArgs e)
@@ -131,8 +165,12 @@ namespace SimuCircult.Common.Graph
 
 		public void OnMouseUp(MouseEventArgs e)
 		{
+			if (_drag)
+			{
+				_drag = false;
+			}
 			var obj = _FindMarkable(e.Location);
-			if (obj != null)
+			if (obj != null && _focus != null && obj.Id.Equals(_focus.Id))
 			{
 				obj.Draw.Handle(HandleType.Up, e.Location);
 			}
@@ -141,6 +179,25 @@ namespace SimuCircult.Common.Graph
 		public void OnMouseMove(MouseEventArgs e)
 		{
 			var obj = _FindMarkable(e.Location);
+			if (_drag)
+			{
+				if (obj != null && obj.Id.Equals(_focus.Id))
+				{
+					if (_delayTip)
+					{
+						_delayTip = false;
+						_delay.Stop();
+					}
+					_focus.Draw.Handle(HandleType.Drag, Point.Subtract(e.Location, (Size)_focus.Pt));
+					_focus.Pt = e.Location;
+				}
+				else
+				{
+					_drag = false;
+					_focus = null;
+				}
+				return;
+			}
 			if (_hover != null)
 			{
 				if (obj != null)
@@ -149,7 +206,7 @@ namespace SimuCircult.Common.Graph
 					{
 						DoLeave(e.Location);
 						DoEnter(obj, e.Location);
-					}					
+					}
 				}
 				else
 				{
@@ -169,6 +226,7 @@ namespace SimuCircult.Common.Graph
 		{
 			_hover = obj;
 			_hover.Draw.Handle(HandleType.Enter, pt);
+			_hover.Draw.Handle(HandleType.Move, pt);
 			if (!_delayTip)
 			{
 				_delayTip = true;
@@ -178,6 +236,7 @@ namespace SimuCircult.Common.Graph
 
 		private void DoLeave(Point pt)
 		{
+			_drag = false;
 			_hover.Draw.Handle(HandleType.Leave, pt);
 			_hover = null;
 			if (_delayTip)

@@ -148,7 +148,7 @@ namespace SimuCircult.Common.Element
 			var ret = 0;
 			switch (type)
 			{
-				case HandleType.Down:
+				case HandleType.Up:
 					ret = _Click(pt);
 					break;
 				case HandleType.Enter:
@@ -165,6 +165,9 @@ namespace SimuCircult.Common.Element
 					break;
 				case HandleType.Hover:
 					ret = _Hover(pt);
+					break;
+				case HandleType.Drag:
+					ret = _Drag(pt);
 					break;
 				default:
 					break;
@@ -213,6 +216,12 @@ namespace SimuCircult.Common.Element
 			sb.AppendFormat("Value: {0}\n", Local.Code);
 			Storage.Tip.ToolTipTitle = "Node Infomation";
 			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);
+			return 0;
+		}
+
+		protected virtual int _Drag(Point pt)
+		{
+			_relBound.Offset(pt);
 			return 0;
 		}
 	}

@@ -10,6 +10,11 @@ namespace SimuCircult.Common.Element
 	public abstract class Unit<T> : Node<T>
 		where T : Status, new()
 	{
+		public Unit()
+		{
+			base.Activate(ActivateType.FilterUnit);
+		}
+
 		private List<Node<T>> _inputs = new List<Node<T>>();
 
 		public List<Node<T>> Inputs

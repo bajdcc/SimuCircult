@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 
@@ -22,16 +23,36 @@ namespace SimuCircult.UI.Element
 
 		private static FontFamily CreateFontFamily()
 		{
-			var fontFamily = FontFamily.GenericSerif;
+			var fontFamily = new FontFamily(GenericFontFamilies.Serif);
 			return fontFamily;
 		}
 
 		private static StringFormat CreateStringFormat()
 		{
-			var stringFormat = StringFormat.GenericDefault;
+			var stringFormat = new StringFormat(StringFormat.GenericDefault);
 			stringFormat.Alignment = StringAlignment.Center;
 			stringFormat.LineAlignment = StringAlignment.Center;
 			return stringFormat;
+		}
+
+		public StringAlignment AlignmentH
+		{
+			set
+			{
+				var val = (StringFormat)this[GraphicsDefines.Text_Format];
+				val.Alignment = value;
+				this[GraphicsDefines.Text_Format] = val;
+			}
+		}
+
+		public StringAlignment AlignmentV
+		{
+			set
+			{
+				var val = (StringFormat)this[GraphicsDefines.Text_Format];
+				val.LineAlignment = value;
+				this[GraphicsDefines.Text_Format] = val;
+			}
 		}
 	}
 }

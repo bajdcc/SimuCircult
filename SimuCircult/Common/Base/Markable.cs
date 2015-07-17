@@ -39,7 +39,7 @@ namespace SimuCircult.Common.Base
 
 		public override string ToString()
 		{
-			return _name.ToString() + " - " +  _guid.ToString();
+			return _name.ToString();
 		}
 	}
 }

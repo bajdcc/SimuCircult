@@ -17,6 +17,11 @@ namespace SimuCircult.Common.Element
 	public abstract class Wire<T> : Mutable<T>
 		where T : Status, new()
 	{
+		public Wire()
+		{
+
+		}
+
 		private Node<T> _left;
 
 		public Node<T> Left

@@ -45,16 +45,15 @@ namespace WinSC
 			o1.Display = "Q";
 			o2.Display = "Q'";
 			SR.Display = "Q[n+1]=!S+RQ[n]";
-			genS.Location = new Point(20, 50);
-			genR.Location = new Point(20, 200);
-			o1.Location = new Point(520, 50);
-			o2.Location = new Point(520, 200);
-			SR.Location = new Point(200, 50);
+			genS.Location = new Point(20, 20);
+			genR.Location = new Point(20, 170);
+			o1.Location = new Point(520, 20);
+			o2.Location = new Point(520, 170);
+			SR.Location = new Point(200, 20);
 			circult.ConnectUnitMoreInput(genS, SR, 0);
 			circult.ConnectUnitMoreInput(genR, SR, 1);
 			circult.ConnectUnitMoreOutput(SR, o1, 0);
 			circult.ConnectUnitMoreOutput(SR, o2, 1);
-			circult.Initialize();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)

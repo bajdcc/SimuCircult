@@ -70,6 +70,7 @@
     <Compile Include="Common\Unit\AndUnit.cs" />
     <Compile Include="Common\Unit\CommonUnit.cs" />
     <Compile Include="Common\Unit\Intergret\SRLockUnit.cs" />
+    <Compile Include="Common\Unit\DisplayUnit.cs" />
     <Compile Include="Common\Unit\OutputUnit.cs" />
     <Compile Include="Common\Unit\SwitchUnit.cs" />
     <Compile Include="Common\Wire\BrokenWire.cs" />

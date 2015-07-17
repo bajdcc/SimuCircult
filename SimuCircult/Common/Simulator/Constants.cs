@@ -37,6 +37,8 @@ namespace SimuCircult.Common.Simulator
 		public const string SwitchUnitString = "开关";
 		public const string OutputUnitString = "输出";
 
+		public const string DisplayString = "Circult Information";
+
 		public const string SRLockUnitString = "RS触发器";
 
 		public static int Inverse(int code)
@@ -77,5 +79,6 @@ namespace SimuCircult.Common.Simulator
 		Move,
 		Focus,
 		LostFocus,
+		Drag,
 	}
 }

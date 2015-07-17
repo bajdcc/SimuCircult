@@ -10,6 +10,11 @@ namespace SimuCircult.Common.Element
 	public abstract class Node<T> : Mutable<T>
 		where T : Status, new()
 	{
+		public Node()
+		{
+			base.Activate(ActivateType.FilterNode);
+		}
+
 		private List<Wire<T>> _inWires = new List<Wire<T>>();
 
 		public List<Wire<T>> InWires

@@ -51,8 +51,8 @@ namespace SimuCircult.Common.Unit
 
 		protected virtual void SetTitle()
 		{
-			_L1_title[GraphicsDefines.Gdi_Bound] = AbsBound.NearCenter(new Size(200, 30), Direction.Up);
-			_L2_display[GraphicsDefines.Gdi_Bound] = AbsBound.NearCenter(new Size(200, 30), Direction.Bottom);
+			_L1_title[GraphicsDefines.Gdi_Bound] = AbsBound.NearCenter(new Size(500, 30), Direction.Up);
+			_L2_display[GraphicsDefines.Gdi_Bound] = AbsBound.NearCenter(new Size(500, 30), Direction.Bottom);
 		}
 	}
 }

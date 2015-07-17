@@ -69,6 +69,13 @@ namespace System.Drawing
 			return _bound;
 		}
 
+		public static Rectangle NearCenter(this Rectangle bound, Size size, Direction type, Point offset)
+		{
+			var _bound = bound.NearCenter(size, type);
+			_bound.Offset(offset);
+			return _bound;
+		}
+
 		public static Size Half(this Size size)
 		{
 			size.Width /= 2;

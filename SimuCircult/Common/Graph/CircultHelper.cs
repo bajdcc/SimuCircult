@@ -143,6 +143,13 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		public static DisplayUnit<Status> CreateDisplayUnit(this Circult circult)
+		{
+			var unit = circult.CreateUnit<DisplayUnit<Status>>();
+			unit.Size = new Size(600, 120);
+			return unit;
+		}
+
 		public static SRLockUnit<Status> CreateSRLockUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<SRLockUnit<Status>>();
