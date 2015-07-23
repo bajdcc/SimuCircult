@@ -12,12 +12,12 @@ using System.Text;
 
 namespace SimuCircult.Common.Unit
 {
-	public class SwitchUnit<T> : CommonUnit<T>
+	public class ClockUnit<T> : CommonUnit<T>
 		where T : Status, new()
 	{
-		public SwitchUnit()
+		public ClockUnit()
 		{
-			_L1_title[GraphicsDefines.Text_Text] = Constants.SwitchUnitString;
+			_L1_title[GraphicsDefines.Text_Text] = Constants.ClockUnitString;
 		}
 
 		private GenNode<T> _gen;
@@ -25,20 +25,26 @@ namespace SimuCircult.Common.Unit
 		public GenNode<T> Gen
 		{
 			get { return _gen; }
-			set { _gen = value; _gen.OnClick = () => Power = Constants.Inverse(Power); }
+			set { _gen = value; }
 		}
 
+		private const int MAX_ROUND = 30;
 		private int _power = Constants.LOW_LEVEL;
+		private int _cnt = 0;
 
 		public int Power
 		{
 			get { return _power; }
-			set { _power = value; }
 		}
 
 		public override void Activate(ActivateType type)
 		{
 			base.Activate(type);
+			if (_cnt++ > MAX_ROUND)
+			{
+				_cnt = 0;
+				_power = Constants.Inverse(_power);
+			}			
 			if (_gen.Next.Code != _power)
 			{
 				_gen.Next.Code = _power;

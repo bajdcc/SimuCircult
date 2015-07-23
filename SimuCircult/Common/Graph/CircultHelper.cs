@@ -37,6 +37,21 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		public static ClockUnit<Status> CreateClockUnit(this Circult circult)
+		{
+			var unit = circult.CreateUnit<ClockUnit<Status>>();
+			unit.Size = new Size(160, 120);
+			var genNode = circult.CreateNode<GenNode<Status>>();
+			genNode.Location = new Point(65, 45);
+			var outputNode = circult.CreateNode<CommonNode<Status>>();
+			outputNode.Location = new Point(130, 45);
+			unit.Hidden.Add(genNode);
+			unit.Outputs.Add(outputNode);
+			unit.Gen = genNode;
+			circult.ConnectNode(genNode, outputNode);
+			return unit;
+		}
+
 		public static OutputUnit<Status> CreateOutputUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<OutputUnit<Status>>();
@@ -65,7 +80,7 @@ namespace SimuCircult.Common.Graph
 				circult.ConnectNode(inputNode, node);
 			}
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
-			outputNode.Location = new Point(130, 45);
+			outputNode.Location = new Point(130, unit.Size.Height / 2 - 15);
 			unit.Hidden.Add(node);
 			unit.Outputs.Add(outputNode);
 			circult.ConnectNode(node, outputNode);
@@ -86,7 +101,7 @@ namespace SimuCircult.Common.Graph
 				circult.ConnectNode(inputNode, node);
 			}
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
-			outputNode.Location = new Point(130, 45);
+			outputNode.Location = new Point(130, unit.Size.Height / 2 - 15);
 			unit.Hidden.Add(node);
 			unit.Outputs.Add(outputNode);
 			circult.ConnectNode(node, outputNode);
@@ -107,9 +122,9 @@ namespace SimuCircult.Common.Graph
 				circult.ConnectNode(inputNode, node);
 			}
 			var notNode = circult.CreateNode<NotNode<Status>>();
-			notNode.Location = new Point(130, 45);
+			notNode.Location = new Point(130, unit.Size.Height / 2 - 15);
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
-			outputNode.Location = new Point(170, 45);
+			outputNode.Location = new Point(170, unit.Size.Height / 2 - 15);
 			unit.Hidden.Add(node);
 			unit.Hidden.Add(notNode);
 			unit.Outputs.Add(outputNode);
@@ -132,9 +147,9 @@ namespace SimuCircult.Common.Graph
 				circult.ConnectNode(inputNode, node);
 			}
 			var notNode = circult.CreateNode<NotNode<Status>>();
-			notNode.Location = new Point(130, 45);
+			notNode.Location = new Point(130, unit.Size.Height / 2 -15);
 			var outputNode = circult.CreateNode<CommonNode<Status>>();
-			outputNode.Location = new Point(170, 45);
+			outputNode.Location = new Point(170, unit.Size.Height / 2 - 15);
 			unit.Hidden.Add(node);
 			unit.Hidden.Add(notNode);
 			unit.Outputs.Add(outputNode);
@@ -182,6 +197,69 @@ namespace SimuCircult.Common.Graph
 			unit.Inputs.Add(in2);
 			unit.Hidden.Add(an1);
 			unit.Hidden.Add(an2);
+			unit.Outputs.Add(o1);
+			unit.Outputs.Add(o2);
+			return unit;
+		}
+
+		public static TUnit<Status> CreateTUnit(this Circult circult)
+		{
+			var unit = circult.CreateUnit<TUnit<Status>>();
+			unit.Size = new Size(600, 450);
+			var in1 = circult.CreateNode<CommonNode<Status>>();
+			var in2 = circult.CreateNode<CommonNode<Status>>();
+			var an1 = circult.CreateAndNotUnit(3);
+			var an2 = circult.CreateAndNotUnit(3);
+			var an3 = circult.CreateAndNotUnit();
+			var an4 = circult.CreateAndNotUnit();
+			var n1 = circult.CreateNode<CommonNode<Status>>();
+			var n2 = circult.CreateNode<CommonNode<Status>>();
+			var o1 = circult.CreateNode<CommonNode<Status>>();
+			var o2 = circult.CreateNode<CommonNode<Status>>();
+			an1.External = false;
+			an2.External = false;
+			an3.External = false;
+			an4.External = false;
+			circult.ConnectNodeMoreInput(in1, an1, 0);
+			circult.ConnectNodeMoreInput(in2, an1, 1);
+			circult.ConnectNodeMoreInput(in1, an2, 1);
+			circult.ConnectNodeMoreInput(in2, an2, 2);
+			circult.ConnectUnitMoreInput(an1, an3, 0);
+			circult.ConnectUnitMoreInput(an2, an4, 1);
+			circult.ConnectNode(n1, o1);
+			circult.ConnectNode(n2, o2);
+			circult.ConnectNodeMoreOutput(an3, n1, 0);
+			circult.ConnectNodeMoreOutput(an4, n2, 0);
+			var bw1 = circult.ConnectNodeMoreInput(n2, an1, 2, new BrokenWire<Status>());
+			var bw2 = circult.ConnectNodeMoreInput(n1, an2, 0, new BrokenWire<Status>());
+			var bw3 = circult.ConnectNodeMoreInput(n2, an3, 1, new BrokenWire<Status>());
+			var bw4 = circult.ConnectNodeMoreInput(n1, an4, 0, new BrokenWire<Status>());
+			in1.Location = new Point(0, 110);
+			in2.Location = new Point(0, 310);
+			an1.Location = new Point(80, 50);
+			an2.Location = new Point(80, 250);
+			an3.Location = new Point(300, 90);
+			an4.Location = new Point(300, 250);
+			n1.Location = new Point(520, 110);
+			n2.Location = new Point(520, 310);
+			o1.Location = new Point(580, 110);
+			o2.Location = new Point(580, 310);
+			bw1.PointBegin.Add(new Point(-20, -80));
+			bw1.PointEnd.Add(new Point(0, 40));
+			bw2.PointBegin.Add(new Point(-20, 85));
+			bw2.PointEnd.Add(new Point(0, -40));
+			bw3.PointBegin.Add(new Point(20, -80));
+			bw3.PointEnd.Add(new Point(0, 40));
+			bw4.PointBegin.Add(new Point(20, 85));
+			bw4.PointEnd.Add(new Point(0, -40));
+			unit.Inputs.Add(in1);
+			unit.Inputs.Add(in2);
+			unit.Hidden.Add(an1);
+			unit.Hidden.Add(an2);
+			unit.Hidden.Add(an3);
+			unit.Hidden.Add(an4);
+			unit.Hidden.Add(n1);
+			unit.Hidden.Add(n2);
 			unit.Outputs.Add(o1);
 			unit.Outputs.Add(o2);
 			return unit;

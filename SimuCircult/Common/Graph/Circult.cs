@@ -79,8 +79,12 @@ namespace SimuCircult.Common.Graph
 		}
 
 		private void _Draw(Rectangle bound)
-		{			
-			foreach (var wire in Wires.Values)
+		{
+			foreach (var wire in Wires.Values.Where(a => !a.Active))
+			{
+				wire.Draw(bound);
+			}
+			foreach (var wire in Wires.Values.Where(a => a.Active))
 			{
 				wire.Draw(bound);
 			}

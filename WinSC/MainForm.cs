@@ -23,15 +23,16 @@ namespace WinSC
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			Storage.InitializeGui(Size - new Size(60, 60));
+			Storage.InitializeGui(new Size(2000, 1800));
 			circult = new Circult();
 			pictureBox1.Image = Storage.Bitmap;
 			Storage.Ctrl = pictureBox1;
 			Storage.Tip = toolTip1;
-			CreateUnits();
+			CreateUnits1();
+			CreateUnits2();
 		}
 
-		private void CreateUnits()
+		private void CreateUnits1()
 		{
 			var genS = circult.CreateSwitchUnit();
 			genS.Power = Constants.LOW_LEVEL;
@@ -54,6 +55,30 @@ namespace WinSC
 			circult.ConnectUnitMoreInput(genR, SR, 1);
 			circult.ConnectUnitMoreOutput(SR, o1, 0);
 			circult.ConnectUnitMoreOutput(SR, o2, 1);
+		}
+
+		private void CreateUnits2()
+		{
+			var gen = circult.CreateSwitchUnit();
+			gen.Power = Constants.LOW_LEVEL;
+			var clock = circult.CreateClockUnit();
+			var o1 = circult.CreateOutputUnit();
+			var o2 = circult.CreateOutputUnit();
+			var t = circult.CreateTUnit();
+			gen.Display = "T";
+			clock.Display = "CP";
+			o1.Display = "Q'";
+			o2.Display = "Q";
+			t.Display = "Q* = T^Q";
+			gen.Location = new Point(20, 1080);
+			clock.Location = new Point(20, 1290);
+			o1.Location = new Point(820, 1080);
+			o2.Location = new Point(820, 1290);
+			t.Location = new Point(200, 1020);
+			circult.ConnectUnitMoreInput(gen, t, 0);
+			circult.ConnectUnitMoreInput(clock, t, 1);
+			circult.ConnectUnitMoreOutput(t, o1, 0);
+			circult.ConnectUnitMoreOutput(t, o2, 1);
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)

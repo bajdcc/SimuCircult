@@ -8,6 +8,8 @@ namespace SimuCircult.Common.Simulator
 {
 	public static class Constants
 	{
+		private static Random _rand = new Random();
+
 		public const int LOW_LEVEL = 0;
 		public const int HIGH_LEVEL = 1;
 
@@ -36,14 +38,21 @@ namespace SimuCircult.Common.Simulator
 		public const string NotUnitString = "非门";
 		public const string SwitchUnitString = "开关";
 		public const string OutputUnitString = "输出";
+		public const string ClockUnitString = "时钟";
 
 		public const string DisplayString = "Circult Information";
 
 		public const string SRLockUnitString = "RS触发器";
+		public const string TUnitString = "T触发器";
 
 		public static int Inverse(int code)
 		{
 			return code == LOW_LEVEL ? HIGH_LEVEL : LOW_LEVEL;
+		}
+
+		public static int Initialize()
+		{
+			return _rand.Next(2) == 0 ? HIGH_LEVEL : LOW_LEVEL;
 		}
 	}
 

@@ -65,6 +65,19 @@ namespace SimuCircult.Common.Graph
 			wire.Right.InWires.Add(wire);
 		}
 
+		public void ConnectNodeV2<U, V, X>(U left, V right, X wire)
+			where U : _NODE, new()
+			where V : _NODE, new()
+			where X : _WIRE, new()
+		{
+			_wires.Add(wire.Id, wire);
+			wire.Direction = WireType.LeftToRight;
+			wire.Left = left;
+			wire.Right = right;
+			wire.Left.OutWires.Add(wire);
+			wire.Right.InWires.Add(wire);
+		}
+
 		public void ConnectUnitDirect<U, V>(U left, V right)
 			where U : _UNIT, new()
 			where V : _UNIT, new()

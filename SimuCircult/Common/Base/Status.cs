@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimuCircult.Common.Simulator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace SimuCircult.Common.Base
 {
 	public class Status
 	{
-		private int _code = 0;
+		private int _code = Constants.Initialize();
 
 		public int Code
 		{
