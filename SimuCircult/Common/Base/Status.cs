@@ -30,6 +30,21 @@ namespace SimuCircult.Common.Base
 			return a;
 		}
 
+		public virtual void CopyFrom(Status obj)
+		{
+			_code = obj._code;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return _code.Equals((obj as Status)._code);
+		}
+
+		public override int GetHashCode()
+		{
+			return _code.GetHashCode();
+		}
+
 		public override string ToString()
 		{
 			return _code.ToString();

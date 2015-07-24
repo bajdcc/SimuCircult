@@ -83,7 +83,8 @@ namespace SimuCircult.UI.Drawing
 
 		public virtual void Render(Rectangle bound)
 		{
-			_Render(_AdjustBound(bound));
+			if ((bool)_element[GraphicsDefines.Gdi_Enable])
+				_Render(_AdjustBound(bound));
 		}
 
 		protected virtual void _Render(Rectangle bound)

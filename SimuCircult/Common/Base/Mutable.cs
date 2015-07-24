@@ -48,9 +48,9 @@ namespace SimuCircult.Common.Base
 
 		public virtual void Update()
 		{
-			if (_local.Code != _next.Code)
+			if (!_local.Equals(_next))
 			{
-				_local.Code = _next.Code;
+				_local.CopyFrom(_next);
 				var _OnValueUpdated = OnValueUpdated;
 				if (OnValueUpdated != null)
 				{

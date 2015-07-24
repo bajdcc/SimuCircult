@@ -7,6 +7,8 @@ namespace SimuCircult.UI.Global
 {
 	public static class GraphicsDefines
 	{
+		public const int Gdi_Enable = 1;
+
 		public const int Gdi_Handle = 10;
 		public const int Gdi_Color = 101;
 		public const int Gdi_ColorBegin = Gdi_Color;

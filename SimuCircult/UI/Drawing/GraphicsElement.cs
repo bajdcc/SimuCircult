@@ -67,6 +67,7 @@ namespace SimuCircult.UI.Drawing
 		static public T Create()
 		{
 			T element = Storage.ElementFactory[typeof(T).ToString()].Create() as T;
+			element[GraphicsDefines.Gdi_Enable] = true;
 			element.GetRenderer().SetGraphics(Storage.Graphics);
 			return element;
 		}
