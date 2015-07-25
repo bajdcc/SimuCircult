@@ -4,6 +4,7 @@ using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Drawing;
 using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
+using SimuElectricity.Common.Base;
 using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ using System.Text;
 namespace SimuElectricity.Common.Element
 {
 	public abstract class WireX<T, U> : Wire<T, U>, IDrawing
-		where T : Status, new()
-		where U : Status, new()
+		where T : WireStatus, new()
+		where U : NodeStatus, new()
 	{
 		public WireX()
 		{
 			_L1_line = LineElement.Create();
-			_L1_line[GraphicsDefines.Line_Width] = 0.1f;
+			_L1_line[GraphicsDefines.Line_Width] = Defines.LINE_WIDTH;
 			_elements.Add(_L1_line);
 			OnStateUpdated += WireX_OnStateUpdated;
 			OnValueUpdated += WireX_OnValueUpdated;

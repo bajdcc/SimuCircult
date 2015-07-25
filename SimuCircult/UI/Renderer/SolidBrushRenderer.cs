@@ -12,12 +12,12 @@ namespace SimuCircult.UI.Renderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
 	{
-		protected void _CreateBrush()
+		protected virtual void _CreateBrush()
 		{
 			this[GraphicsDefines.SolidBrush_Handle] = new SolidBrush((Color)_element[GraphicsDefines.SolidBrush_Color]);
 		}
 
-		protected void _DestroyBrush()
+		protected virtual void _DestroyBrush()
 		{
 			_ReleaseHandle(GraphicsDefines.SolidBrush_Handle);
 		}

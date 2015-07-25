@@ -2,6 +2,7 @@
 using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
+using SimuElectricity.Common.Base;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,9 +12,9 @@ using System.Text;
 namespace SimuElectricity.Common.Element
 {
 	public class CommonUnit<T, U, V> : UnitX<T, U, V>
-		where T : Status, new()
-		where U : Status, new()
-		where V : Status, new()
+		where T : UnitStatus, new()
+		where U : NodeStatus, new()
+		where V : WireStatus, new()
 	{
 		public CommonUnit()
 		{

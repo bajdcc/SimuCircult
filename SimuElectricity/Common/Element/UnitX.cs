@@ -5,6 +5,8 @@ using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Drawing;
 using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
+using SimuElectricity.Common.Base;
+using SimuElectricity.Common.Interpolation;
 using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
@@ -15,14 +17,17 @@ using System.Text;
 namespace SimuElectricity.Common.Element
 {
 	public abstract class UnitX<T, U, V> : Unit<T, U, V>, IDrawing
-		where T : Status, new()
-		where U : Status, new()
-		where V : Status, new()
+		where T : UnitStatus, new()
+		where U : NodeStatus, new()
+		where V : WireStatus, new()
 	{
 		public UnitX()
 		{
 			_L1_border = BorderElement.Create();
-			_prepareElements.Add(_L1_border);
+			_L1_border.Enable(false);
+			_L2_pixel = PixelElement.Create();
+			_elements.Add(_L1_border);
+			_elements.Add(_L2_pixel);
 			OnStateUpdated += UnitX_OnStateUpdated;
 			OnValueUpdated += UnitX_OnValueUpdated;
 		}
@@ -35,14 +40,6 @@ namespace SimuElectricity.Common.Element
 		void UnitX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
 		{
 
-		}
-
-		private List<IGraphicsElement> _prepareElements = new List<IGraphicsElement>();
-
-		public List<IGraphicsElement> PrepareElements
-		{
-			get { return _prepareElements; }
-			set { _prepareElements = value; }
 		}
 
 		private List<IGraphicsElement> _elements = new List<IGraphicsElement>();
@@ -81,6 +78,7 @@ namespace SimuElectricity.Common.Element
 		}
 
 		protected BorderElement _L1_border;
+		protected PixelElement _L2_pixel;
 
 		public virtual void Draw(Rectangle bound)
 		{
@@ -94,10 +92,7 @@ namespace SimuElectricity.Common.Element
 		{
 			_absBound = bound.AdjustBound(_relBound);
 			_L1_border[GraphicsDefines.Gdi_Bound] = _absBound;
-			foreach (var e in _prepareElements)
-			{
-				e.GetRenderer().Render(_absBound);
-			}
+			_L2_pixel[GraphicsDefines.Gdi_Bound] = _absBound;
 		}
 
 		public virtual int Handle(HandleType type, object obj)
@@ -177,18 +172,44 @@ namespace SimuElectricity.Common.Element
 
 		protected virtual int _Hover(Point pt)
 		{
-			StringBuilder sb = new StringBuilder();
+			/*StringBuilder sb = new StringBuilder();
 			sb.AppendFormat("Type: {0}\n", GetType());
 			sb.AppendFormat("Guid: {0}\n", Id);
 			sb.AppendFormat("Name: {0}\n", Name);
 			Storage.Tip.ToolTipTitle = "Unit Infomation";
-			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);
+			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);*/
 			return 0;
 		}
 
 		protected virtual int _Drag(Point pt)
 		{
 			return 0;
+		}
+
+		protected override void SetInterpolatingInfo()
+		{
+			base.SetInterpolatingInfo();
+			_L1_border[GraphicsDefines.Gdi_Bound] = _absBound;
+			_L2_pixel[GraphicsDefines.Gdi_Bound] = _absBound;
+			_L2_pixel[GraphicsDefines.Pixel_Pixels] = Interpolating.GetPixel();
+		}
+
+		public void Interpolate(InterpolationArgs args)
+		{
+			switch (args.Action)
+			{
+				case InterpolationArgsAction.Reset:
+					Interpolating.Reset();
+					break;
+				case InterpolationArgsAction.Execute:
+					Interpolating.Interpolate(args);
+					break;
+				case InterpolationArgsAction.Refresh:
+					_L2_pixel[GraphicsDefines.Pixel_Refresh] = true;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

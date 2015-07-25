@@ -22,7 +22,7 @@ namespace WinSE
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			Storage.InitializeGui(new Size(2000, 1800));
+			Storage.InitializeGui(new Size(1200, 800));
 			circult = new Circult();
 			pictureBox1.Image = Storage.Bitmap;
 			Storage.Ctrl = pictureBox1;

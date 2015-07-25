@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Simulator;
+using SimuElectricity.Common.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace SimuElectricity.Common.Element
 	}
 
 	public abstract class Wire<T, U> : Mutable<T>
-		where T : Status, new()
-		where U : Status, new()
+		where T : WireStatus, new()
+		where U : NodeStatus, new()
 	{
 		public Wire()
 		{
@@ -85,11 +86,9 @@ namespace SimuElectricity.Common.Element
 			{
 				case AdvanceType.NodeToWire:
 					_FromNodeToWire(_left.Next);
-					Update();
 					break;
 				case AdvanceType.WireToNode:
 					_FromWireToNode(_right.Next);
-					_ActivateNodeOfWire();
 					break;
 				default:
 					break;
@@ -99,10 +98,5 @@ namespace SimuElectricity.Common.Element
 		protected abstract void _FromWireToNode(U inputs);
 
 		protected abstract void _FromNodeToWire(U outputs);
-
-		protected virtual void _ActivateNodeOfWire()
-		{
-			_right.Activate(ActivateType.FilterNode);
-		}
 	}
 }

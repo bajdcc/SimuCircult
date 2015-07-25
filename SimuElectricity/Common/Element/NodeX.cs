@@ -5,6 +5,7 @@ using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Drawing;
 using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
+using SimuElectricity.Common.Base;
 using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,14 @@ using System.Text;
 namespace SimuElectricity.Common.Element
 {
 	public abstract class NodeX<T, U> : Node<T, U>, IDrawing
-		where T : Status, new()
-		where U : Status, new()
+		where T : NodeStatus, new()
+		where U : WireStatus, new()
 	{
 		public NodeX()
 		{
 			_relBound.Size = new Size(Defines.NODE_SMALL, Defines.NODE_SMALL);
 			_L1_border = BorderElement.Create();
+			_L1_border.Enable(false);
 			_L2_background = BackgroundElement.Create();
 			_L2_background[GraphicsDefines.Background_Color] = Constants.WindowBackground;
 			_elements.Add(_L1_border);

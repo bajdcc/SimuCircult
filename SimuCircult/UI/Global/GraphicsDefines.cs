@@ -78,6 +78,11 @@ namespace SimuCircult.UI.Global
 		public const int LineM_Lazy = Attr_MessageAddress + 100;
 		public const int LineM_BuildPoint = Attr_MessageAddress + 101;
 		public const int LineX_PointAddressLength = 100;
+
+		public const int Pixel_Handle = 200;
+		public const int Pixel_Pixels = 191;
+		public const int Pixel_Count = 192;
+		public const int Pixel_Refresh = Attr_MessageAddress + 102;
 	}
 
 	public enum ShapeType

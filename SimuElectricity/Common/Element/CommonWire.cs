@@ -1,6 +1,8 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Simulator;
 using SimuCircult.UI.Global;
+using SimuElectricity.Common.Base;
+using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,17 +12,17 @@ using System.Text;
 namespace SimuElectricity.Common.Element
 {
 	public class CommonWire<T, U> : WireX<T, U>
-		where T : Status, new()
-		where U : Status, new()
+		where T : WireStatus, new()
+		where U : NodeStatus, new()
 	{
 		protected override void _FromWireToNode(U inputs)
 		{
-
+			inputs.Q = Local.Q;
 		}
 
 		protected override void _FromNodeToWire(U outputs)
 		{
-
+			Next.Q = outputs.Q * (Defines.Rand.NextDouble() + 0.5);
 		}
 
 		public override void Prepare(Rectangle bound)

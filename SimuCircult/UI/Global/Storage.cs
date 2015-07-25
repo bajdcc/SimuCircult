@@ -89,12 +89,14 @@ namespace SimuCircult.UI.Global
 			GradientBackgroundElementRenderer.Register();
 			TextElementRenderer.Register();
 			LineElementRenderer.Register();
+			PixelElementRenderer.Register();
 
 			BorderElement.Register();
 			BackgroundElement.Register();
 			GradientBackgroundElement.Register();
 			TextElement.Register();
 			LineElement.Register();
+			PixelElement.Register();
 		}
 
 		public static void InitializeGui(Size size)

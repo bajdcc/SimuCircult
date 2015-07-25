@@ -76,5 +76,10 @@ namespace SimuCircult.UI.Drawing
 		{
 			Storage.ElementFactory.Add(typeof(T).ToString(), new Factory());
 		}
+
+		public void Enable(bool enable)
+		{
+			this[GraphicsDefines.Gdi_Enable] = enable;
+		}
 	}
 }

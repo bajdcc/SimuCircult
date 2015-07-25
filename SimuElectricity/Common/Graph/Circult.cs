@@ -10,20 +10,24 @@ using System.Text;
 using System.Windows.Forms;
 using SimuElectricity.Common.Simulator;
 using SimuCircult.Common.Graph;
+using SimuElectricity.Common.Interpolation;
+using SimuEletricity.Helper;
 
 namespace SimuElectricity.Common.Graph
 {
 	public class Circult : CircultBase<
 			NodeStatus,	CommonNode<NodeStatus, WireStatus>,
 			WireStatus,	CommonWire<WireStatus, NodeStatus>,
-			UnitStatus,	CommonUnit<UnitStatus, NodeStatus, WireStatus>>
+			UnitStatus,	CommonUnit<UnitStatus, NodeStatus, WireStatus>,
+			BilinearInterpolation<NodeStatus>>
 	{
 		private MarkableArgs _hover;
 		private MarkableArgs _focus;
 		private Timer _delay;
 		private bool _delayTip = false;
 		private bool _drag = false;
-		private Guid[,] _demonsions;
+		private Guid[,] _demonsionsNode;
+		private Guid[,] _demonsionsUnit;
 
 		public Circult()
 		{
@@ -43,7 +47,8 @@ namespace SimuElectricity.Common.Graph
 
 		public void Create()
 		{
-			_demonsions = new Guid[Defines.WIDTH_COUNT, Defines.HEIGHT_COUNT];
+			_demonsionsNode = new Guid[Defines.WIDTH_COUNT, Defines.HEIGHT_COUNT];
+			_demonsionsUnit = new Guid[Defines.WIDTH_COUNT - 1, Defines.HEIGHT_COUNT - 1];
 			for (int i = 0; i < Defines.WIDTH_COUNT; i++)
 			{
 				for (int j = 0; j < Defines.HEIGHT_COUNT; j++)
@@ -53,22 +58,42 @@ namespace SimuElectricity.Common.Graph
 						Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
 						Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
 					node.Coordinate = new Point(i, j);
-					_demonsions[i, j] = node.Id;
+					_demonsionsNode[i, j] = node.Id;
 				}
 			}
 			for (int i = 0; i < Defines.WIDTH_COUNT; i++)
 			{
 				for (int j = 0; j < Defines.HEIGHT_COUNT; j++)
 				{
-					if (i + 1 < Defines.WIDTH_COUNT)
+					var k1 = i + 1 < Defines.WIDTH_COUNT;
+					var k2 = j + 1 < Defines.HEIGHT_COUNT;
+					if (k1)
 					{
-						ConnectNode(Nodes[_demonsions[i, j]], Nodes[_demonsions[i + 1, j]]);
-						ConnectNode(Nodes[_demonsions[i + 1, j]], Nodes[_demonsions[i, j]], true);
+						ConnectNode(Nodes[_demonsionsNode[i, j]], Nodes[_demonsionsNode[i + 1, j]]);
+						ConnectNode(Nodes[_demonsionsNode[i + 1, j]], Nodes[_demonsionsNode[i, j]], true);
 					}
-					if (j + 1 < Defines.HEIGHT_COUNT)
+					if (k2)
 					{
-						ConnectNode(Nodes[_demonsions[i, j]], Nodes[_demonsions[i, j + 1]]);
-						ConnectNode(Nodes[_demonsions[i, j + 1]], Nodes[_demonsions[i, j]], true);
+						ConnectNode(Nodes[_demonsionsNode[i, j]], Nodes[_demonsionsNode[i, j + 1]]);
+						ConnectNode(Nodes[_demonsionsNode[i, j + 1]], Nodes[_demonsionsNode[i, j]], true);
+					}
+					if (k1 && k2)
+					{
+						var unit = CreateUnit();
+						unit.Coordinate = new Point(
+							Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
+							Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
+						unit.RelBound = new Rectangle(
+							unit.Coordinate.X,
+							unit.Coordinate.Y,
+							Defines.NODE_WIDTH,
+							Defines.NODE_HEIGHT);
+						unit.Nodes.Add(Nodes[_demonsionsNode[i, j]]);
+						unit.Nodes.Add(Nodes[_demonsionsNode[i, j + 1]]);
+						unit.Nodes.Add(Nodes[_demonsionsNode[i + 1, j]]);
+						unit.Nodes.Add(Nodes[_demonsionsNode[i + 1, j + 1]]);
+						SetUnitInterpolatingMethod(unit);
+						_demonsionsUnit[i, j] = unit.Id;
 					}
 				}
 			}
@@ -77,8 +102,40 @@ namespace SimuElectricity.Common.Graph
 		public void Draw()
 		{
 			var bound = new Rectangle(Point.Empty, Storage.Size);
+			_Interpolate();
 			_Prepare(bound);
 			_Draw(bound);
+		}
+
+		private void _Interpolate()
+		{
+			var max = Nodes.Values.Max(a => a.Local.Q);
+			var min = Nodes.Values.Min(a => a.Local.Q);
+			var spacing = (max - min) / Defines.CONTOUR_LINE_COUNT;
+			var args = new InterpolationArgs()
+			{
+				Action = InterpolationArgsAction.Reset,				
+				Slice = new Size(Defines.NODE_SUBDIVISION_WIDTH, Defines.NODE_SUBDIVISION_HEIGHT),
+				Spacing = new Size(Defines.NODE_WIDTH, Defines.NODE_HEIGHT),
+			};
+			Units.Values.AsParallel().ForAll(a => a.Interpolate(args));
+			args.Action = InterpolationArgsAction.Execute;
+			args.Color = LinearGradientColorHelper.GetColor(0);
+			args.Estimate = a => a < min;
+			Units.Values.AsParallel().ForAll(a => a.Interpolate(args));
+			args.Color = LinearGradientColorHelper.GetColor(Defines.CONTOUR_LINE_COUNT + 1);
+			args.Estimate = a => a >= max;
+			Units.Values.AsParallel().ForAll(a => a.Interpolate(args));
+			for (int i = 0; i < Defines.CONTOUR_LINE_COUNT; i++)
+			{
+				var _min = min + i * spacing;
+				var _max = _min + spacing;
+				args.Color = LinearGradientColorHelper.GetColor(i + 1);
+				args.Estimate = a => a >= _min && a < _max;
+				Units.Values.AsParallel().ForAll(a => a.Interpolate(args));
+			}
+			args.Action = InterpolationArgsAction.Refresh;
+			Units.Values.AsParallel().ForAll(a => a.Interpolate(args));
 		}
 
 		private void _Prepare(Rectangle bound)
@@ -92,17 +149,25 @@ namespace SimuElectricity.Common.Graph
 			{
 				wire.Prepare(bound);
 			}
+			foreach (var unit in Units.Values)
+			{
+				unit.Prepare(bound);
+			}
 		}
 
 		private void _Draw(Rectangle bound)
 		{
-			foreach (var wire in Wires.Values.Where(a => !a.External))
+			foreach (var unit in Units.Values)
 			{
-				wire.Draw(bound);
+				unit.Draw(bound);
 			}
 			foreach (var node in Nodes.Values)
 			{
 				node.Draw(bound);
+			}
+			foreach (var wire in Wires.Values.Where(a => !a.External))
+			{
+				wire.Draw(bound);
 			}
 		}
 

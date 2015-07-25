@@ -1,6 +1,7 @@
 ﻿using SimuCircult.Common.Simulator;
 using SimuElectricity.Common.Base;
 using SimuElectricity.Common.Element;
+using SimuElectricity.Common.Interpolation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,13 +10,14 @@ using System.Text;
 
 namespace SimuElectricity.Common.Graph
 {
-	public class CircultBase<_NODE_STATUS, _NODE, _WIRE_STATUS, _WIRE, _UNIT_STATUS, _UNIT>
+	public class CircultBase<_NODE_STATUS, _NODE, _WIRE_STATUS, _WIRE, _UNIT_STATUS, _UNIT, _INTERPOLATE>
 		where _NODE_STATUS : NodeStatus, new()
 		where _NODE : Node<_NODE_STATUS, _WIRE_STATUS>, new()
 		where _WIRE_STATUS : WireStatus, new()
 		where _WIRE : Wire<_WIRE_STATUS, _NODE_STATUS>, new()
 		where _UNIT_STATUS : UnitStatus, new()
 		where _UNIT : Unit<_UNIT_STATUS, _NODE_STATUS, _WIRE_STATUS>, new()
+		where _INTERPOLATE : InterpolationBase<_NODE_STATUS>, new()
 	{
 		private Dictionary<Guid, _NODE> _nodes = new Dictionary<Guid, _NODE>();
 
@@ -52,6 +54,11 @@ namespace SimuElectricity.Common.Graph
 			return unit;
 		}
 
+		protected void SetUnitInterpolatingMethod(_UNIT unit)
+		{
+			unit.Interpolating = new _INTERPOLATE();
+		}
+
 		protected void ConnectNode(_NODE left, _NODE right, bool external = false)
 		{
 			var wire = new _WIRE();
@@ -66,11 +73,12 @@ namespace SimuElectricity.Common.Graph
 
 		public virtual void Update()
 		{
-			_units.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Activate(ActivateType.FilterUnit));
-			_nodes.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
-			_wires.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
-			_nodes.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
-			_wires.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			_nodes.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			_wires.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			_wires.Values.AsParallel().ForAll(a => a.Update());
+			_wires.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			_nodes.Values.AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			_nodes.Values.AsParallel().ForAll(a => a.Update());
 		}
 	}
 }

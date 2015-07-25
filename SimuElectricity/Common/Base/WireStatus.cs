@@ -15,5 +15,11 @@ namespace SimuElectricity.Common.Base
 			get { return _Q; }
 			set { _Q = value; }
 		}
+
+		public override void CopyFrom(Status obj)
+		{
+			var _obj = obj as WireStatus;
+			_Q = _obj._Q;
+		}
 	}
 }

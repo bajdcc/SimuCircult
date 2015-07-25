@@ -8,5 +8,6 @@ namespace SimuElectricity.Common.Simulator
 {
 	interface IDrawing : IDraw
 	{
+
 	}
 }

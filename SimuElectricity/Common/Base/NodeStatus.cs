@@ -9,7 +9,8 @@ namespace SimuElectricity.Common.Base
 {
 	public class NodeStatus : Status
 	{
-		private double _Q = 0;
+		private static Random aaa = new Random();
+		private double _Q = aaa.NextDouble() * 20;
 
 		public double Q
 		{
@@ -23,6 +24,13 @@ namespace SimuElectricity.Common.Base
 		{
 			get { return _E; }
 			set { _E = value; }
+		}
+
+		public override void CopyFrom(Status obj)
+		{
+			var _obj = obj as NodeStatus;
+			_E = _obj._E;
+			_Q = _obj._Q;
 		}
 	}
 }
