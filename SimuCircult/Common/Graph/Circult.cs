@@ -145,7 +145,7 @@ namespace SimuCircult.Common.Graph
 			{
 				if (obj != null)
 				{
-					obj.Draw.Handle(HandleType.Down, e.Location);
+					obj.Draw.Handle(HandleType.LeftDown, e.Location);
 					if (!obj.Id.Equals(_focus.Id))
 					{
 						DoLostFocus(e.Location);
@@ -161,7 +161,7 @@ namespace SimuCircult.Common.Graph
 			{
 				if (obj != null)
 				{
-					obj.Draw.Handle(HandleType.Down, e.Location);
+					obj.Draw.Handle(HandleType.LeftDown, e.Location);
 					DoFocus(obj, e.Location);
 				}
 			}
@@ -176,7 +176,7 @@ namespace SimuCircult.Common.Graph
 			var obj = _FindMarkable(e.Location);
 			if (obj != null && _focus != null && obj.Id.Equals(_focus.Id))
 			{
-				obj.Draw.Handle(HandleType.Up, e.Location);
+				obj.Draw.Handle(HandleType.LeftUp, e.Location);
 			}
 		}
 

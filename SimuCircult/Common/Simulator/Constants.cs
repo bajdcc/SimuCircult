@@ -80,8 +80,12 @@ namespace SimuCircult.Common.Simulator
 	public enum HandleType
 	{
 		Test,
-		Down,
-		Up,
+		LeftDown,
+		MidDown,
+		RightDown,
+		LeftUp,
+		MidUp,
+		RightUp,
 		Enter,
 		Hover,
 		Leave,

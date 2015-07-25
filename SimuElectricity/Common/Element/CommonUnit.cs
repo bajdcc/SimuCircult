@@ -20,5 +20,23 @@ namespace SimuElectricity.Common.Element
 		{
 
 		}
+
+		protected override int _Click(Point pt)
+		{
+			foreach (var node in Nodes)
+			{
+				node.Local.Q += 1;
+			}
+			return 0;
+		}
+
+		protected override int _RightClick(Point pt)
+		{
+			foreach (var node in Nodes)
+			{
+				node.Local.Q -= 1;
+			}
+			return 0;
+		}
 	}
 }

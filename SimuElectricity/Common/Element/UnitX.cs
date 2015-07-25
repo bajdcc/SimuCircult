@@ -113,8 +113,11 @@ namespace SimuElectricity.Common.Element
 			var pt = (Point)obj;			
 			switch (type)
 			{
-				case HandleType.Up:
+				case HandleType.LeftUp:
 					ret = _Click(pt);
+					break;
+				case HandleType.RightUp:
+					ret = _RightClick(pt);
 					break;
 				case HandleType.Enter:
 					ret = _Enter(pt);
@@ -143,6 +146,11 @@ namespace SimuElectricity.Common.Element
 		}
 
 		protected virtual int _Click(Point pt)
+		{
+			return 0;
+		}
+
+		protected virtual int _RightClick(Point pt)
 		{
 			return 0;
 		}

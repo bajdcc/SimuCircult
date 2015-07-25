@@ -10,7 +10,7 @@ namespace SimuElectricity.Common.Base
 {
 	public class NodeStatus : Status
 	{
-		private double _Q = Defines.NRand.Next() * 10;
+		private double _Q = 0;
 
 		public double Q
 		{

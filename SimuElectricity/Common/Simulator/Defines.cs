@@ -18,9 +18,9 @@ namespace SimuElectricity.Common.Simulator
 
 		public const float LINE_WIDTH = 0.1f;
 
-		public const int NODE_SUBDIVISION_WIDTH = 20;
-		public const int NODE_SUBDIVISION_HEIGHT = 20;
-		public const int CONTOUR_LINE_COUNT = 100;
+		public const int NODE_SUBDIVISION_WIDTH = 5;
+		public const int NODE_SUBDIVISION_HEIGHT = 5;
+		public const int CONTOUR_LINE_COUNT = 50;
 
 		public static readonly Random Rand = new Random();
 		public static readonly NormalDistributionRandom NRand = new NormalDistributionRandom();

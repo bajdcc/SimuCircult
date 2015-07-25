@@ -15,6 +15,7 @@ using SimuElectricity.Common.Helper;
 using System.Threading.Tasks;
 using SimuCircult.UI.Element;
 using System.Diagnostics;
+using SimuCircult.Common.Drawing;
 
 namespace SimuElectricity.Common.Graph
 {
@@ -275,6 +276,24 @@ namespace SimuElectricity.Common.Graph
 			_drag = false;
 		}
 
+		private void _OnMouseDown(IDraw draw, MouseEventArgs e)
+		{
+			switch (e.Button)
+			{
+				case MouseButtons.Left:
+					draw.Handle(HandleType.LeftDown, e.Location);
+					break;
+				case MouseButtons.Middle:
+					draw.Handle(HandleType.MidDown, e.Location);
+					break;
+				case MouseButtons.Right:
+					draw.Handle(HandleType.RightDown, e.Location);
+					break;
+				default:
+					break;
+			}
+		}
+
 		public void OnMouseDown(MouseEventArgs e)
 		{
 			var obj = _FindMarkable(e.Location);
@@ -282,7 +301,7 @@ namespace SimuElectricity.Common.Graph
 			{
 				if (obj != null)
 				{
-					obj.Draw.Handle(HandleType.Down, e.Location);
+					_OnMouseDown(obj.Draw, e);
 					if (!obj.Id.Equals(_focus.Id))
 					{
 						DoLostFocus(e.Location);
@@ -298,9 +317,27 @@ namespace SimuElectricity.Common.Graph
 			{
 				if (obj != null)
 				{
-					obj.Draw.Handle(HandleType.Down, e.Location);
+					_OnMouseDown(obj.Draw, e);
 					DoFocus(obj, e.Location);
 				}
+			}
+		}
+
+		private void _OnMouseUp(IDraw draw, MouseEventArgs e)
+		{
+			switch (e.Button)
+			{
+				case MouseButtons.Left:
+					draw.Handle(HandleType.LeftUp, e.Location);
+					break;
+				case MouseButtons.Middle:
+					draw.Handle(HandleType.MidUp, e.Location);
+					break;
+				case MouseButtons.Right:
+					draw.Handle(HandleType.RightUp, e.Location);
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -313,7 +350,7 @@ namespace SimuElectricity.Common.Graph
 			var obj = _FindMarkable(e.Location);
 			if (obj != null && _focus != null && obj.Id.Equals(_focus.Id))
 			{
-				obj.Draw.Handle(HandleType.Up, e.Location);
+				_OnMouseUp(obj.Draw, e);
 			}
 		}
 

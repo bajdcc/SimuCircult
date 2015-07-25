@@ -148,7 +148,7 @@ namespace SimuCircult.Common.Element
 			var ret = 0;
 			switch (type)
 			{
-				case HandleType.Up:
+				case HandleType.LeftUp:
 					ret = _Click(pt);
 					break;
 				case HandleType.Enter:

@@ -19,10 +19,10 @@ namespace SimuElectricity.Common.Element
 	{
 		public DisplayUnit()
 		{
-			_L1_border.Enable(true);
+			_L1_border.Enable(false);
 			_L2_pixel.Enable(false);
 			_L1_background = BackgroundElement.Create();
-			_L1_background[GraphicsDefines.Background_Color] = Color.FromArgb(127, Constants.WindowBackground);
+			_L1_background[GraphicsDefines.Background_Color] = Color.FromArgb(64, Constants.WindowBackground);
 			_L2_text = TextElement.Create();
 			Elements.Add(_L1_border);
 			Elements.Add(_L1_background);

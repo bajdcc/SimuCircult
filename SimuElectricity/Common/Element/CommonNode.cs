@@ -15,7 +15,7 @@ namespace SimuElectricity.Common.Element
 	{
 		protected override void _FromWireToNode(IEnumerable<U> inputs)
 		{
-			Next.Q = inputs.Sum(a => a.Q);
+			Next.Q = inputs.Average(a => a.Q) * 0.5;
 		}
 
 		protected override void _FromNodeToWire(IEnumerable<U> outputs)
