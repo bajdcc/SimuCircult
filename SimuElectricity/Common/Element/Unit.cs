@@ -36,18 +36,29 @@ namespace SimuElectricity.Common.Element
 			set { _nodes = value; }
 		}
 
+		private List<Node<U, V>> _interpolateNodes = new List<Node<U, V>>();
+
+		public List<Node<U, V>> InterpolateNodes
+		{
+			get { return _interpolateNodes; }
+			set { _interpolateNodes = value; }
+		}
+
 		private IInterpolating<U> _interpolating;
 
 		internal IInterpolating<U> Interpolating
 		{
 			get { return _interpolating; }
-			set { _interpolating = value; SetInterpolatingInfo(); }
+			set { _interpolating = value; }
 		}
 
-		protected virtual void SetInterpolatingInfo()
+		public virtual void SetInterpolatingInfo()
 		{
-			_interpolating.SetCoordinate(_coordinate);
-			_interpolating.SetPoints(_nodes.Select(a => a.Local));
+			if (_interpolating != null)
+			{
+				_interpolating.SetCoordinate(_coordinate);
+				_interpolating.SetPoints(_interpolateNodes.Select(a => a.Local));
+			}
 		}
 	}
 }

@@ -19,6 +19,11 @@ namespace SimuElectricity.Common.Interpolation
 	{
 		private double[] _coef = new double[4];
 
+		public BilinearInterpolation() : base(2, 2)
+		{
+
+		}
+
 		public override void Interpolate(InterpolationArgs args)
 		{
 			ComputeCoefficient();
@@ -32,10 +37,15 @@ namespace SimuElectricity.Common.Interpolation
 		/// </summary>
 		private void ComputeCoefficient()
 		{
-			_coef[0] = _pts[0, 0].Q;
-			_coef[1] = _pts[1, 0].Q - _pts[0, 0].Q;
-			_coef[2] = _pts[0, 1].Q - _pts[0, 0].Q;
-			_coef[3] = _pts[1, 1].Q - _coef[2];
+			_coef[0] = Pts[0, 0].Q;
+			_coef[1] = Pts[1, 0].Q - Pts[0, 0].Q;
+			_coef[2] = Pts[0, 1].Q - Pts[0, 0].Q;
+			_coef[3] = Pts[1, 1].Q - _coef[2];
+		}
+
+		private double ComputeValue(double x, double y)
+		{
+			return _coef[0] + _coef[1] * x + _coef[2] * y + _coef[3] * x * y;
 		}
 
 		private void TestPixel(InterpolationArgs args)
@@ -49,7 +59,7 @@ namespace SimuElectricity.Common.Interpolation
 				var i = 1.0f * (n / args.Slice.Width) / args.Slice.Width;
 				var j = 1.0f * (n % args.Slice.Width) / args.Slice.Height;
 				var pt = new PointF(0.5f / args.Slice.Width + i, 0.5f / args.Slice.Height + j);
-				var val = _coef[0] + _coef[1] * pt.X + _coef[2] * pt.Y + _coef[3] * pt.X * pt.Y;
+				var val = ComputeValue(pt.X, pt.Y);
 				if (args.Estimate(val))
 				{
 					rts.Add(new RectangleF(

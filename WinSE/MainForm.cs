@@ -33,11 +33,17 @@ namespace WinSE
 		private void Create()
 		{
 			circult.Create();
+			OnTimer();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			circult.OnTimer();
+			OnTimer();
+		}
+
+		private void OnTimer()
+		{
+			circult.OnTimer(a => Invoke(a));
 		}
 
 		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)

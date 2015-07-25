@@ -11,15 +11,17 @@ using System.Windows.Forms;
 using SimuElectricity.Common.Simulator;
 using SimuCircult.Common.Graph;
 using SimuElectricity.Common.Interpolation;
-using SimuEletricity.Helper;
+using SimuElectricity.Common.Helper;
+using System.Threading.Tasks;
+using SimuCircult.UI.Element;
+using System.Diagnostics;
 
 namespace SimuElectricity.Common.Graph
 {
 	public class Circult : CircultBase<
 			NodeStatus,	CommonNode<NodeStatus, WireStatus>,
 			WireStatus,	CommonWire<WireStatus, NodeStatus>,
-			UnitStatus,	CommonUnit<UnitStatus, NodeStatus, WireStatus>,
-			BilinearInterpolation<NodeStatus>>
+			UnitStatus,	CommonUnit<UnitStatus, NodeStatus, WireStatus>>
 	{
 		private MarkableArgs _hover;
 		private MarkableArgs _focus;
@@ -28,6 +30,9 @@ namespace SimuElectricity.Common.Graph
 		private bool _drag = false;
 		private Guid[,] _demonsionsNode;
 		private Guid[,] _demonsionsUnit;
+		private bool _taskRunning = false;
+		private Stopwatch _stopwatch = new Stopwatch();
+		private DisplayUnit<UnitStatus, NodeStatus, WireStatus> _fps;
 
 		public Circult()
 		{
@@ -47,6 +52,11 @@ namespace SimuElectricity.Common.Graph
 
 		public void Create()
 		{
+			_Create();
+		}
+
+		private void _Create()
+		{
 			_demonsionsNode = new Guid[Defines.WIDTH_COUNT, Defines.HEIGHT_COUNT];
 			_demonsionsUnit = new Guid[Defines.WIDTH_COUNT - 1, Defines.HEIGHT_COUNT - 1];
 			for (int i = 0; i < Defines.WIDTH_COUNT; i++)
@@ -65,19 +75,17 @@ namespace SimuElectricity.Common.Graph
 			{
 				for (int j = 0; j < Defines.HEIGHT_COUNT; j++)
 				{
-					var k1 = i + 1 < Defines.WIDTH_COUNT;
-					var k2 = j + 1 < Defines.HEIGHT_COUNT;
-					if (k1)
+					if (i + 1 < Defines.WIDTH_COUNT)
 					{
 						ConnectNode(Nodes[_demonsionsNode[i, j]], Nodes[_demonsionsNode[i + 1, j]]);
 						ConnectNode(Nodes[_demonsionsNode[i + 1, j]], Nodes[_demonsionsNode[i, j]], true);
 					}
-					if (k2)
+					if (j + 1 < Defines.HEIGHT_COUNT)
 					{
 						ConnectNode(Nodes[_demonsionsNode[i, j]], Nodes[_demonsionsNode[i, j + 1]]);
 						ConnectNode(Nodes[_demonsionsNode[i, j + 1]], Nodes[_demonsionsNode[i, j]], true);
 					}
-					if (k1 && k2)
+					if (i + 1 < Defines.WIDTH_COUNT && j + 1 < Defines.HEIGHT_COUNT)
 					{
 						var unit = CreateUnit();
 						unit.Coordinate = new Point(
@@ -88,15 +96,36 @@ namespace SimuElectricity.Common.Graph
 							unit.Coordinate.Y,
 							Defines.NODE_WIDTH,
 							Defines.NODE_HEIGHT);
-						unit.Nodes.Add(Nodes[_demonsionsNode[i, j]]);
-						unit.Nodes.Add(Nodes[_demonsionsNode[i, j + 1]]);
-						unit.Nodes.Add(Nodes[_demonsionsNode[i + 1, j]]);
-						unit.Nodes.Add(Nodes[_demonsionsNode[i + 1, j + 1]]);
-						SetUnitInterpolatingMethod(unit);
+						for (int x = 0; x < 2; x++)
+						{
+							for (int y = 0; y < 2; y++)
+							{
+								unit.Nodes.Add(Nodes[_demonsionsNode[i + x, j + y]]);
+							}
+						}
+						if (i == 0 || j == 0 || i + 2 == Defines.WIDTH_COUNT || j + 2 == Defines.HEIGHT_COUNT)
+						{
+							unit.Interpolating = new BilinearInterpolation<NodeStatus>();
+							unit.InterpolateNodes.AddRange(unit.Nodes);
+						}
+						else if (i + 2 < Defines.WIDTH_COUNT && j + 2 < Defines.HEIGHT_COUNT)
+						{
+							unit.Interpolating = new BicubicInterpolation<NodeStatus>();
+							for (int x = -1; x < 3; x++)
+							{
+								for (int y = -1; y < 3; y++)
+								{
+									unit.InterpolateNodes.Add(Nodes[_demonsionsNode[i + x, j + y]]);
+								}
+							}
+						}
+						unit.SetInterpolatingInfo();
 						_demonsionsUnit[i, j] = unit.Id;
 					}
 				}
 			}
+			_fps = CreateDisplayUnit();
+			_fps.Location = new Point(20, 30);
 		}
 
 		public void Draw()
@@ -153,6 +182,7 @@ namespace SimuElectricity.Common.Graph
 			{
 				unit.Prepare(bound);
 			}
+			_fps.Prepare(bound);
 		}
 
 		private void _Draw(Rectangle bound)
@@ -169,6 +199,8 @@ namespace SimuElectricity.Common.Graph
 			{
 				wire.Draw(bound);
 			}
+			_StopWatch();
+			_fps.Draw(bound);
 		}
 
 		private MarkableArgs _FindMarkable(Point pt)
@@ -201,11 +233,32 @@ namespace SimuElectricity.Common.Graph
 			_delay.Stop();
 		}
 
-		public void OnTimer()
+		private void _StartWatch()
 		{
-			Update();
-			Draw();
-			Storage.Ctrl.Refresh();
+			_stopwatch.Start();
+		}
+
+		private void _StopWatch()
+		{
+			_stopwatch.Stop();
+			_fps.Display = string.Format("Frame: {0} ms", _stopwatch.ElapsedMilliseconds);
+			_stopwatch.Reset(); 
+		}
+
+		public async void OnTimer(Action<Action> invoke)
+		{
+			if (!_taskRunning)
+			{
+				_taskRunning = true;
+				_taskRunning = await Task.Run(() =>
+				{
+					_StartWatch();
+					Update();
+					Draw();					
+					invoke(() => Storage.Ctrl.Refresh());
+					return false;
+				});
+			}
 		}
 
 		private void DoFocus(MarkableArgs obj, Point pt)

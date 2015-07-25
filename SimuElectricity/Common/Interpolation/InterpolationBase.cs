@@ -12,20 +12,34 @@ namespace SimuElectricity.Common.Interpolation
 		where T : NodeStatus, new()
 	{
 		protected Point _co = Point.Empty;
-		protected T[,] _pts = new T[2, 2];
+		protected Size _size;
+		private T[,] _pts;
+
 		protected List<PixelElementRendererBag> _paint = new List<PixelElementRendererBag>();
+
+		public InterpolationBase(int cx, int cy)
+		{
+			_size = new Size(cx, cy);
+			_pts = new T[cx, cy];
+		}
+
+		public T[,] Pts
+		{
+			get { return _pts; }
+			set { _pts = value; }
+		}
 
 		public void SetCoordinate(Point co)
 		{
 			_co = co;
 		}
 
-		public void SetPoints(IEnumerable<T> pts)
+		public virtual void SetPoints(IEnumerable<T> pts)
 		{
-			_pts[0, 0] = pts.ElementAt(0);
-			_pts[0, 1] = pts.ElementAt(1);
-			_pts[1, 0] = pts.ElementAt(2);
-			_pts[1, 1] = pts.ElementAt(3);
+			for (int i = 0; i < _size.Width * _size.Height; i++)
+			{
+				Pts[i / _size.Width, i % _size.Width] = pts.ElementAt(i);
+			}
 		}
 
 		public IEnumerable<PixelElementRendererBag> GetPixel()

@@ -22,7 +22,7 @@ namespace SimuElectricity.Common.Element
 
 		protected override void _FromNodeToWire(U outputs)
 		{
-			Next.Q = outputs.Q * (Defines.Rand.NextDouble() + 0.5);
+			Next.Q = outputs.Q;
 		}
 
 		public override void Prepare(Rectangle bound)

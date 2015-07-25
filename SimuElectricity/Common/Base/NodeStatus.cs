@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,8 +10,7 @@ namespace SimuElectricity.Common.Base
 {
 	public class NodeStatus : Status
 	{
-		private static Random aaa = new Random();
-		private double _Q = aaa.NextDouble() * 20;
+		private double _Q = Defines.NRand.Next() * 10;
 
 		public double Q
 		{

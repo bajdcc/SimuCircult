@@ -23,6 +23,7 @@ namespace SimuElectricity.Common.Element
 	{
 		public UnitX()
 		{
+			_relBound.Size = new Size(200, 30);
 			_L1_border = BorderElement.Create();
 			_L1_border.Enable(false);
 			_L2_pixel = PixelElement.Create();
@@ -186,16 +187,21 @@ namespace SimuElectricity.Common.Element
 			return 0;
 		}
 
-		protected override void SetInterpolatingInfo()
+		public override void SetInterpolatingInfo()
 		{
 			base.SetInterpolatingInfo();
-			_L1_border[GraphicsDefines.Gdi_Bound] = _absBound;
-			_L2_pixel[GraphicsDefines.Gdi_Bound] = _absBound;
-			_L2_pixel[GraphicsDefines.Pixel_Pixels] = Interpolating.GetPixel();
+			if (Interpolating != null)
+			{
+				_L2_pixel[GraphicsDefines.Pixel_Pixels] = Interpolating.GetPixel();
+			}
 		}
 
 		public void Interpolate(InterpolationArgs args)
 		{
+			if (Interpolating == null)
+			{
+				return;
+			}
 			switch (args.Action)
 			{
 				case InterpolationArgsAction.Reset:

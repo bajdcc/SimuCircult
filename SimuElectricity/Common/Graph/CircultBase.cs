@@ -10,14 +10,13 @@ using System.Text;
 
 namespace SimuElectricity.Common.Graph
 {
-	public class CircultBase<_NODE_STATUS, _NODE, _WIRE_STATUS, _WIRE, _UNIT_STATUS, _UNIT, _INTERPOLATE>
+	public class CircultBase<_NODE_STATUS, _NODE, _WIRE_STATUS, _WIRE, _UNIT_STATUS, _UNIT>
 		where _NODE_STATUS : NodeStatus, new()
 		where _NODE : Node<_NODE_STATUS, _WIRE_STATUS>, new()
 		where _WIRE_STATUS : WireStatus, new()
 		where _WIRE : Wire<_WIRE_STATUS, _NODE_STATUS>, new()
 		where _UNIT_STATUS : UnitStatus, new()
 		where _UNIT : Unit<_UNIT_STATUS, _NODE_STATUS, _WIRE_STATUS>, new()
-		where _INTERPOLATE : InterpolationBase<_NODE_STATUS>, new()
 	{
 		private Dictionary<Guid, _NODE> _nodes = new Dictionary<Guid, _NODE>();
 
@@ -54,9 +53,9 @@ namespace SimuElectricity.Common.Graph
 			return unit;
 		}
 
-		protected void SetUnitInterpolatingMethod(_UNIT unit)
+		public DisplayUnit<_UNIT_STATUS, _NODE_STATUS, _WIRE_STATUS> CreateDisplayUnit()
 		{
-			unit.Interpolating = new _INTERPOLATE();
+			return new DisplayUnit<_UNIT_STATUS, _NODE_STATUS, _WIRE_STATUS>();
 		}
 
 		protected void ConnectNode(_NODE left, _NODE right, bool external = false)

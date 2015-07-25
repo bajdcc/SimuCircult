@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimuElectricity</RootNamespace>
     <AssemblyName>SimuElectricity</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -45,6 +48,7 @@
     <Compile Include="Common\Base\UnitStatus.cs" />
     <Compile Include="Common\Base\WireStatus.cs" />
     <Compile Include="Common\Element\CommonNode.cs" />
+    <Compile Include="Common\Element\DisplayUnit.cs" />
     <Compile Include="Common\Element\CommonUnit.cs" />
     <Compile Include="Common\Element\CommonWire.cs" />
     <Compile Include="Common\Element\Node.cs" />
@@ -55,6 +59,7 @@
     <Compile Include="Common\Element\WireX.cs" />
     <Compile Include="Common\Graph\Circult.cs" />
     <Compile Include="Common\Graph\CircultBase.cs" />
+    <Compile Include="Common\Interpolation\BicubicInterpolation.cs" />
     <Compile Include="Common\Interpolation\BilinearInterpolation.cs" />
     <Compile Include="Common\Interpolation\InterpolationArgs.cs" />
     <Compile Include="Common\Interpolation\InterpolationBase.cs" />

@@ -21,6 +21,7 @@ namespace SimuElectricity.Common.Element
 		public WireX()
 		{
 			_L1_line = LineElement.Create();
+			_L1_line.Enable(false);
 			_L1_line[GraphicsDefines.Line_Width] = Defines.LINE_WIDTH;
 			_elements.Add(_L1_line);
 			OnStateUpdated += WireX_OnStateUpdated;
