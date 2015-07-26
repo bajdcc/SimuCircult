@@ -21,19 +21,17 @@ namespace SimuElectricity.Common.Media
 
 		public override bool BreakDownTest(IMedia media, bool breaknode, bool breakdown, double voltage, out double current)
 		{
-			current = voltage;
-			return false;
-			/*if (media.GetId() == _id)
+			if (media.GetId() == _id)
 			{
-				current = Defines.Clamp(voltage, 4000);
+				current = Defines.Clamp(voltage, 1e30);
 				return false;
 			}
-			else if (media.GetId() == MediaId.M_ZERO && Math.Abs(voltage) > 1e8 && breaknode)
+			else if (media.GetId() == MediaId.M_ZERO)
 			{
-				current = Defines.Clamp(voltage, 8000);
-				return true;
+				current = Defines.Clamp(voltage, 1e40);
+				return false;
 			}
-			return base.BreakDownTest(media, breaknode, breakdown, voltage, out current);*/
+			return base.BreakDownTest(media, breaknode, breakdown, voltage, out current);
 		}
 
 		public override void SetNodeStatus(NodeStatus status)
@@ -42,6 +40,11 @@ namespace SimuElectricity.Common.Media
 			//status.Q = 1e10 * (Defines.NRand.Next() + 0.3);
 			//status.Q = 0;
 			status.Q = (Defines.NRand.Next() - 0.5) * 1e-5;
+		}
+
+		public override double? CalculateElectricField()
+		{
+			return 1.0;
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace SimuElectricity.Common.Simulator
 
 		public const float LINE_WIDTH = 1.0f;
 
-		public const double TIME_STEP = 1e-4; // 时刻
+		public const double TIME_STEP = 1e-2; // 时刻
 		public const double MIN_Q = 1e-10; // 最小电荷
 		public const double K_ELEC = 1e-4; // 静电力常数
 		public const double CELL_CX = 5.0; // 晶格间距X

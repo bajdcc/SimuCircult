@@ -155,13 +155,13 @@ namespace SimuElectricity.Common.Element
 
 		protected virtual int _Hover(Point pt)
 		{
-			StringBuilder sb = new StringBuilder();
+			/*StringBuilder sb = new StringBuilder();
 			sb.AppendFormat("Type: {0}\n", GetType());
 			sb.AppendFormat("Guid: {0}\n", Id);
 			sb.AppendFormat("Name: {0}\n", Name);
 			sb.AppendFormat("Value: {0}\n", Local.Code);
 			Storage.Tip.ToolTipTitle = "Node Infomation";
-			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);
+			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);*/
 			return 0;
 		}
 

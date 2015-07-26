@@ -21,7 +21,7 @@ namespace SimuElectricity.Common.Media
 
 		public override bool BreakDownTest(IMedia media, bool breaknode, bool breakdown, double voltage, out double current)
 		{
-			current = voltage;
+			current = Defines.Clamp(voltage, 1e60);
 			return false;
 		}
 
@@ -33,7 +33,7 @@ namespace SimuElectricity.Common.Media
 
 		public override void Advance()
 		{
-			//_status.Q = 0;
+			_status.Q = 0;
 		}
 	}
 }

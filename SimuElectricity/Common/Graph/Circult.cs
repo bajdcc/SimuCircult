@@ -71,21 +71,21 @@ namespace SimuElectricity.Common.Graph
 						Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
 						Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
 					node.Coordinate = new Point(i, j);
-					if ((1 <= j && j <= 4 && 15 <= i && i <= 45) || (25 <= i && i <= 35 && 5 <= j && j <= 10))
+					if ((1 <= j && j <= 4 && 15 <= i && i <= 45) || (30 <= i && i <= 30 && 5 <= j && j <= 10))
 					{
 						var media = new CloudMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}
-					else if (24 <= j && j <= 27 && 5 <= i && i <= 55)
+					else if ((24 <= j && j <= 27 && 0 <= i && i <= 60) || (30 <= i && i <= 30 && 20 <= j && j <= 23))
 					{
 						var media = new GroundMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}
-					else if (j == 28 && 5 <= i && i <= 55)
+					else if (j == 28 && 0 <= i && i <= 60)
 					{
-						var media = new GroundMedia();
+						var media = new ZeroMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}

@@ -30,7 +30,7 @@ namespace SimuElectricity.Common.Element
 		{
 			foreach (var node in Nodes)
 			{
-				node.Local.Q += 1;
+				node.Local.Q *= 2;
 			}
 			return 0;
 		}
@@ -39,7 +39,7 @@ namespace SimuElectricity.Common.Element
 		{
 			foreach (var node in Nodes)
 			{
-				node.Local.Q -= 1;
+				node.Local.Q /= 2;
 			}
 			return 0;
 		}
