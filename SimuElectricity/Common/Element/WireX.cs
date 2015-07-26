@@ -21,21 +21,9 @@ namespace SimuElectricity.Common.Element
 		public WireX()
 		{
 			_L1_line = LineElement.Create();
-			_L1_line.Enable(false);
 			_L1_line[GraphicsDefines.Line_Width] = Defines.LINE_WIDTH;
+			_L1_line[GraphicsDefines.Line_Color] = Color.FromArgb(20, Color.LightBlue);
 			_elements.Add(_L1_line);
-			OnStateUpdated += WireX_OnStateUpdated;
-			OnValueUpdated += WireX_OnValueUpdated;
-		}
-
-		protected virtual void WireX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
-		{
-
-		}
-
-		protected virtual void WireX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
-		{
-
 		}
 
 		private List<IGraphicsElement> _elements = new List<IGraphicsElement>();
@@ -58,10 +46,15 @@ namespace SimuElectricity.Common.Element
 
 		public virtual void Prepare(Rectangle bound)
 		{
-			_L1_line[GraphicsDefines.Gdi_Bound] = bound;
-			_L1_line[GraphicsDefines.Line_PointBegin] = (Left as NodeX<U, T>).AbsBound.Center();
-			_L1_line[GraphicsDefines.Line_PointEnd] = (Right as NodeX<U, T>).AbsBound.Center();
-			_L1_line[GraphicsDefines.LineM_BuildPoint] = null;
+			_L1_line.Enable(Local.BreakDown);
+			if (Local.BreakDown)
+			{
+				_L1_line[GraphicsDefines.Gdi_Bound] = bound;
+				_L1_line[GraphicsDefines.Line_Width] = 0.5f * (float)Math.Log10(Math.Abs(Local.Current));
+				_L1_line[GraphicsDefines.Line_PointBegin] = (Left as NodeX<U, T>).AbsBound.Center();
+				_L1_line[GraphicsDefines.Line_PointEnd] = (Right as NodeX<U, T>).AbsBound.Center();
+				_L1_line[GraphicsDefines.LineM_BuildPoint] = null;
+			}
 		}
 
 		public virtual int Handle(HandleType type, object obj)

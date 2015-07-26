@@ -18,19 +18,33 @@ namespace SimuElectricity.Common.Base
 			set { _Q = value; }
 		}
 
-		private PointF _E = PointF.Empty;
+		private double _EX = 0;
 
-		public PointF E
+		public double EX
 		{
-			get { return _E; }
-			set { _E = value; }
+			get { return _EX; }
+			set { _EX = value; }
 		}
 
-		public override void CopyFrom(Status obj)
+		private double _EY = 0;
+
+		public double EY
 		{
-			var _obj = obj as NodeStatus;
-			_E = _obj._E;
-			_Q = _obj._Q;
+			get { return _EY; }
+			set { _EY = value; }
+		}
+
+		private bool _breakDown = false;
+
+		public bool BreakDown
+		{
+			get { return _breakDown; }
+			set { _breakDown = value; }
+		}
+
+		public override string ToString()
+		{
+			return _Q.ToString();
 		}
 	}
 }

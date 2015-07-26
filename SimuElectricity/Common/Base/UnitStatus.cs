@@ -8,5 +8,6 @@ namespace SimuElectricity.Common.Base
 {
 	public class UnitStatus : Status
 	{
+
 	}
 }

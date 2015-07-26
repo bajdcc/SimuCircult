@@ -21,6 +21,11 @@ namespace SimuElectricity.Common.Element
 
 		}
 
+		public override void Update()
+		{
+
+		}
+
 		protected override int _Click(Point pt)
 		{
 			foreach (var node in Nodes)

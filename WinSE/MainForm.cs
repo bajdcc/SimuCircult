@@ -22,7 +22,7 @@ namespace WinSE
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			Storage.InitializeGui(new Size(1200, 800));
+			Storage.InitializeGui(new Size(1200, 1200));
 			circult = new Circult();
 			pictureBox1.Image = Storage.Bitmap;
 			Storage.Ctrl = pictureBox1;
@@ -43,7 +43,7 @@ namespace WinSE
 
 		private void OnTimer()
 		{
-			circult.OnTimer(a => Invoke(a));
+			circult.OnTimer(this);
 		}
 
 		private void pictureBox1_MouseDown(object sender, MouseEventArgs e)

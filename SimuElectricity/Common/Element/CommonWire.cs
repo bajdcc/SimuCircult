@@ -17,12 +17,30 @@ namespace SimuElectricity.Common.Element
 	{
 		protected override void _FromWireToNode(U inputs)
 		{
-			inputs.Q = Local.Q;
+			
 		}
 
 		protected override void _FromNodeToWire(U outputs)
 		{
-			Next.Q = outputs.Q;
+			Next.Q = Next.Current * Defines.TIME_STEP;
+			if (Next.Q > Defines.MAX_TRANSFER_Q)
+			{
+				Next.Q = Defines.MAX_TRANSFER_Q;
+			}
+			else if (Next.Q < Defines.MIN_TRANSFER_Q)
+			{
+				Next.Q = Defines.MIN_TRANSFER_Q;
+			}
+			Next.Q = Defines.Clamp(Next.Q, Defines.MIN_TRANSFER_Q, Defines.MAX_TRANSFER_Q);
+			outputs.Q -= Next.Q;
+		}
+
+		public override void Update()
+		{
+			Local.Q = Next.Q;
+			Next.Q = 0;
+			Local.Current = Next.Current;
+			Local.BreakDown = Next.BreakDown;
 		}
 
 		public override void Prepare(Rectangle bound)

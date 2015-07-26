@@ -1,6 +1,7 @@
 ﻿using SimuCircult.Common.Base;
 using SimuCircult.Common.Simulator;
 using SimuElectricity.Common.Base;
+using SimuElectricity.Common.Media;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,6 +17,14 @@ namespace SimuElectricity.Common.Element
 		public Node()
 		{
 			base.Activate(ActivateType.FilterNode);
+		}
+
+		private IMedia _media;
+
+		public IMedia Media
+		{
+			get { return _media; }
+			set { _media = value; }
 		}
 
 		private Point _coordinate = Point.Empty;
@@ -47,10 +56,10 @@ namespace SimuElectricity.Common.Element
 			switch (type)
 			{
 				case AdvanceType.NodeToWire:
-					_FromNodeToWire(_outWires.Select(a => a.Next));				
+					_FromNodeToWire(_outWires);				
 					break;
 				case AdvanceType.WireToNode:
-					_FromWireToNode(_inWires.Select(a => a.Next));
+					_FromWireToNode(_inWires);
 					Update();
 					break;
 				default:
@@ -58,8 +67,8 @@ namespace SimuElectricity.Common.Element
 			}			
 		}
 
-		protected abstract void _FromWireToNode(IEnumerable<U> inputs);
+		protected abstract void _FromWireToNode(IEnumerable<Wire<U, T>> inputs);
 
-		protected abstract void _FromNodeToWire(IEnumerable<U> outputs);
+		protected abstract void _FromNodeToWire(IEnumerable<Wire<U, T>> outputs);
 	}
 }

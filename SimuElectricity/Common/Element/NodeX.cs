@@ -28,18 +28,6 @@ namespace SimuElectricity.Common.Element
 			_L2_background[GraphicsDefines.Background_Color] = Constants.WindowBackground;
 			_elements.Add(_L1_border);
 			_elements.Add(_L2_background);
-			OnStateUpdated += NodeX_OnStateUpdated;
-			OnValueUpdated += NodeX_OnValueUpdated;
-		}
-
-		protected virtual void NodeX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
-		{
-
-		}
-
-		protected virtual void NodeX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
-		{
-
 		}
 
 		private Rectangle _absBound = Rectangle.Empty;

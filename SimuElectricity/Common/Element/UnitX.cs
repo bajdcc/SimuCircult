@@ -29,18 +29,6 @@ namespace SimuElectricity.Common.Element
 			_L2_pixel = PixelElement.Create();
 			_elements.Add(_L1_border);
 			_elements.Add(_L2_pixel);
-			OnStateUpdated += UnitX_OnStateUpdated;
-			OnValueUpdated += UnitX_OnValueUpdated;
-		}
-
-		void UnitX_OnValueUpdated(object sender, MutableValueUpdatedEventArgs<T> e)
-		{
-
-		}
-
-		void UnitX_OnStateUpdated(object sender, MutableStateUpdatedEventArgs e)
-		{
-
 		}
 
 		private List<IGraphicsElement> _elements = new List<IGraphicsElement>();
@@ -181,12 +169,16 @@ namespace SimuElectricity.Common.Element
 
 		protected virtual int _Hover(Point pt)
 		{
-			/*StringBuilder sb = new StringBuilder();
-			sb.AppendFormat("Type: {0}\n", GetType());
-			sb.AppendFormat("Guid: {0}\n", Id);
-			sb.AppendFormat("Name: {0}\n", Name);
+			StringBuilder sb = new StringBuilder();
+			var node = Nodes.First().Local;
+			sb.AppendFormat("Q: {0}\n", node.Q);
+			var wire = Nodes.First().OutWires.Select(a => a.Local.Current);
+			foreach (var w in wire)
+			{				
+				sb.AppendFormat("I: {0}\n", w);
+			}
 			Storage.Tip.ToolTipTitle = "Unit Infomation";
-			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);*/
+			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);
 			return 0;
 		}
 

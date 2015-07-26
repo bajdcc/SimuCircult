@@ -1,21 +1,23 @@
-﻿using SimuElectricity.Common.Base;
-using SimuElectricity.Common.Element;
+﻿using SimuCircult.Common.Drawing;
+using SimuCircult.Common.Graph;
 using SimuCircult.Common.Simulator;
+using SimuCircult.UI.Element;
 using SimuCircult.UI.Global;
+using SimuElectricity.Common.Base;
+using SimuElectricity.Common.Element;
+using SimuElectricity.Common.Helper;
+using SimuElectricity.Common.Interpolation;
+using SimuElectricity.Common.Media;
+using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using SimuElectricity.Common.Simulator;
-using SimuCircult.Common.Graph;
-using SimuElectricity.Common.Interpolation;
-using SimuElectricity.Common.Helper;
+using System.Threading;
 using System.Threading.Tasks;
-using SimuCircult.UI.Element;
-using System.Diagnostics;
-using SimuCircult.Common.Drawing;
+using System.Windows.Forms;
 
 namespace SimuElectricity.Common.Graph
 {
@@ -26,11 +28,11 @@ namespace SimuElectricity.Common.Graph
 	{
 		private MarkableArgs _hover;
 		private MarkableArgs _focus;
-		private Timer _delay;
+		private System.Windows.Forms.Timer _delay;
 		private bool _delayTip = false;
 		private bool _drag = false;
-		private Guid[,] _demonsionsNode;
-		private Guid[,] _demonsionsUnit;
+		private CommonNode<NodeStatus, WireStatus>[,] _demonsionsNode;
+		private CommonUnit<UnitStatus, NodeStatus, WireStatus>[,] _demonsionsUnit;
 		private bool _taskRunning = false;
 		private Stopwatch _stopwatch = new Stopwatch();
 		private DisplayUnit<UnitStatus, NodeStatus, WireStatus> _fps;
@@ -46,7 +48,7 @@ namespace SimuElectricity.Common.Graph
 			{
 				_delay = Storage.Delay;
 				_delay.Tick += Delay_Tick;
-				_delay.Interval = 3000;
+				_delay.Interval = 1000;
 				_delay.Enabled = true;
 			}
 		}
@@ -58,8 +60,8 @@ namespace SimuElectricity.Common.Graph
 
 		private void _Create()
 		{
-			_demonsionsNode = new Guid[Defines.WIDTH_COUNT, Defines.HEIGHT_COUNT];
-			_demonsionsUnit = new Guid[Defines.WIDTH_COUNT - 1, Defines.HEIGHT_COUNT - 1];
+			_demonsionsNode = new CommonNode<NodeStatus,WireStatus>[Defines.WIDTH_COUNT, Defines.HEIGHT_COUNT];
+			_demonsionsUnit = new CommonUnit<UnitStatus,NodeStatus,WireStatus>[Defines.WIDTH_COUNT - 1, Defines.HEIGHT_COUNT - 1];
 			for (int i = 0; i < Defines.WIDTH_COUNT; i++)
 			{
 				for (int j = 0; j < Defines.HEIGHT_COUNT; j++)
@@ -69,7 +71,31 @@ namespace SimuElectricity.Common.Graph
 						Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
 						Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
 					node.Coordinate = new Point(i, j);
-					_demonsionsNode[i, j] = node.Id;
+					if ((1 <= j && j <= 4 && 15 <= i && i <= 45) || (25 <= i && i <= 35 && 5 <= j && j <= 10))
+					{
+						var media = new CloudMedia();
+						media.SetNodeStatus(node.Local);
+						node.Media = media;
+					}
+					else if (24 <= j && j <= 27 && 5 <= i && i <= 55)
+					{
+						var media = new GroundMedia();
+						media.SetNodeStatus(node.Local);
+						node.Media = media;
+					}
+					else if (j == 28 && 5 <= i && i <= 55)
+					{
+						var media = new GroundMedia();
+						media.SetNodeStatus(node.Local);
+						node.Media = media;
+					}
+					else
+					{
+						var media = new AirMedia();
+						media.SetNodeStatus(node.Local);
+						node.Media = media;
+					}
+					_demonsionsNode[i, j] = node;
 				}
 			}
 			for (int i = 0; i < Defines.WIDTH_COUNT; i++)
@@ -78,13 +104,13 @@ namespace SimuElectricity.Common.Graph
 				{
 					if (i + 1 < Defines.WIDTH_COUNT)
 					{
-						ConnectNode(Nodes[_demonsionsNode[i, j]], Nodes[_demonsionsNode[i + 1, j]]);
-						ConnectNode(Nodes[_demonsionsNode[i + 1, j]], Nodes[_demonsionsNode[i, j]], true);
+						ConnectNode(_demonsionsNode[i, j], _demonsionsNode[i + 1, j]);
+						ConnectNode(_demonsionsNode[i + 1, j], _demonsionsNode[i, j], true);
 					}
 					if (j + 1 < Defines.HEIGHT_COUNT)
 					{
-						ConnectNode(Nodes[_demonsionsNode[i, j]], Nodes[_demonsionsNode[i, j + 1]]);
-						ConnectNode(Nodes[_demonsionsNode[i, j + 1]], Nodes[_demonsionsNode[i, j]], true);
+						ConnectNode(_demonsionsNode[i, j], _demonsionsNode[i, j + 1]);
+						ConnectNode(_demonsionsNode[i, j + 1], _demonsionsNode[i, j], true);
 					}
 					if (i + 1 < Defines.WIDTH_COUNT && j + 1 < Defines.HEIGHT_COUNT)
 					{
@@ -101,7 +127,7 @@ namespace SimuElectricity.Common.Graph
 						{
 							for (int y = 0; y < 2; y++)
 							{
-								unit.Nodes.Add(Nodes[_demonsionsNode[i + x, j + y]]);
+								unit.Nodes.Add(_demonsionsNode[i + x, j + y]);
 							}
 						}
 						if (i == 0 || j == 0 || i + 2 == Defines.WIDTH_COUNT || j + 2 == Defines.HEIGHT_COUNT)
@@ -116,17 +142,49 @@ namespace SimuElectricity.Common.Graph
 							{
 								for (int y = -1; y < 3; y++)
 								{
-									unit.InterpolateNodes.Add(Nodes[_demonsionsNode[i + x, j + y]]);
+									unit.InterpolateNodes.Add(_demonsionsNode[i + x, j + y]);
 								}
 							}
 						}
 						unit.SetInterpolatingInfo();
-						_demonsionsUnit[i, j] = unit.Id;
+						_demonsionsUnit[i, j] = unit;
 					}
 				}
 			}
 			_fps = CreateDisplayUnit();
 			_fps.Location = new Point(20, 30);
+		}
+
+		public override void Update()
+		{
+			Parallel.For(0, Defines.WIDTH_COUNT * Defines.HEIGHT_COUNT, n =>
+			{
+				int i = n % Defines.WIDTH_COUNT;
+				int j = n / Defines.WIDTH_COUNT;
+				var node = _demonsionsNode[i, j];
+				var coef = node.Media.CalculateElectricField();
+				if (coef.HasValue)
+				{
+					if (Math.Abs(node.Local.Q) > Defines.MIN_Q)
+					{
+						Parallel.For(0, Defines.WIDTH_COUNT * Defines.HEIGHT_COUNT, m =>
+						{
+							int x = m % Defines.WIDTH_COUNT;
+							int y = m / Defines.WIDTH_COUNT;
+							int dx = x - i;
+							int dy = y - j;
+							if ((dx & dy) != 0)
+							{
+								var target = _demonsionsNode[x, y];
+								var invSqu = Defines.K_ELEC * node.Local.Q * target.Local.Q * InverseSquareCache.Calculate(Math.Abs(dx), Math.Abs(dy));
+								target.Local.EX += coef.Value * dx * invSqu;
+								target.Local.EY += coef.Value * dy * invSqu;
+							}
+						});
+					}
+				}
+			});
+			base.Update();
 		}
 
 		public void Draw()
@@ -141,6 +199,9 @@ namespace SimuElectricity.Common.Graph
 		{
 			var max = Nodes.Values.Max(a => a.Local.Q);
 			var min = Nodes.Values.Min(a => a.Local.Q);
+			//var mid = Math.Max(Math.Abs(max), Math.Abs(min));
+			//max = mid;
+			//min = -mid;
 			var spacing = (max - min) / Defines.CONTOUR_LINE_COUNT;
 			var args = new InterpolationArgs()
 			{
@@ -192,10 +253,10 @@ namespace SimuElectricity.Common.Graph
 			{
 				unit.Draw(bound);
 			}
-			foreach (var node in Nodes.Values)
-			{
-				node.Draw(bound);
-			}
+			//foreach (var node in Nodes.Values)
+			//{
+			//	node.Draw(bound);
+			//}
 			foreach (var wire in Wires.Values.Where(a => !a.External))
 			{
 				wire.Draw(bound);
@@ -246,7 +307,7 @@ namespace SimuElectricity.Common.Graph
 			_stopwatch.Reset(); 
 		}
 
-		public async void OnTimer(Action<Action> invoke)
+		public async void OnTimer(Form form)
 		{
 			if (!_taskRunning)
 			{
@@ -255,8 +316,8 @@ namespace SimuElectricity.Common.Graph
 				{
 					_StartWatch();
 					Update();
-					Draw();					
-					invoke(() => Storage.Ctrl.Refresh());
+					Draw();
+					form.BeginInvoke(new Action(() => Storage.Ctrl.Refresh()));
 					return false;
 				});
 			}

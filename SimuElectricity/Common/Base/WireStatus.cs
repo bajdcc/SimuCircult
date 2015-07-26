@@ -8,7 +8,7 @@ namespace SimuElectricity.Common.Base
 {
 	public class WireStatus : Status
 	{
-		private double _Q = 0;
+		private double _Q = 0;		
 
 		public double Q
 		{
@@ -16,10 +16,25 @@ namespace SimuElectricity.Common.Base
 			set { _Q = value; }
 		}
 
-		public override void CopyFrom(Status obj)
+		private double _current = 0;
+
+		public double Current
 		{
-			var _obj = obj as WireStatus;
-			_Q = _obj._Q;
+			get { return _current; }
+			set { _current = value; }
+		}
+
+		private bool _breakDown = false;
+
+		public bool BreakDown
+		{
+			get { return _breakDown; }
+			set { _breakDown = value; }
+		}
+
+		public override string ToString()
+		{
+			return _breakDown.ToString();
 		}
 	}
 }
