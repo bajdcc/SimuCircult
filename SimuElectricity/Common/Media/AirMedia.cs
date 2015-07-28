@@ -19,36 +19,62 @@ namespace SimuElectricity.Common.Media
 
 		}
 
-		public override bool BreakDownTest(IMedia media, bool breaknode, bool breakdown, double voltage, out double current)
+		public override bool BreakDownTest(IMedia media, bool breaknode, WireStatus status, double voltage, out double current)
 		{
 			if (media.GetId() == _id)
 			{
-				if (Math.Abs(voltage) > 5000 && breaknode)
+				if (breaknode && Math.Abs(voltage) > 1e5)
 				{
-					if (breakdown)
+					if (status.BreakDown)
 					{
-						current = Defines.Clamp(voltage, 1e10);
+						current = Defines.Clamp(voltage, Math.Max(Math.Abs(status.Current), 1e50));
 						return true;
 					}
 					if (breaknode)
 					{
-						current = Defines.Clamp(voltage, 15);
+						current = Defines.Clamp(voltage, 1e5);
 						return true;
 					}
-				}				
+					else
+					{
+						current = Defines.Clamp(voltage, 1e10);
+						return true;
+					}
+				}
+			}
+			else if (media.GetId() == MediaId.M_GROUND)
+			{
+				if (breaknode && Math.Abs(voltage) > 10000)
+				{
+					if (status.BreakDown)
+					{
+						current = Defines.Clamp(voltage, 1e5);
+						return true;
+					}
+					if (breaknode)
+					{
+						current = Defines.Clamp(voltage, 1e3);
+						return true;
+					}
+					else
+					{
+						current = Defines.Clamp(voltage, 1e10);
+						return true;
+					}
+				}
 			}
 			else
 			{
-				current = Defines.Clamp(voltage, 100) * 0.1;
+				current = Defines.Clamp(voltage, 50);
 				return false;
 			}
-			return base.BreakDownTest(media, breaknode, breakdown, voltage, out current);
+			return base.BreakDownTest(media, breaknode, status, voltage, out current);
 		}
 
 		public override void SetNodeStatus(NodeStatus status)
 		{
 			base.SetNodeStatus(status);
-			status.Q = (Defines.NRand.Next() - 0.5) * 1e-7;
+			status.Q = (Defines.NRand.Next() - 0.5) * 1e-5;
 			//status.Q = 0;
 		}
 
@@ -62,7 +88,7 @@ namespace SimuElectricity.Common.Media
 
 		public override double? CalculateElectricField()
 		{
-			return 0.9;
+			return 1.1;
 		}
 	}
 }

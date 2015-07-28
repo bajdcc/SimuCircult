@@ -31,6 +31,7 @@ namespace SimuElectricity.Common.Element
 			foreach (var node in Nodes)
 			{
 				node.Local.Q *= 2;
+				node.Local.BreakDown = true;
 			}
 			return 0;
 		}
@@ -40,6 +41,7 @@ namespace SimuElectricity.Common.Element
 			foreach (var node in Nodes)
 			{
 				node.Local.Q /= 2;
+				node.Local.BreakDown = false;
 			}
 			return 0;
 		}

@@ -19,43 +19,47 @@ namespace SimuElectricity.Common.Media
 
 		}
 
-		public override bool BreakDownTest(IMedia media, bool breaknode, bool breakdown, double voltage, out double current)
+		public override bool BreakDownTest(IMedia media, bool breaknode, WireStatus status, double voltage, out double current)
 		{
 			if (media.GetId() == MediaId.M_AIR)
 			{
-				if (breakdown || Math.Abs(voltage) > 30 * (1 + Defines.NRand.Next()))
+				if (status.BreakDown || Math.Abs(voltage) > 4000)
 				{
-					current = Defines.Clamp(voltage, 120000);
-					return Math.Abs(voltage) > 100;
+					current = Defines.Clamp(voltage, 1e20);
+					return status.BreakDown ? Math.Abs(voltage) > 5000 : true;
 				}
-				return base.BreakDownTest(media, breaknode, breakdown, voltage, out current);
+				else
+				{
+					current = Defines.Clamp(voltage, 5000);
+					return false;
+				}
 			}
-			if (Math.Abs(voltage) > 30)
+			if (Math.Abs(voltage) > 40000)
 			{
-				if (breakdown)
+				if (status.BreakDown)
 				{
 					current = Defines.Clamp(voltage, 50000);
 					return true;
 				}
 				if (breaknode)
 				{
-					current = Defines.Clamp(voltage, 400);
+					current = Defines.Clamp(voltage, 800);
 					return true;
-				}				
+				}
 			}
 			else
 			{
-				current = Defines.Clamp(voltage, 200);
+				current = Defines.Clamp(voltage, 6000);
 				return false;
 			}			
-			return base.BreakDownTest(media, breaknode, breakdown, voltage, out current);
+			return base.BreakDownTest(media, breaknode, status, voltage, out current);
 		}
 
 		public override void SetNodeStatus(NodeStatus status)
 		{
 			base.SetNodeStatus(status);
 			//status.Q = -1e5 * (Defines.NRand.Next() + 1);
-			status.Q = -4e5;
+			status.Q = -5000;
 		}
 
 		public override void Advance()

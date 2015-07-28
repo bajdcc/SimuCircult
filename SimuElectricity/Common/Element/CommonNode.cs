@@ -23,7 +23,8 @@ namespace SimuElectricity.Common.Element
 		{
 			var seX = Math.Sign(Local.EX);
 			var seY = Math.Sign(Local.EY);
-			U lastNode = null;
+			U lastWire = null;
+			T lastNode = null;
 			foreach (var output in outputs)
 			{
 				var scX = Math.Sign(output.Right.Coordinate.X - Coordinate.X);
@@ -31,53 +32,65 @@ namespace SimuElectricity.Common.Element
 				if (seX == scX)
 				{
 					double current;
-					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local.BreakDown, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
+					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
 					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
 					output.Next.Current = current;
-					if (lastNode == null)
+					if (output.Next.BreakDown)
 					{
-						lastNode = output.Next;
-					}
-					else
-					{
-						if (Math.Abs(current) > Math.Abs(lastNode.Current))
+						if (lastWire == null)
 						{
-							lastNode.BreakDown = false;
-							lastNode.Current = 0.0;
-							lastNode = output.Next;
+							lastWire = output.Next;
+							lastNode = output.Right.Next;
+						}
+						else
+						{
+							if (Math.Abs(current) > Math.Abs(lastWire.Current))
+							{
+								lastWire.BreakDown = false;
+								lastWire.Current = 0.0;
+								lastWire = output.Next;
+								lastNode = output.Right.Next;
+							}
 						}
 					}
 				}
 				if (seY == scY)
 				{
 					double current;
-					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local.BreakDown, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
+					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
 					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
 					output.Next.Current = current;
-					if (lastNode == null)
+					if (output.Next.BreakDown)
 					{
-						lastNode = output.Next;
-					}
-					else
-					{
-						if (Math.Abs(current) > Math.Abs(lastNode.Current))
+						if (lastWire == null)
 						{
-							lastNode.BreakDown = false;
-							lastNode.Current = 0.0;
-							lastNode = output.Next;
+							lastWire = output.Next;
+							lastNode = output.Right.Next;
+						}
+						else
+						{
+							if (Math.Abs(current) > Math.Abs(lastWire.Current))
+							{
+								lastWire.BreakDown = false;
+								lastWire.Current = 0.0;
+								lastWire = output.Next;
+								lastNode = output.Right.Next;
+							}
 						}
 					}
 				}
 			}
-			if (lastNode != null)
+			if (lastWire != null)
 			{
 				Next.BreakDown = true;
+				lastNode.BreakDown = true;
 			}
 		}
 
 		public override void Update()
 		{
 			Local.Q += Next.Q;
+			Local.Q = Defines.Clamp(Local.Q, Defines.MAX_Q);
 			Local.EX = Next.EX;
 			Local.EY = Next.EY;
 			Local.BreakDown = Next.BreakDown;

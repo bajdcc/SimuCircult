@@ -23,14 +23,6 @@ namespace SimuElectricity.Common.Element
 		protected override void _FromNodeToWire(U outputs)
 		{
 			Next.Q = Next.Current * Defines.TIME_STEP;
-			if (Next.Q > Defines.MAX_TRANSFER_Q)
-			{
-				Next.Q = Defines.MAX_TRANSFER_Q;
-			}
-			else if (Next.Q < Defines.MIN_TRANSFER_Q)
-			{
-				Next.Q = Defines.MIN_TRANSFER_Q;
-			}
 			Next.Q = Defines.Clamp(Next.Q, Defines.MIN_TRANSFER_Q, Defines.MAX_TRANSFER_Q);
 			outputs.Q -= Next.Q;
 		}

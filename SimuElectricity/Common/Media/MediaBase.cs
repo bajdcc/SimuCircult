@@ -24,7 +24,7 @@ namespace SimuElectricity.Common.Media
 			return _id;
 		}
 
-		public virtual bool BreakDownTest(IMedia media, bool breaknode, bool breakdown, double voltage, out double current)
+		public virtual bool BreakDownTest(IMedia media, bool breaknode, WireStatus status, double voltage, out double current)
 		{
 			current = 0;
 			return false;

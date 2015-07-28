@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimuElectricity.Common.Base;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace SimuElectricity.Common.Media
 		/// </summary>
 		/// <param name="media">目标介质</param>
 		/// <param name="breaknode">结点是否已经击穿</param>
-		/// <param name="breakdown">结点间是否已经击穿</param>
+		/// <param name="status">结点间电离状态</param>
 		/// <param name="voltage">电位差</param>
 		/// <param name="current">产生的电流</param>
 		/// <returns>如果击穿则返回真</returns>
-		bool BreakDownTest(IMedia media, bool breaknode, bool breakdown, double voltage, out double current);
+		bool BreakDownTest(IMedia media, bool breaknode, WireStatus status, double voltage, out double current);
 
 		/// <summary>
 		/// 进行一次检查，如大地电荷流失等

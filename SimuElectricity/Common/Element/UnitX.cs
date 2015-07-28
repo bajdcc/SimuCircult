@@ -170,15 +170,19 @@ namespace SimuElectricity.Common.Element
 		protected virtual int _Hover(Point pt)
 		{
 			StringBuilder sb = new StringBuilder();
-			var node = Nodes.First().Local;
-			sb.AppendFormat("Q: {0}\n", node.Q);
+			var node = Nodes.First();
+			sb.AppendFormat("M: {0}\n", node.Media.GetType().Name);
+			sb.AppendFormat("Q: {0}\n", node.Local.Q);
+			sb.AppendFormat("B: {0}\n", node.Local.BreakDown);
+			sb.AppendFormat("EX: {0}\n", node.Local.EX);
+			sb.AppendFormat("EY: {0}\n", node.Local.EY);
 			var wire = Nodes.First().OutWires.Select(a => a.Local.Current);
 			foreach (var w in wire)
 			{				
 				sb.AppendFormat("I: {0}\n", w);
 			}
 			Storage.Tip.ToolTipTitle = "Unit Infomation";
-			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt);
+			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt, 1500);
 			return 0;
 		}
 

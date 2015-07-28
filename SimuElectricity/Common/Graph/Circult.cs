@@ -48,7 +48,7 @@ namespace SimuElectricity.Common.Graph
 			{
 				_delay = Storage.Delay;
 				_delay.Tick += Delay_Tick;
-				_delay.Interval = 1000;
+				_delay.Interval = 500;
 				_delay.Enabled = true;
 			}
 		}
@@ -71,19 +71,19 @@ namespace SimuElectricity.Common.Graph
 						Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
 						Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
 					node.Coordinate = new Point(i, j);
-					if ((1 <= j && j <= 4 && 15 <= i && i <= 45) || (30 <= i && i <= 30 && 5 <= j && j <= 10))
+					if (4 <= j && j <= 9 && 15 <= i && i <= 45)
 					{
 						var media = new CloudMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}
-					else if ((24 <= j && j <= 27 && 0 <= i && i <= 60) || (30 <= i && i <= 30 && 20 <= j && j <= 23))
+					else if (34 <= j && j <= 37 && 0 <= i && i <= 60)
 					{
 						var media = new GroundMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}
-					else if (j == 28 && 0 <= i && i <= 60)
+					else if (j == 38 && 0 <= i && i <= 60)
 					{
 						var media = new ZeroMedia();
 						media.SetNodeStatus(node.Local);
@@ -176,9 +176,11 @@ namespace SimuElectricity.Common.Graph
 							if ((dx & dy) != 0)
 							{
 								var target = _demonsionsNode[x, y];
-								var invSqu = Defines.K_ELEC * node.Local.Q * target.Local.Q * InverseSquareCache.Calculate(Math.Abs(dx), Math.Abs(dy));
-								target.Local.EX += coef.Value * dx * invSqu;
-								target.Local.EY += coef.Value * dy * invSqu;
+								var invSqu = coef.Value * Defines.K_ELEC
+									* node.Local.Q * target.Local.Q
+									* InverseSquareCache.Calculate(Math.Abs(dx), Math.Abs(dy));
+								target.Local.EX += dx * invSqu;
+								target.Local.EY += dy * invSqu;
 							}
 						});
 					}
@@ -317,7 +319,14 @@ namespace SimuElectricity.Common.Graph
 					_StartWatch();
 					Update();
 					Draw();
-					form.BeginInvoke(new Action(() => Storage.Ctrl.Refresh()));
+					try
+					{
+						form.BeginInvoke(new Action(() => Storage.Ctrl.Refresh()));
+					}
+					catch (Exception)
+					{
+						
+					}
 					return false;
 				});
 			}
