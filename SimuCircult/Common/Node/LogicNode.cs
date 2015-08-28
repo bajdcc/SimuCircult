@@ -9,6 +9,10 @@ using System.Text;
 
 namespace SimuCircult.Common.Node
 {
+	/// <summary>
+	/// 逻辑门
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public abstract class LogicNode<T> : CommonNode<T>
 		where T : Status, new()
 	{

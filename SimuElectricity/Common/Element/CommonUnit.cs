@@ -11,6 +11,12 @@ using System.Text;
 
 namespace SimuElectricity.Common.Element
 {
+	/// <summary>
+	/// 单元（管理结点）
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
+	/// <typeparam name="V"></typeparam>
 	public class CommonUnit<T, U, V> : UnitX<T, U, V>
 		where T : UnitStatus, new()
 		where U : NodeStatus, new()

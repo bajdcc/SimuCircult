@@ -26,7 +26,10 @@ namespace SimuCircult.Common.Node
 
 		protected override int _Click(Point pt)
 		{
-			OnClick();
+			if (OnClick != null)
+			{
+				OnClick();
+			}
 			return 0;
 		}
 	}

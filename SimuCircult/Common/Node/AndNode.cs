@@ -11,6 +11,10 @@ using System.Text;
 
 namespace SimuCircult.Common.Node
 {
+	/// <summary>
+	/// 与结点
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class AndNode<T> : LogicNode<T>
 		where T : Status, new()
 	{
@@ -20,6 +24,11 @@ namespace SimuCircult.Common.Node
 			
 		}
 
+		/// <summary>
+		/// 设置初值
+		/// </summary>
+		/// <param name="seed"></param>
+		/// <returns></returns>
 		protected override T _InitialSeed(T seed)
 		{
 			seed.Code = Constants.HIGH_LEVEL;

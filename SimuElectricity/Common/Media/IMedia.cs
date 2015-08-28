@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SimuElectricity.Common.Media
 {
+	/// <summary>
+	/// 介质接口
+	/// </summary>
 	public interface IMedia
 	{
 		/// <summary>

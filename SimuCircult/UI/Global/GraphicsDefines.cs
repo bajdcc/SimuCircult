@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Global
 {
+	/// <summary>
+	/// 记录图元/渲染器属性索引ID
+	/// </summary>
 	public static class GraphicsDefines
 	{
 		public const int Gdi_Enable = 1;

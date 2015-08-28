@@ -13,7 +13,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	public abstract class NodeX<T> : Node<T>, IDraw
+	public abstract class NodeX<T> : Node<T>, IInteractive
 		where T : Status, new()
 	{
 		public NodeX()

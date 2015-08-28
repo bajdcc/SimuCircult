@@ -346,7 +346,7 @@ namespace SimuElectricity.Common.Graph
 			_drag = false;
 		}
 
-		private void _OnMouseDown(IDraw draw, MouseEventArgs e)
+		private void _OnMouseDown(IInteractive draw, MouseEventArgs e)
 		{
 			switch (e.Button)
 			{
@@ -393,7 +393,7 @@ namespace SimuElectricity.Common.Graph
 			}
 		}
 
-		private void _OnMouseUp(IDraw draw, MouseEventArgs e)
+		private void _OnMouseUp(IInteractive draw, MouseEventArgs e)
 		{
 			switch (e.Button)
 			{

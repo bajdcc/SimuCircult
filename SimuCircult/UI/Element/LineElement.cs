@@ -9,6 +9,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
+	/// <summary>
+	/// 连线（折线）图元
+	/// </summary>
 	public class LineElement : GraphicsElement<LineElement>
 	{
 		public LineElement()

@@ -13,7 +13,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	public abstract class UnitX<T> : Unit<T>, IDraw
+	public abstract class UnitX<T> : Unit<T>, IInteractive
 		where T : Status, new()
 	{
 		public UnitX()
@@ -93,9 +93,9 @@ namespace SimuCircult.Common.Element
 			{
 				e.GetRenderer().Render(_absBound);
 			}
-			foreach (var e in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+			foreach (var e in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IInteractive))
 			{
-				(e as IDraw).Draw(_absBound);
+				(e as IInteractive).Draw(_absBound);
 			}
 			foreach (var e in _afterElements)
 			{
@@ -111,9 +111,9 @@ namespace SimuCircult.Common.Element
 			{
 				e.GetRenderer().Render(_absBound);
 			}
-			foreach (var e in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+			foreach (var e in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IInteractive))
 			{
-				(e as IDraw).Prepare(_absBound);
+				(e as IInteractive).Prepare(_absBound);
 			}
 		}
 
@@ -125,9 +125,9 @@ namespace SimuCircult.Common.Element
 				var args = obj as MarkableArgs;
 				if (_absBound.Contains(args.Pt))
 				{
-					foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+					foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IInteractive))
 					{
-						ret = (k as IDraw).Handle(type, obj);
+						ret = (k as IInteractive).Handle(type, obj);
 						if (ret == 0)
 							return 0;
 					}
@@ -166,9 +166,9 @@ namespace SimuCircult.Common.Element
 			}
 			if (ret == 0)
 				return ret;
-			foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IDraw))
+			foreach (var k in Inputs.Union(Hidden).Union(Outputs).Where(a => a is IInteractive))
 			{
-				ret = (k as IDraw).Handle(type, obj);
+				ret = (k as IInteractive).Handle(type, obj);
 				if (ret == 0)
 				{
 					return 0;

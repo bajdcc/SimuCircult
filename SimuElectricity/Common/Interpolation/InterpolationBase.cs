@@ -8,6 +8,10 @@ using System.Text;
 
 namespace SimuElectricity.Common.Interpolation
 {
+	/// <summary>
+	/// 插值基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class InterpolationBase<T> : IInterpolating<T>
 		where T : NodeStatus, new()
 	{
@@ -23,6 +27,9 @@ namespace SimuElectricity.Common.Interpolation
 			_pts = new T[cx, cy];
 		}
 
+		/// <summary>
+		/// 插值样本数据
+		/// </summary>
 		public T[,] Pts
 		{
 			get { return _pts; }

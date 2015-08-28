@@ -29,6 +29,9 @@ namespace SimuCircult.UI.Global
 
 		static private Graphics _graphics;
 
+		/// <summary>
+		/// 绘制API
+		/// </summary>
 		public static Graphics Graphics
 		{
 			get { return Storage._graphics; }
@@ -36,6 +39,9 @@ namespace SimuCircult.UI.Global
 
 		static private Bitmap _bitmap;
 
+		/// <summary>
+		/// 缓冲位图
+		/// </summary>
 		public static Bitmap Bitmap
 		{
 			get { return Storage._bitmap; }

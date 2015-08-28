@@ -7,6 +7,11 @@ using System.Text;
 
 namespace SimuCircult.UI.Drawing
 {
+	/// <summary>
+	/// 渲染器
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
 	public abstract class GraphicsRenderer<T, U> : IGraphicsRenderer
 		where T : GraphicsRenderer<T, U>, new()
 		where U : GraphicsElement<U>, new()
@@ -17,6 +22,11 @@ namespace SimuCircult.UI.Drawing
 
 		private Dictionary<int, object> _attr = new Dictionary<int,object>();
 
+		/// <summary>
+		/// 渲染器属性（GDI对象）
+		/// </summary>
+		/// <param name="key">键</param>
+		/// <returns>值</returns>
 		public object this[int key]
 		{
 			get { return _attr.ContainsKey(key) ? _attr[key] : null; }
@@ -33,6 +43,9 @@ namespace SimuCircult.UI.Drawing
 			}
 		}
 
+		/// <summary>
+		/// 渲染器工厂
+		/// </summary>
 		private class Factory : IGraphicsRendererFactory
 		{
 			public IGraphicsRenderer Create()
@@ -101,6 +114,11 @@ namespace SimuCircult.UI.Drawing
 			}
 		}
 
+		/// <summary>
+		/// 调整大小，将相对坐标转化为绝对坐标
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <returns></returns>
 		protected Rectangle _AdjustBound(Rectangle bound)
 		{
 			return (Rectangle)_element[GraphicsDefines.Gdi_Bound];

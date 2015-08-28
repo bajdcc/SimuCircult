@@ -11,6 +11,11 @@ using System.Text;
 
 namespace SimuElectricity.Common.Element
 {
+	/// <summary>
+	/// 结点间连线
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
 	public class CommonWire<T, U> : WireX<T, U>
 		where T : WireStatus, new()
 		where U : NodeStatus, new()
@@ -22,9 +27,9 @@ namespace SimuElectricity.Common.Element
 
 		protected override void _FromNodeToWire(U outputs)
 		{
-			Next.Q = Next.Current * Defines.TIME_STEP;
+			Next.Q = Next.Current * Defines.TIME_STEP;//电荷增量
 			Next.Q = Defines.Clamp(Next.Q, Defines.MIN_TRANSFER_Q, Defines.MAX_TRANSFER_Q);
-			outputs.Q -= Next.Q;
+			outputs.Q -= Next.Q;//电荷输出，自身电荷减少
 		}
 
 		public override void Update()

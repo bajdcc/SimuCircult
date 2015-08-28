@@ -9,6 +9,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
+	/// <summary>
+	/// 背景颜色图元
+	/// </summary>
 	public class BackgroundElement: GraphicsElement<BackgroundElement>
 	{
 		public BackgroundElement()

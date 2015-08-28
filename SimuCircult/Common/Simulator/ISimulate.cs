@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SimuCircult.Common.Simulator
 {
+	/// <summary>
+	/// 模拟接口
+	/// </summary>
 	public interface ISimulate
 	{
 		void Update();

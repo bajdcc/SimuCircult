@@ -16,12 +16,19 @@ namespace SimuCircult.Common.Base
 		public bool Active { get; set; }
 	}
 
+	/// <summary>
+	/// 状态更新
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public abstract class Mutable<T> : Markable, ISimulate
 		where T : Status, new()
 	{
 		protected event EventHandler<MutableValueUpdatedEventArgs<T>> OnValueUpdated;
 		protected event EventHandler<MutableStateUpdatedEventArgs> OnStateUpdated;
 
+		/// <summary>
+		/// 原状态
+		/// </summary>
 		private T _local = new T();
 
 		public T Local
@@ -30,6 +37,9 @@ namespace SimuCircult.Common.Base
 			set { _local = value; }
 		}
 
+		/// <summary>
+		/// 新状态
+		/// </summary>
 		private T _next = new T();
 
 		public T Next
@@ -38,6 +48,9 @@ namespace SimuCircult.Common.Base
 			set { _next = value; }
 		}
 
+		/// <summary>
+		/// 激活（去除Zombie/Freeze状态）
+		/// </summary>
 		private bool _active = false;
 
 		public bool Active
@@ -50,10 +63,12 @@ namespace SimuCircult.Common.Base
 		{
 			if (!_local.Equals(_next))
 			{
+				//复制状态
 				_local.CopyFrom(_next);
 				var _OnValueUpdated = OnValueUpdated;
 				if (OnValueUpdated != null)
 				{
+					//触发状态更改事件
 					OnValueUpdated(this, new MutableValueUpdatedEventArgs<T>() { Status = _local });
 				}
 			}
@@ -63,6 +78,7 @@ namespace SimuCircult.Common.Base
 				var _OnStateUpdated = OnStateUpdated;
 				if (_OnStateUpdated != null)
 				{
+					//触发状态激活事件
 					OnStateUpdated(this, new MutableStateUpdatedEventArgs() { Active = false });
 				}
 			}

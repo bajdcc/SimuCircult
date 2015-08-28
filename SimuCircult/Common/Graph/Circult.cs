@@ -14,14 +14,17 @@ using System.Windows.Forms;
 
 namespace SimuCircult.Common.Graph
 {
+	/// <summary>
+	/// 电路
+	/// </summary>
 	public class Circult : CircultBase<Status, CommonNode<Status>, CommonWire<Status>, CommonUnit<Status>>
 	{
-		private MarkableArgs _hover;
-		private MarkableArgs _focus;
-		private Timer _delay;
-		private bool _delayTip = false;
-		private bool _drag = false;
-		private DisplayUnit<Status> _display;
+		private MarkableArgs _hover;//悬停参数
+		private MarkableArgs _focus;//焦点参数
+		private Timer _delay;//悬停时长
+		private bool _delayTip = false;//悬停标志
+		private bool _drag = false;//拖曳标志
+		private DisplayUnit<Status> _display;//FPS显示
 
 		public Circult()
 		{
@@ -41,6 +44,9 @@ namespace SimuCircult.Common.Graph
 			}
 		}
 
+		/// <summary>
+		/// 绘制
+		/// </summary>
 		public void Draw()
 		{
 			var bound = new Rectangle(Point.Empty, Storage.Size);
@@ -49,6 +55,9 @@ namespace SimuCircult.Common.Graph
 			_Draw(bound);
 		}
 
+		/// <summary>
+		/// 活动对象展示
+		/// </summary>
 		private void _Display()
 		{
 			_display.SetText(DisplayOptionType.Active,
@@ -65,6 +74,10 @@ namespace SimuCircult.Common.Graph
 				_display.SetText(DisplayOptionType.Hover, null);
 		}
 
+		/// <summary>
+		/// 计算绝对位置
+		/// </summary>
+		/// <param name="bound"></param>
 		private void _Prepare(Rectangle bound)
 		{
 			Storage.Graphics.Clear(Constants.WindowBackground);
@@ -78,6 +91,10 @@ namespace SimuCircult.Common.Graph
 			}
 		}
 
+		/// <summary>
+		/// GDI绘制
+		/// </summary>
+		/// <param name="bound"></param>
 		private void _Draw(Rectangle bound)
 		{
 			foreach (var wire in Wires.Values.Where(a => !a.Active))
@@ -94,6 +111,11 @@ namespace SimuCircult.Common.Graph
 			}
 		}
 
+		/// <summary>
+		/// 查找对象
+		/// </summary>
+		/// <param name="pt"></param>
+		/// <returns></returns>
 		private MarkableArgs _FindMarkable(Point pt)
 		{
 			var args = new MarkableArgs() { Pt = pt };
@@ -117,6 +139,9 @@ namespace SimuCircult.Common.Graph
 			_delay.Stop();
 		}
 
+		/// <summary>
+		/// 定时刷新
+		/// </summary>
 		public void OnTimer()
 		{
 			Update();

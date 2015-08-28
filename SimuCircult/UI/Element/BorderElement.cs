@@ -10,6 +10,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
+	/// <summary>
+	/// 边框图元
+	/// </summary>
 	public class BorderElement: GraphicsElement<BorderElement>
 	{
 		public BorderElement()

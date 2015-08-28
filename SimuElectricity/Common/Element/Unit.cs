@@ -10,6 +10,12 @@ using System.Text;
 
 namespace SimuElectricity.Common.Element
 {
+	/// <summary>
+	/// 单元基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
+	/// <typeparam name="V"></typeparam>
 	public abstract class Unit<T, U, V> : Mutable<T>
 		where T : UnitStatus, new()
 		where U : NodeStatus, new()
@@ -22,6 +28,9 @@ namespace SimuElectricity.Common.Element
 
 		private Point _coordinate = Point.Empty;
 
+		/// <summary>
+		/// 坐标
+		/// </summary>
 		public Point Coordinate
 		{
 			get { return _coordinate; }
@@ -30,6 +39,9 @@ namespace SimuElectricity.Common.Element
 
 		private List<Node<U, V>> _nodes = new List<Node<U, V>>();
 
+		/// <summary>
+		/// 结点集合
+		/// </summary>
 		public List<Node<U, V>> Nodes
 		{
 			get { return _nodes; }
@@ -38,6 +50,9 @@ namespace SimuElectricity.Common.Element
 
 		private List<Node<U, V>> _interpolateNodes = new List<Node<U, V>>();
 
+		/// <summary>
+		/// 插值样本
+		/// </summary>
 		public List<Node<U, V>> InterpolateNodes
 		{
 			get { return _interpolateNodes; }
@@ -46,6 +61,9 @@ namespace SimuElectricity.Common.Element
 
 		private IInterpolating<U> _interpolating;
 
+		/// <summary>
+		/// 插值接口
+		/// </summary>
 		internal IInterpolating<U> Interpolating
 		{
 			get { return _interpolating; }

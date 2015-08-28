@@ -10,6 +10,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
+	/// <summary>
+	/// 像素图元
+	/// </summary>
 	public class PixelElement : GraphicsElement<PixelElement>
 	{
 		public PixelElement()

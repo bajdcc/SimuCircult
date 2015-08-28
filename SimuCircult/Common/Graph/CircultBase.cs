@@ -8,6 +8,13 @@ using System.Text;
 
 namespace SimuCircult.Common.Graph
 {
+	/// <summary>
+	/// 电路基类
+	/// </summary>
+	/// <typeparam name="_STATUS"></typeparam>
+	/// <typeparam name="_NODE"></typeparam>
+	/// <typeparam name="_WIRE"></typeparam>
+	/// <typeparam name="_UNIT"></typeparam>
 	public class CircultBase<_STATUS, _NODE, _WIRE, _UNIT>
 		where _STATUS : Status, new()
 		where _NODE : Node<_STATUS>, new()
@@ -239,12 +246,20 @@ namespace SimuCircult.Common.Graph
 			return wire;
 		}
 
+		/// <summary>
+		/// 状态更新主体部分
+		/// </summary>
 		public virtual void Update()
 		{
+			//激活某些可激活单元（如时钟）
 			_units.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Activate(ActivateType.FilterUnit));
+			//将结点状态更新至边（结点至缓冲）
 			_nodes.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			//将结点状态更新至边（缓冲至边）
 			_wires.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.NodeToWire));
+			//将边状态更新至结点（边至缓冲）
 			_nodes.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
+			//将边状态更新至结点（缓冲至结点）
 			_wires.Values.Where(a => a.Active).AsParallel().ForAll(a => a.Advance(AdvanceType.WireToNode));
 		}
 	}

@@ -14,6 +14,10 @@ namespace SimuCircult.Common.Element
 		Both,
 	}
 
+	/// <summary>
+	/// 连线基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public abstract class Wire<T> : Mutable<T>
 		where T : Status, new()
 	{
@@ -24,6 +28,9 @@ namespace SimuCircult.Common.Element
 
 		private Node<T> _left;
 
+		/// <summary>
+		/// 左结点
+		/// </summary>
 		public Node<T> Left
 		{
 			get { return _left; }
@@ -32,6 +39,9 @@ namespace SimuCircult.Common.Element
 
 		private Node<T> _right;
 
+		/// <summary>
+		/// 右结点
+		/// </summary>
 		public Node<T> Right
 		{
 			get { return _right; }
@@ -40,6 +50,9 @@ namespace SimuCircult.Common.Element
 
 		private WireType _direction;
 
+		/// <summary>
+		/// 方向
+		/// </summary>
 		public WireType Direction
 		{
 			get { return _direction; }
@@ -48,6 +61,9 @@ namespace SimuCircult.Common.Element
 
 		private bool external = false;
 
+		/// <summary>
+		/// 是否为单元外部连线（独立绘制）
+		/// </summary>
 		public bool External
 		{
 			get { return external; }
@@ -99,6 +115,9 @@ namespace SimuCircult.Common.Element
 
 		protected abstract void _FromNodeToWire(T outputs);
 
+		/// <summary>
+		/// 激活结点的出边
+		/// </summary>
 		protected virtual void _ActivateNodeOfWire()
 		{
 			_right.Activate(ActivateType.FilterNode);

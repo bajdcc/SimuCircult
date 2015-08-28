@@ -15,6 +15,11 @@ namespace SimuElectricity.Common.Element
 		Both,
 	}
 
+	/// <summary>
+	/// 连线基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
 	public abstract class Wire<T, U> : Mutable<T>
 		where T : WireStatus, new()
 		where U : NodeStatus, new()
@@ -26,6 +31,9 @@ namespace SimuElectricity.Common.Element
 
 		private Node<U, T> _left;
 
+		/// <summary>
+		/// 左结点（起始）
+		/// </summary>
 		public Node<U, T> Left
 		{
 			get { return _left; }
@@ -34,6 +42,9 @@ namespace SimuElectricity.Common.Element
 
 		private Node<U, T> _right;
 
+		/// <summary>
+		/// 右结点（结束）
+		/// </summary>
 		public Node<U, T> Right
 		{
 			get { return _right; }
@@ -42,6 +53,9 @@ namespace SimuElectricity.Common.Element
 
 		private WireType _direction;
 
+		/// <summary>
+		/// 方向
+		/// </summary>
 		public WireType Direction
 		{
 			get { return _direction; }
@@ -50,6 +64,9 @@ namespace SimuElectricity.Common.Element
 
 		private bool external = false;
 
+		/// <summary>
+		/// 是否需要绘制
+		/// </summary>
 		public bool External
 		{
 			get { return external; }
@@ -58,6 +75,9 @@ namespace SimuElectricity.Common.Element
 
 		private WireType _heading = WireType.Both;
 
+		/// <summary>
+		/// 电荷传导方向
+		/// </summary>
 		public WireType Heading
 		{
 			get { return _heading; }

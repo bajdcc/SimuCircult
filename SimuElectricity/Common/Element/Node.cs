@@ -10,6 +10,11 @@ using System.Text;
 
 namespace SimuElectricity.Common.Element
 {
+	/// <summary>
+	/// 结点基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
 	public abstract class Node<T, U> : Mutable<T>
 		where T : NodeStatus, new()
 		where U : WireStatus, new()
@@ -21,6 +26,9 @@ namespace SimuElectricity.Common.Element
 
 		private IMedia _media;
 
+		/// <summary>
+		/// 结点介质
+		/// </summary>
 		public IMedia Media
 		{
 			get { return _media; }
@@ -29,6 +37,9 @@ namespace SimuElectricity.Common.Element
 
 		private Point _coordinate = Point.Empty;
 
+		/// <summary>
+		/// 结点坐标
+		/// </summary>
 		public Point Coordinate
 		{
 			get { return _coordinate; }
@@ -37,6 +48,9 @@ namespace SimuElectricity.Common.Element
 
 		private List<Wire<U, T>> _inWires = new List<Wire<U, T>>();
 
+		/// <summary>
+		/// 结点入边
+		/// </summary>
 		public List<Wire<U, T>> InWires
 		{
 			get { return _inWires; }
@@ -45,6 +59,9 @@ namespace SimuElectricity.Common.Element
 
 		private List<Wire<U, T>> _outWires = new List<Wire<U, T>>();
 
+		/// <summary>
+		/// 结点出边
+		/// </summary>
 		public List<Wire<U, T>> OutWires
 		{
 			get { return _outWires; }

@@ -7,6 +7,10 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
+	/// <summary>
+	/// 单元基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public abstract class Unit<T> : Node<T>
 		where T : Status, new()
 	{
@@ -17,6 +21,9 @@ namespace SimuCircult.Common.Element
 
 		private List<Node<T>> _inputs = new List<Node<T>>();
 
+		/// <summary>
+		/// 单元超图的输入结点抽象
+		/// </summary>
 		public List<Node<T>> Inputs
 		{
 			get { return _inputs; }
@@ -25,6 +32,9 @@ namespace SimuCircult.Common.Element
 
 		private List<Node<T>> _outputs = new List<Node<T>>();
 
+		/// <summary>
+		/// 单元超图的输出结点抽象
+		/// </summary>
 		public List<Node<T>> Outputs
 		{
 			get { return _outputs; }
@@ -33,6 +43,9 @@ namespace SimuCircult.Common.Element
 
 		private List<Node<T>> _hidden = new List<Node<T>>();
 
+		/// <summary>
+		/// 单元超图的内部结点抽象
+		/// </summary>
 		public List<Node<T>> Hidden
 		{
 			get { return _hidden; }
@@ -41,6 +54,9 @@ namespace SimuCircult.Common.Element
 
 		private bool external = true;
 
+		/// <summary>
+		/// 单元是否为顶层单元（可直接遍历）
+		/// </summary>
 		public bool External
 		{
 			get { return external; }

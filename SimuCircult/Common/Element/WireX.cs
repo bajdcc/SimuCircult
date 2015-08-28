@@ -12,7 +12,7 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
-	public abstract class WireX<T> : Wire<T>, IDraw
+	public abstract class WireX<T> : Wire<T>, IInteractive
 		where T : Status, new()
 	{
 		public WireX()

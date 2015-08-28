@@ -10,13 +10,18 @@ using System.Text;
 
 namespace SimuElectricity.Common.Element
 {
+	/// <summary>
+	/// 结点
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="U"></typeparam>
 	public class CommonNode<T, U> : NodeX<T, U>
 		where T : NodeStatus, new()
 		where U : WireStatus, new()
 	{
 		protected override void _FromWireToNode(IEnumerable<Wire<U, T>> inputs)
 		{
-			Next.Q += inputs.Sum(a => a.Local.Q);
+			Next.Q += inputs.Sum(a => a.Local.Q);//电荷增量
 		}
 
 		protected override void _FromNodeToWire(IEnumerable<Wire<U, T>> outputs)
@@ -32,6 +37,7 @@ namespace SimuElectricity.Common.Element
 				if (seX == scX)
 				{
 					double current;
+					//判别击穿
 					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
 					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
 					output.Next.Current = current;
@@ -57,6 +63,7 @@ namespace SimuElectricity.Common.Element
 				if (seY == scY)
 				{
 					double current;
+					//判别击穿
 					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
 					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
 					output.Next.Current = current;

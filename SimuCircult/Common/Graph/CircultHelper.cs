@@ -13,15 +13,23 @@ using System.Text;
 
 namespace SimuCircult.Common.Graph
 {
+	/// <summary>
+	/// 对事件参数的包装
+	/// </summary>
 	public class MarkableArgs
 	{
 		public Point Pt { get; set; }
 		public Markable Id { get; set; }
-		public IDraw Draw { get; set; }
+		public IInteractive Draw { get; set; }
 	}
 
 	public static class CircultHelper
 	{
+		/// <summary>
+		/// 创建开关
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <returns></returns>
 		public static SwitchUnit<Status> CreateSwitchUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<SwitchUnit<Status>>();
@@ -37,6 +45,11 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建时钟
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <returns></returns>
 		public static ClockUnit<Status> CreateClockUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<ClockUnit<Status>>();
@@ -52,6 +65,11 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建输出
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <returns></returns>
 		public static OutputUnit<Status> CreateOutputUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<OutputUnit<Status>>();
@@ -66,6 +84,12 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建或门
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <param name="inputCount"></param>
+		/// <returns></returns>
 		public static OrUnit<Status> CreateOrUnit(this Circult circult, int inputCount = 2)
 		{
 			var unit = circult.CreateUnit<OrUnit<Status>>();
@@ -87,6 +111,12 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建与门
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <param name="inputCount"></param>
+		/// <returns></returns>
 		public static AndUnit<Status> CreateAndUnit(this Circult circult, int inputCount = 2)
 		{
 			var unit = circult.CreateUnit<AndUnit<Status>>();
@@ -108,6 +138,12 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建或非门
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <param name="inputCount"></param>
+		/// <returns></returns>
 		public static OrNotUnit<Status> CreateOrNotUnit(this Circult circult, int inputCount = 2)
 		{
 			var unit = circult.CreateUnit<OrNotUnit<Status>>();
@@ -133,6 +169,12 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建与非门
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <param name="inputCount"></param>
+		/// <returns></returns>
 		public static AndNotUnit<Status> CreateAndNotUnit(this Circult circult, int inputCount = 2)
 		{
 			var unit = circult.CreateUnit<AndNotUnit<Status>>();
@@ -158,6 +200,11 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建显示屏
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <returns></returns>
 		public static DisplayUnit<Status> CreateDisplayUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<DisplayUnit<Status>>();
@@ -165,6 +212,11 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建SR锁存器
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <returns></returns>
 		public static SRLockUnit<Status> CreateSRLockUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<SRLockUnit<Status>>();
@@ -202,6 +254,11 @@ namespace SimuCircult.Common.Graph
 			return unit;
 		}
 
+		/// <summary>
+		/// 创建T触发器
+		/// </summary>
+		/// <param name="circult"></param>
+		/// <returns></returns>
 		public static TUnit<Status> CreateTUnit(this Circult circult)
 		{
 			var unit = circult.CreateUnit<TUnit<Status>>();

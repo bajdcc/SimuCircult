@@ -10,6 +10,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
+	/// <summary>
+	/// 文字图元
+	/// </summary>
 	public class TextElement : GraphicsElement<TextElement>
 	{
 		public TextElement()

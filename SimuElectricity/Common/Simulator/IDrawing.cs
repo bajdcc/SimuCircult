@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimuElectricity.Common.Simulator
 {
-	interface IDrawing : IDraw
+	interface IDrawing : IInteractive
 	{
 
 	}

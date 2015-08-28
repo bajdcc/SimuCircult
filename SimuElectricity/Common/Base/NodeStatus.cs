@@ -12,6 +12,9 @@ namespace SimuElectricity.Common.Base
 	{
 		private double _Q = 0;
 
+		/// <summary>
+		/// 电荷
+		/// </summary>
 		public double Q
 		{
 			get { return _Q; }
@@ -20,6 +23,9 @@ namespace SimuElectricity.Common.Base
 
 		private double _EX = 0;
 
+		/// <summary>
+		/// 水平方向电场强度
+		/// </summary>
 		public double EX
 		{
 			get { return _EX; }
@@ -28,6 +34,9 @@ namespace SimuElectricity.Common.Base
 
 		private double _EY = 0;
 
+		/// <summary>
+		/// 垂直方向电场强度
+		/// </summary>
 		public double EY
 		{
 			get { return _EY; }
@@ -36,6 +45,9 @@ namespace SimuElectricity.Common.Base
 
 		private bool _breakDown = false;
 
+		/// <summary>
+		/// 击穿
+		/// </summary>
 		public bool BreakDown
 		{
 			get { return _breakDown; }

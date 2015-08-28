@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SimuCircult.Common.Base
 {
+	/// <summary>
+	/// 命名对象
+	/// </summary>
 	public class Markable
 	{
 		private Guid _guid;

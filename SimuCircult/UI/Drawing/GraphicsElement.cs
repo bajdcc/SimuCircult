@@ -7,6 +7,10 @@ using System.Text;
 
 namespace SimuCircult.UI.Drawing
 {
+	/// <summary>
+	/// 图元
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class GraphicsElement<T> : IGraphicsElement
 		where T : GraphicsElement<T>, new()
 	{
@@ -15,6 +19,11 @@ namespace SimuCircult.UI.Drawing
 
 		private Dictionary<int, object> _attr = new Dictionary<int,object>();
 
+		/// <summary>
+		/// 图元属性
+		/// </summary>
+		/// <param name="key">键</param>
+		/// <returns>值</returns>
 		public object this[int key]
 		{
 			get { return _attr.ContainsKey(key) ? _attr[key] : null; }
@@ -41,6 +50,9 @@ namespace SimuCircult.UI.Drawing
 			}
 		}
 
+		/// <summary>
+		/// 图元工厂
+		/// </summary>
 		private class Factory : IGraphicsElementFactory
 		{
 			public IGraphicsElement Create()

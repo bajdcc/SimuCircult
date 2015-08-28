@@ -7,6 +7,10 @@ using System.Text;
 
 namespace SimuCircult.Common.Element
 {
+	/// <summary>
+	/// 结点基类
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public abstract class Node<T> : Mutable<T>
 		where T : Status, new()
 	{
@@ -17,6 +21,9 @@ namespace SimuCircult.Common.Element
 
 		private List<Wire<T>> _inWires = new List<Wire<T>>();
 
+		/// <summary>
+		/// 结点的入边
+		/// </summary>
 		public List<Wire<T>> InWires
 		{
 			get { return _inWires; }
@@ -25,6 +32,9 @@ namespace SimuCircult.Common.Element
 
 		private List<Wire<T>> _outWires = new List<Wire<T>>();
 
+		/// <summary>
+		/// 结点的出边
+		/// </summary>
 		public List<Wire<T>> OutWires
 		{
 			get { return _outWires; }
@@ -48,13 +58,17 @@ namespace SimuCircult.Common.Element
 			}
 		}
 
+		/// <summary>
+		/// 结点状态更新
+		/// </summary>
+		/// <param name="type"></param>
 		public override void Advance(AdvanceType type)
 		{
 			switch (type)
 			{
 				case AdvanceType.NodeToWire:
 					_FromNodeToWire(_outWires.Select(a => a.Next));
-					_ActivateWiresOfNode();					
+					_ActivateWiresOfNode();
 					break;
 				case AdvanceType.WireToNode:
 					_FromWireToNode(_inWires.Select(a => a.Next));
@@ -69,8 +83,12 @@ namespace SimuCircult.Common.Element
 
 		protected abstract void _FromNodeToWire(IEnumerable<T> outputs);
 
+		/// <summary>
+		/// 状态从结点更新至边，激活边
+		/// </summary>
 		protected virtual void _ActivateWiresOfNode()
 		{
+			//激活所有出边
 			_outWires.AsParallel().ForAll(a => a.Activate(ActivateType.FilterWire));
 		}
 	}

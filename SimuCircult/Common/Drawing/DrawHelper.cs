@@ -9,6 +9,12 @@ namespace System.Drawing
 {
 	public static class DrawHelper
 	{
+		/// <summary>
+		/// 调整矩形大小
+		/// </summary>
+		/// <param name="absBound">绝对位置</param>
+		/// <param name="relBound">相对位置</param>
+		/// <returns></returns>
 		public static Rectangle AdjustBound(this Rectangle absBound, Rectangle relBound)
 		{
 			absBound.Offset(relBound.Location);
@@ -17,28 +23,57 @@ namespace System.Drawing
 			return absBound;
 		}
 
+		/// <summary>
+		/// 设置位置
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <param name="location"></param>
 		public static void SetLocation(this Rectangle bound, Point location)
 		{
 			bound.Location = location;
 		}
 
+		/// <summary>
+		/// 偏移
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <param name="offset"></param>
+		/// <returns></returns>
 		public static Rectangle OffsetBound(this Rectangle bound, Size offset)
 		{
 			bound.Location += offset;
 			return bound;
 		}
 
+		/// <summary>
+		/// 缩小
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <param name="size"></param>
+		/// <returns></returns>
 		public static Rectangle Deflate(this Rectangle bound, Size size)
 		{
 			bound.Inflate(size.Negative());
 			return bound;
 		}
 
+		/// <summary>
+		/// 居中
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <returns></returns>
 		public static Point Center(this Rectangle bound)
 		{
 			return bound.Location + bound.Size.Half();
 		}
 
+		/// <summary>
+		/// 上/下/左/右居中
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <param name="size"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
 		public static Rectangle NearCenter(this Rectangle bound, Size size, Direction type)
 		{
 			var _bound = bound;
@@ -69,6 +104,14 @@ namespace System.Drawing
 			return _bound;
 		}
 
+		/// <summary>
+		/// 上/下/左/右居中加偏移
+		/// </summary>
+		/// <param name="bound"></param>
+		/// <param name="size"></param>
+		/// <param name="type"></param>
+		/// <param name="offset"></param>
+		/// <returns></returns>
 		public static Rectangle NearCenter(this Rectangle bound, Size size, Direction type, Point offset)
 		{
 			var _bound = bound.NearCenter(size, type);
@@ -76,6 +119,11 @@ namespace System.Drawing
 			return _bound;
 		}
 
+		/// <summary>
+		/// 大小减半
+		/// </summary>
+		/// <param name="size"></param>
+		/// <returns></returns>
 		public static Size Half(this Size size)
 		{
 			size.Width /= 2;
@@ -83,6 +131,11 @@ namespace System.Drawing
 			return size;
 		}
 
+		/// <summary>
+		/// 大小取反
+		/// </summary>
+		/// <param name="size"></param>
+		/// <returns></returns>
 		public static Size Negative(this Size size)
 		{
 			size.Width = -size.Width;

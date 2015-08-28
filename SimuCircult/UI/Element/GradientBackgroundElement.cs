@@ -9,6 +9,9 @@ using System.Text;
 
 namespace SimuCircult.UI.Element
 {
+	/// <summary>
+	/// 渐变颜色图元
+	/// </summary>
 	public class GradientBackgroundElement : GraphicsElement<GradientBackgroundElement>
 	{
 		public GradientBackgroundElement()

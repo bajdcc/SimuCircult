@@ -8,6 +8,7 @@ namespace SimuCircult.Common.Base
 {
 	public class Status
 	{
+		//电位
 		private int _code = Constants.Initialize();
 
 		public int Code

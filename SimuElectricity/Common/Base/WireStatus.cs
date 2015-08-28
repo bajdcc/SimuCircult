@@ -10,6 +10,9 @@ namespace SimuElectricity.Common.Base
 	{
 		private double _Q = 0;		
 
+		/// <summary>
+		/// 电荷
+		/// </summary>
 		public double Q
 		{
 			get { return _Q; }
@@ -18,6 +21,9 @@ namespace SimuElectricity.Common.Base
 
 		private double _current = 0;
 
+		/// <summary>
+		/// 电流
+		/// </summary>
 		public double Current
 		{
 			get { return _current; }
@@ -26,6 +32,9 @@ namespace SimuElectricity.Common.Base
 
 		private bool _breakDown = false;
 
+		/// <summary>
+		/// 击穿
+		/// </summary>
 		public bool BreakDown
 		{
 			get { return _breakDown; }
