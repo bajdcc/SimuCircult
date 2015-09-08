@@ -43,16 +43,23 @@ namespace SimuElectricity.Common.Base
 			set { _EY = value; }
 		}
 
-		private bool _breakDown = false;
-
 		/// <summary>
-		/// 击穿
+		/// 状态
 		/// </summary>
-		public bool BreakDown
+		public ElectricStatus ElecStatus
 		{
-			get { return _breakDown; }
-			set { _breakDown = value; }
+			get
+			{
+				return _elecStatus;
+			}
+
+			set
+			{
+				_elecStatus = value;
+			}
 		}
+
+		private ElectricStatus _elecStatus = ElectricStatus.Resistence;
 
 		public override string ToString()
 		{

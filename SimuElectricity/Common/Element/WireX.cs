@@ -18,6 +18,9 @@ namespace SimuElectricity.Common.Element
 		where T : WireStatus, new()
 		where U : NodeStatus, new()
 	{
+		static private Color IonizationColor = Color.FromArgb(20, Color.LightBlue);
+		static private Color ConductionColor = Color.FromArgb(80, Color.White);
+
 		public WireX()
 		{
 			_L1_line = LineElement.Create();
@@ -46,10 +49,11 @@ namespace SimuElectricity.Common.Element
 
 		public virtual void Prepare(Rectangle bound)
 		{
-			_L1_line.Enable(Local.BreakDown);
-			if (Local.BreakDown)
+			_L1_line.Enable(Local.Breakdown);
+			if (_L1_line.IsEnabled())
 			{
 				_L1_line[GraphicsDefines.Gdi_Bound] = bound;
+				_L1_line[GraphicsDefines.Line_Color] = Local.ElecStatus == ElectricStatus.Ionization ? IonizationColor : ConductionColor;
 				_L1_line[GraphicsDefines.Line_Width] = 0.5f * (float)Math.Log10(Math.Abs(Local.Current));
 				_L1_line[GraphicsDefines.Line_PointBegin] = (Left as NodeX<U, T>).AbsBound.Center();
 				_L1_line[GraphicsDefines.Line_PointEnd] = (Right as NodeX<U, T>).AbsBound.Center();

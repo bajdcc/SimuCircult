@@ -173,7 +173,7 @@ namespace SimuElectricity.Common.Element
 			var node = Nodes.First();
 			sb.AppendFormat("M: {0}\n", node.Media.GetType().Name);
 			sb.AppendFormat("Q: {0}\n", node.Local.Q);
-			sb.AppendFormat("B: {0}\n", node.Local.BreakDown);
+			sb.AppendFormat("B: {0}\n", node.Local.ElecStatus.ToString());
 			sb.AppendFormat("EX: {0}\n", node.Local.EX);
 			sb.AppendFormat("EY: {0}\n", node.Local.EY);
 			var wire = Nodes.First().OutWires.Select(a => a.Local.Current);

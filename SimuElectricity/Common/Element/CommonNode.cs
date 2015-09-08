@@ -28,8 +28,6 @@ namespace SimuElectricity.Common.Element
 		{
 			var seX = Math.Sign(Local.EX);
 			var seY = Math.Sign(Local.EY);
-			U lastWire = null;
-			T lastNode = null;
 			foreach (var output in outputs)
 			{
 				var scX = Math.Sign(output.Right.Coordinate.X - Coordinate.X);
@@ -37,60 +35,43 @@ namespace SimuElectricity.Common.Element
 				if (seX == scX)
 				{
 					double current;
-					//判别击穿
-					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
+					output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
 					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
 					output.Next.Current = current;
-					if (output.Next.BreakDown)
-					{
-						if (lastWire == null)
-						{
-							lastWire = output.Next;
-							lastNode = output.Right.Next;
-						}
-						else
-						{
-							if (Math.Abs(current) > Math.Abs(lastWire.Current))
-							{
-								lastWire.BreakDown = false;
-								lastWire.Current = 0.0;
-								lastWire = output.Next;
-								lastNode = output.Right.Next;
-							}
-						}
-					}
 				}
 				if (seY == scY)
 				{
 					double current;
-					//判别击穿
-					output.Next.BreakDown = Media.BreakDownTest(output.Right.Media, Local.BreakDown, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
+					output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
 					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
 					output.Next.Current = current;
-					if (output.Next.BreakDown)
-					{
-						if (lastWire == null)
-						{
-							lastWire = output.Next;
-							lastNode = output.Right.Next;
-						}
-						else
-						{
-							if (Math.Abs(current) > Math.Abs(lastWire.Current))
-							{
-								lastWire.BreakDown = false;
-								lastWire.Current = 0.0;
-								lastWire = output.Next;
-								lastNode = output.Right.Next;
-							}
-						}
-					}
 				}
 			}
-			if (lastWire != null)
+			switch (Local.ElecStatus)
 			{
-				Next.BreakDown = true;
-				lastNode.BreakDown = true;
+				case ElectricStatus.Resistence:
+					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
+						Next.ElecStatus = ElectricStatus.Ionization;
+					else
+						Next.ElecStatus = ElectricStatus.Resistence;
+					break;
+				case ElectricStatus.Ionization:
+					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization && a.Next.Current > 0.0) &&
+						outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization && a.Next.Current < 0.0))
+						Next.ElecStatus = ElectricStatus.Conduction;
+					else if (outputs.All(a => a.Next.ElecStatus == ElectricStatus.Resistence))
+						Next.ElecStatus = ElectricStatus.Resistence;
+					else
+						Next.ElecStatus = ElectricStatus.Ionization;
+					break;
+				case ElectricStatus.Conduction:
+					if (!outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Conduction))
+						Next.ElecStatus = ElectricStatus.Ionization;
+					else
+						Next.ElecStatus = ElectricStatus.Conduction;
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -100,7 +81,7 @@ namespace SimuElectricity.Common.Element
 			Local.Q = Defines.Clamp(Local.Q, Defines.MAX_Q);
 			Local.EX = Next.EX;
 			Local.EY = Next.EY;
-			Local.BreakDown = Next.BreakDown;
+			Local.ElecStatus = Next.ElecStatus;
 			Next.EX = 0;
 			Next.EY = 0;
 			Media.Advance();

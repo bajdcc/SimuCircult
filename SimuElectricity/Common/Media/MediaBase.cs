@@ -1,5 +1,6 @@
 ﻿using SimuCircult.Common.Base;
 using SimuElectricity.Common.Base;
+using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,10 +25,10 @@ namespace SimuElectricity.Common.Media
 			return _id;
 		}
 
-		public virtual bool BreakDownTest(IMedia media, bool breaknode, WireStatus status, double voltage, out double current)
+		public virtual ElectricStatus BreakDownTest(IMedia media, ElectricStatus elecStatus, WireStatus status, double voltage, out double current)
 		{
 			current = 0;
-			return false;
+			return ElectricStatus.Resistence;
 		}
 
 		public virtual void SetNodeStatus(NodeStatus status)

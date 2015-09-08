@@ -54,4 +54,20 @@ namespace SimuElectricity.Common.Simulator
 			return Math.Abs(t) < area ? t : Math.Sign(t) * area;
 		}
 	}
+
+	public enum ElectricStatus
+	{
+		/// <summary>
+		/// 电阻
+		/// </summary>
+		Resistence,
+		/// <summary>
+		/// 电离
+		/// </summary>
+		Ionization,
+		/// <summary>
+		/// 导电
+		/// </summary>
+		Conduction,
+	}
 }

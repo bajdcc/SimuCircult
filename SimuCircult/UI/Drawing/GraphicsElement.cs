@@ -93,5 +93,10 @@ namespace SimuCircult.UI.Drawing
 		{
 			this[GraphicsDefines.Gdi_Enable] = enable;
 		}
+
+		public bool IsEnabled()
+		{
+			return (bool)this[GraphicsDefines.Gdi_Enable];
+		}
 	}
 }

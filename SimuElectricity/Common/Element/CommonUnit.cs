@@ -37,7 +37,7 @@ namespace SimuElectricity.Common.Element
 			foreach (var node in Nodes)
 			{
 				node.Local.Q *= 2;
-				node.Local.BreakDown = true;
+				node.Local.ElecStatus = Simulator.ElectricStatus.Conduction;
 			}
 			return 0;
 		}
@@ -47,7 +47,7 @@ namespace SimuElectricity.Common.Element
 			foreach (var node in Nodes)
 			{
 				node.Local.Q /= 2;
-				node.Local.BreakDown = false;
+				node.Local.ElecStatus = Simulator.ElectricStatus.Resistence;
 			}
 			return 0;
 		}

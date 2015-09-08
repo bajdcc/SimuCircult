@@ -1,4 +1,5 @@
 ﻿using SimuElectricity.Common.Base;
+using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,12 +24,12 @@ namespace SimuElectricity.Common.Media
 		/// 介质间电压与电流关系
 		/// </summary>
 		/// <param name="media">目标介质</param>
-		/// <param name="breaknode">结点是否已经击穿</param>
+		/// <param name="elecStatus">结点电特性</param>
 		/// <param name="status">结点间电离状态</param>
 		/// <param name="voltage">电位差</param>
 		/// <param name="current">产生的电流</param>
-		/// <returns>如果击穿则返回真</returns>
-		bool BreakDownTest(IMedia media, bool breaknode, WireStatus status, double voltage, out double current);
+		/// <returns>返回电特性</returns>
+		ElectricStatus BreakDownTest(IMedia media, ElectricStatus elecStatus, WireStatus status, double voltage, out double current);
 
 		/// <summary>
 		/// 进行一次检查，如大地电荷流失等

@@ -1,4 +1,5 @@
 ﻿using SimuCircult.Common.Base;
+using SimuElectricity.Common.Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +31,32 @@ namespace SimuElectricity.Common.Base
 			set { _current = value; }
 		}
 
-		private bool _breakDown = false;
-
 		/// <summary>
-		/// 击穿
+		/// 状态
 		/// </summary>
-		public bool BreakDown
+		public ElectricStatus ElecStatus
 		{
-			get { return _breakDown; }
-			set { _breakDown = value; }
+			get
+			{
+				return _elecStatus;
+			}
+
+			set
+			{
+				_elecStatus = value;
+			}
 		}
+
+		public bool Breakdown
+		{
+			get { return _elecStatus != ElectricStatus.Resistence; }
+		}
+
+		private ElectricStatus _elecStatus = ElectricStatus.Resistence;
 
 		public override string ToString()
 		{
-			return _breakDown.ToString();
+			return _elecStatus.ToString();
 		}
 	}
 }
