@@ -36,8 +36,9 @@ namespace SimuElectricity.Common.Graph
 		private bool _taskRunning = false;
 		private Stopwatch _stopwatch = new Stopwatch();
 		private DisplayUnit<UnitStatus, NodeStatus, WireStatus> _fps;
+        private List<NodeStatus> _NodeStatusList = new List<NodeStatus>();
 
-		public Circult()
+        public Circult()
 		{
 			_Init();
 		}
@@ -71,21 +72,23 @@ namespace SimuElectricity.Common.Graph
 						Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
 						Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
 					node.Coordinate = new Point(i, j);
-					if (4 <= j && j <= 9 && 15 <= i && i <= 45)
+					if (2 <= j && j <= 7 && 0 <= i && i <= 60)
 					{
 						var media = new CloudMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}
-					else if (34 <= j && j <= 37 && 0 <= i && i <= 60)
+                    else if (39 <= j && j <= 40 && 0 <= i && i <= 60)
+                    {
+                        var media = new ZeroMedia();
+                        media.SetNodeStatus(node.Local);
+                        node.Media = media;
+                    }
+                    else if ((30 <= j && j < 39 && 0 <= i && i <= 60)
+                        //|| (27 <= j && j <= 29 && i == 30)
+                        )
 					{
 						var media = new GroundMedia();
-						media.SetNodeStatus(node.Local);
-						node.Media = media;
-					}
-					else if (j == 38 && 0 <= i && i <= 60)
-					{
-						var media = new ZeroMedia();
 						media.SetNodeStatus(node.Local);
 						node.Media = media;
 					}
@@ -152,39 +155,43 @@ namespace SimuElectricity.Common.Graph
 				}
 			}
 			_fps = CreateDisplayUnit();
-			_fps.Location = new Point(20, 30);
-		}
+            _fps.RelBound = new Rectangle(20, 30, 280, 30);    
+            for (int i = 0; i < Defines.WIDTH_COUNT; i++)
+            {
+                for (int j = 0; j < Defines.HEIGHT_COUNT; j++)
+                {
+                    var node = _demonsionsNode[i, j];
+                    _NodeStatusList.Add(node.Local);
+                }
+            }
+        }
 
 		public override void Update()
 		{
-			Parallel.For(0, Defines.WIDTH_COUNT * Defines.HEIGHT_COUNT, n =>
+            Parallel.For(0, Defines.WIDTH_COUNT * Defines.HEIGHT_COUNT, n =>
 			{
 				int i = n % Defines.WIDTH_COUNT;
 				int j = n / Defines.WIDTH_COUNT;
 				var node = _demonsionsNode[i, j];
-				var coef = node.Media.CalculateElectricField();
-				if (coef.HasValue)
-				{
-					if (Math.Abs(node.Local.Q) > Defines.MIN_Q)
-					{
-						Parallel.For(0, Defines.WIDTH_COUNT * Defines.HEIGHT_COUNT, m =>
-						{
-							int x = m % Defines.WIDTH_COUNT;
-							int y = m / Defines.WIDTH_COUNT;
-							int dx = x - i;
-							int dy = y - j;
-							if ((dx & dy) != 0)
-							{
-								var target = _demonsionsNode[x, y];
-								var invSqu = coef.Value * Defines.K_ELEC
-									* node.Local.Q * target.Local.Q
-									* InverseSquareCache.Calculate(Math.Abs(dx), Math.Abs(dy));
-								target.Local.EX += dx * invSqu;
-								target.Local.EY += dy * invSqu;
-							}
-						});
-					}
-				}
+                //if (Math.Abs(node.Local.NQ) > Defines.MIN_Q)
+                {
+                    Parallel.For(0, Defines.WIDTH_COUNT * Defines.HEIGHT_COUNT, m =>
+                    {
+                        int x = m % Defines.WIDTH_COUNT;
+                        int y = m / Defines.WIDTH_COUNT;
+                        int dx = x - i;
+                        int dy = y - j;
+                        if ((dx & dy) != 0)
+                        {
+                            var target = _demonsionsNode[x, y];
+                            var invSqu = Defines.K_ELEC
+                                * node.Local.Q
+                                * InverseSquareCache.Calculate(Math.Abs(dx), Math.Abs(dy));
+                            target.Local.EX += dx * invSqu;
+                            target.Local.EY += dy * invSqu;
+                        }
+                    });
+                }
 			});
 			base.Update();
 		}
@@ -304,8 +311,11 @@ namespace SimuElectricity.Common.Graph
 
 		private void _StopWatch()
 		{
-			_stopwatch.Stop();
-			_fps.Display = string.Format("Frame: {0} ms", _stopwatch.ElapsedMilliseconds);
+			_stopwatch.Stop();            
+            _fps.Display = string.Format("{0}ms Q:{1:0.0},{2:0.0}",
+                _stopwatch.ElapsedMilliseconds,
+                _NodeStatusList.Sum(a => a.Q),
+                _NodeStatusList.Max(a => a.Q));
 			_stopwatch.Reset(); 
 		}
 

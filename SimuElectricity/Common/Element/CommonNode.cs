@@ -21,13 +21,15 @@ namespace SimuElectricity.Common.Element
 	{
 		protected override void _FromWireToNode(IEnumerable<Wire<U, T>> inputs)
 		{
-			Next.Q += inputs.Sum(a => a.Local.Q);//电荷增量
+			Next.PQ += inputs.Sum(a => a.Local.Q);//电荷增量
 		}
 
 		protected override void _FromNodeToWire(IEnumerable<Wire<U, T>> outputs)
 		{
 			var seX = Math.Sign(Local.EX);
 			var seY = Math.Sign(Local.EY);
+            U x = null, y = null;
+            double ix = 0, iy = 0;
 			foreach (var output in outputs)
 			{
 				var scX = Math.Sign(output.Right.Coordinate.X - Coordinate.X);
@@ -36,18 +38,50 @@ namespace SimuElectricity.Common.Element
 				{
 					double current;
 					output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
-					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
-					output.Next.Current = current;
-				}
-				if (seY == scY)
-				{
-					double current;
-					output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
-					current = Defines.Clamp(current, Defines.MIN_TRANSFER_I, Defines.MAX_TRANSFER_I);
-					output.Next.Current = current;
-				}
+                    ix = Defines.Clamp(current, 0, Defines.MAX_TRANSFER_I);
+					//output.Next.Current = ix;
+                    x = output.Next;
+                }
+                if (seY == scY)
+                {
+                    double current;
+                    output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
+                    iy = Defines.Clamp(current, 0, Defines.MAX_TRANSFER_I);
+                    //output.Next.Current = iy;
+                    y = output.Next;
+                }                
 			}
-			switch (Local.ElecStatus)
+            if (x != null && y != null)
+            {
+                double ixy = ix + iy;
+                double i = Defines.Clamp(Local.PQ, 0, ixy);
+                Next.PQ -= i;
+                if (i != 0)
+                {
+                    x.Current = ix * i / ixy;
+                    y.Current = iy * i / ixy;
+                }
+                else
+                {
+                    x.Current = 0;
+                    y.Current = 0;
+                }                
+            }
+            else
+            {
+                if (x != null)
+                {
+                    x.Current = Defines.Clamp(Local.PQ, 0, ix);
+                    Next.PQ -= x.Current;
+                }
+                else if (y !=null)
+                {
+                    y.Current = Defines.Clamp(Local.PQ, 0, iy);
+                    Next.PQ -= y.Current;
+                }
+            }            
+
+            switch (Local.ElecStatus)
 			{
 				case ElectricStatus.Resistence:
 					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
@@ -56,8 +90,7 @@ namespace SimuElectricity.Common.Element
 						Next.ElecStatus = ElectricStatus.Resistence;
 					break;
 				case ElectricStatus.Ionization:
-					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization && a.Next.Current > 0.0) &&
-						outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization && a.Next.Current < 0.0))
+					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
 						Next.ElecStatus = ElectricStatus.Conduction;
 					else if (outputs.All(a => a.Next.ElecStatus == ElectricStatus.Resistence))
 						Next.ElecStatus = ElectricStatus.Resistence;
@@ -77,8 +110,9 @@ namespace SimuElectricity.Common.Element
 
 		public override void Update()
 		{
-			Local.Q += Next.Q;
-			Local.Q = Defines.Clamp(Local.Q, Defines.MAX_Q);
+			Local.PQ += Next.PQ;
+            Next.PQ = 0;
+            Local.PQ = Defines.Clamp(Local.PQ, Defines.MAX_Q);
 			Local.EX = Next.EX;
 			Local.EY = Next.EY;
 			Local.ElecStatus = Next.ElecStatus;

@@ -22,21 +22,22 @@ namespace SimuElectricity.Common.Element
 	{
 		protected override void _FromWireToNode(U inputs)
 		{
-			
-		}
+            
+        }
 
 		protected override void _FromNodeToWire(U outputs)
 		{
-			Next.Q = Next.Current * Defines.TIME_STEP;//电荷增量
-			Next.Q = Defines.Clamp(Next.Q, Defines.MIN_TRANSFER_Q, Defines.MAX_TRANSFER_Q);
-			outputs.Q -= Next.Q;//电荷输出，自身电荷减少
-		}
+            //Next.Q = 0; Local.Current = 0;
+            Next.Q = Next.Current * Defines.TIME_STEP;
+            //Next.Q = Defines.Clamp(Next.Q, 0, Next.QL);
+            //outputs.PQ -= Next.Q;
+        }
 
 		public override void Update()
 		{
 			Local.Q = Next.Q;
 			Next.Q = 0;
-			Local.Current = Next.Current;
+            Local.Current = Next.Current;
 			Local.ElecStatus = Next.ElecStatus;
 		}
 

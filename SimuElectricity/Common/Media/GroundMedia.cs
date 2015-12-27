@@ -20,99 +20,61 @@ namespace SimuElectricity.Common.Media
 		}
 
 		public override ElectricStatus BreakDownTest(IMedia media, ElectricStatus elecStatus, WireStatus status, double voltage, out double current)
-		{
-			if (media.GetId() == _id)
+		{            
+            if (media.GetId() == _id)
 			{
-				switch (elecStatus)
-				{
-					case ElectricStatus.Resistence:
-						if (Math.Abs(voltage) > 1000)
-						{
-							current = 0;
-							return ElectricStatus.Ionization;
-						}
-						break;
-					case ElectricStatus.Ionization:
-						if (Math.Abs(voltage) > 1e4)
-						{
-							current = 10;
-							return ElectricStatus.Conduction;
-						}
-						if (Math.Abs(voltage) > 2000)
-						{
-							current = 80;
-							return ElectricStatus.Ionization;
-						}
-						break;
-					case ElectricStatus.Conduction:
-						if (Math.Abs(voltage) > 1e4)
-						{
-							current = Defines.Clamp(voltage, 1e5);
-							return ElectricStatus.Conduction;
-						}
-						break;
-					default:
-						break;
-				}
-			}
-			else if (media.GetId() == MediaId.M_ZERO)
-			{
-				switch (elecStatus)
-				{
-					case ElectricStatus.Resistence:
-						if (Math.Abs(voltage) > 1000)
-						{
-							current = 0;
-							return ElectricStatus.Ionization;
-						}
-						break;
-					case ElectricStatus.Ionization:
-						if (Math.Abs(voltage) > 2000)
-						{
-							current = 80;
-							return ElectricStatus.Ionization;
-						}
-						break;
-					case ElectricStatus.Conduction:
-						if (Math.Abs(voltage) > 1e5)
-						{
-							current = Defines.Clamp(voltage, 1e7);
-							return ElectricStatus.Conduction;
-						}
-						break;
-					default:
-						break;
-				}
-			}
+                voltage *= 0.5;
+                switch (elecStatus)
+                {
+                    case ElectricStatus.Resistence:
+                        current = Defines.Clamp(voltage, 1e4);
+                        return elecStatus;              
+                    default:
+                        break;
+                }
+            }
 			else if (media.GetId() == MediaId.M_AIR)
 			{
-				switch (elecStatus)
-				{
-					case ElectricStatus.Resistence:
-						if (Math.Abs(voltage) > 10000)
-						{
-							current = 10;
-							return ElectricStatus.Ionization;
-						}
-						break;
-					case ElectricStatus.Ionization:
-						if (Math.Abs(voltage) > 20000)
-						{
-							current = 50;
-							return ElectricStatus.Ionization;
-						}
-						break;
-					case ElectricStatus.Conduction:
-						if (Math.Abs(voltage) > 20000)
-						{
-							current = Defines.Clamp(voltage, 2e4);
-							return ElectricStatus.Conduction;
-						}
-						break;
-					default:
-						break;
-				}
-			}
+                voltage *= 0.01;
+                switch (elecStatus)
+                {
+                    case ElectricStatus.Resistence:
+                        current = Defines.Clamp(voltage, 0.01);
+                        if (Math.Abs(voltage) > 200)
+                        {
+                            return ElectricStatus.Ionization;
+                        }
+                        else
+                        {
+                            return elecStatus;
+                        }
+                    case ElectricStatus.Ionization:
+                        if (Math.Abs(voltage) > 500)
+                        {
+                            current = Defines.Clamp(voltage, 1e6);
+                            return ElectricStatus.Conduction;
+                        }
+                        if (Math.Abs(voltage) > 200)
+                        {
+                            current = Defines.Clamp(voltage, 1e4);
+                            return ElectricStatus.Ionization;
+                        }
+                        break;
+                    case ElectricStatus.Conduction:
+                        if (Math.Abs(voltage) > 60)
+                        {
+                            current = Defines.Clamp(voltage, 1e6);
+                            return ElectricStatus.Conduction;
+                        }
+                        else
+                        {
+                            current = Defines.Clamp(voltage, 1e6);
+                            return ElectricStatus.Ionization;
+                        }
+                    default:
+                        break;
+                }
+            }
 			return base.BreakDownTest(media, elecStatus, status, voltage, out current);
 		}
 
@@ -121,12 +83,8 @@ namespace SimuElectricity.Common.Media
 			base.SetNodeStatus(status);
 			//status.Q = 1e10 * (Defines.NRand.Next() + 0.3);
 			//status.Q = 0;
-			status.Q = 1e2;
-		}
-
-		public override double? CalculateElectricField()
-		{
-			return 1.0;
-		}
+			status.NQ = 5;
+            status.PQ = 5;
+        }
 	}
 }

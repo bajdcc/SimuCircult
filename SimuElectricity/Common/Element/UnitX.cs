@@ -135,7 +135,20 @@ namespace SimuElectricity.Common.Element
 
 		protected virtual int _Click(Point pt)
 		{
-			return 0;
+            StringBuilder sb = new StringBuilder();
+            var node = Nodes.First();
+            sb.AppendFormat("M: {0}\n", node.Media.GetType().Name);
+            sb.AppendFormat("Q: {0}\n", node.Local.Q);
+            sb.AppendFormat("B: {0}\n", node.Local.ElecStatus.ToString());
+            sb.AppendFormat("EX: {0}\n", node.Local.EX);
+            sb.AppendFormat("EY: {0}\n", node.Local.EY);
+            var wire = Nodes.First().OutWires.Select(a => a.Local.Current);
+            foreach (var w in wire)
+            {
+                sb.AppendFormat("I: {0}\n", w);
+            }
+            System.Windows.Forms.MessageBox.Show(sb.ToString(), "Unit Infomation");
+            return 0;
 		}
 
 		protected virtual int _RightClick(Point pt)
@@ -169,7 +182,7 @@ namespace SimuElectricity.Common.Element
 
 		protected virtual int _Hover(Point pt)
 		{
-			StringBuilder sb = new StringBuilder();
+            /*StringBuilder sb = new StringBuilder();
 			var node = Nodes.First();
 			sb.AppendFormat("M: {0}\n", node.Media.GetType().Name);
 			sb.AppendFormat("Q: {0}\n", node.Local.Q);
@@ -183,6 +196,7 @@ namespace SimuElectricity.Common.Element
 			}
 			Storage.Tip.ToolTipTitle = "Unit Infomation";
 			Storage.Tip.Show(sb.ToString(), Storage.Ctrl, pt, 1500);
+            System.Windows.Forms.MessageBox.Show("Unit Infomation", sb.ToString());*/
 			return 0;
 		}
 

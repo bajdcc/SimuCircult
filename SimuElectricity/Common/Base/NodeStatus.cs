@@ -10,18 +10,37 @@ namespace SimuElectricity.Common.Base
 {
 	public class NodeStatus : Status
 	{
-		private double _Q = 0;
+		private double _NQ = 0;
 
 		/// <summary>
-		/// 电荷
+		/// 基础负电荷
 		/// </summary>
-		public double Q
+		public double NQ
 		{
-			get { return _Q; }
-			set { _Q = value; }
+			get { return _NQ; }
+			set { _NQ = value; }
 		}
 
-		private double _EX = 0;
+        private double _PQ = 0;
+
+        /// <summary>
+        /// 基础正电荷
+        /// </summary>
+        public double PQ
+        {
+            get { return _PQ; }
+            set { _PQ = value; }
+        }
+
+        /// <summary>
+        /// 基础电荷
+        /// </summary>
+        public double Q
+        {
+            get { return PQ - NQ; }
+        }
+
+        private double _EX = 0;
 
 		/// <summary>
 		/// 水平方向电场强度
@@ -63,7 +82,7 @@ namespace SimuElectricity.Common.Base
 
 		public override string ToString()
 		{
-			return _Q.ToString();
+			return Q.ToString();
 		}
 	}
 }

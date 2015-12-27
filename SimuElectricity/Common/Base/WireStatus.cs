@@ -9,12 +9,23 @@ namespace SimuElectricity.Common.Base
 {
 	public class WireStatus : Status
 	{
-		private double _Q = 0;		
+		private double _QL = 0;
 
-		/// <summary>
-		/// 电荷
-		/// </summary>
-		public double Q
+        /// <summary>
+        /// 电荷传输上限
+        /// </summary>
+        public double QL
+        {
+            get { return _QL; }
+            set { _QL = value; }
+        }
+
+        private double _Q = 0;
+
+        /// <summary>
+        /// 电荷
+        /// </summary>
+        public double Q
 		{
 			get { return _Q; }
 			set { _Q = value; }

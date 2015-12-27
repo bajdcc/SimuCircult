@@ -24,6 +24,7 @@ namespace SimuElectricity.Common.Element
 			_L1_background = BackgroundElement.Create();
 			_L1_background[GraphicsDefines.Background_Color] = Color.FromArgb(64, Constants.WindowBackground);
 			_L2_text = TextElement.Create();
+            _L2_text.AlignmentH = StringAlignment.Near;
 			Elements.Add(_L1_border);
 			Elements.Add(_L1_background);
 			Elements.Add(_L2_text);
@@ -44,7 +45,7 @@ namespace SimuElectricity.Common.Element
 		{
 			base.Prepare(bound);
 			_L1_background[GraphicsDefines.Gdi_Bound] = AbsBound;
-			_L2_text[GraphicsDefines.Gdi_Bound] = AbsBound.NearCenter(new Size(200, 30), Direction.Up);
+            _L2_text[GraphicsDefines.Gdi_Bound] = AbsBound;
 		}
 
 		public override void Draw(Rectangle bound)

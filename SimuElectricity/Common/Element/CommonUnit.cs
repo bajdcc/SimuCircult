@@ -32,11 +32,11 @@ namespace SimuElectricity.Common.Element
 
 		}
 
-		protected override int _Click(Point pt)
+		/*protected override int _Click(Point pt)
 		{
 			foreach (var node in Nodes)
 			{
-				node.Local.Q *= 2;
+				node.Local.NQ *= 2;
 				node.Local.ElecStatus = Simulator.ElectricStatus.Conduction;
 			}
 			return 0;
@@ -46,10 +46,10 @@ namespace SimuElectricity.Common.Element
 		{
 			foreach (var node in Nodes)
 			{
-				node.Local.Q /= 2;
+				node.Local.NQ /= 2;
 				node.Local.ElecStatus = Simulator.ElectricStatus.Resistence;
 			}
 			return 0;
-		}
+		}*/
 	}
 }

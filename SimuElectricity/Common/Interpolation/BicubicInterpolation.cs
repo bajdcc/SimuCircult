@@ -35,38 +35,38 @@ namespace SimuElectricity.Common.Interpolation
 		/// </summary>
 		private void ComputeCoefficient()
 		{
-			_coef[0, 0] = Pts[1, 1].Q;
-			_coef[0, 1] = -.5 * Pts[1, 0].Q + .5 * Pts[1, 2].Q;
-			_coef[0, 2] = Pts[1, 0].Q - 2.5 * Pts[1, 1].Q + 2 * Pts[1, 2].Q - .5 * Pts[1, 3].Q;
-			_coef[0, 3] = -.5 * Pts[1, 0].Q + 1.5 * Pts[1, 1].Q - 1.5 * Pts[1, 2].Q + .5 * Pts[1, 3].Q;
-			_coef[1, 0] = -.5 * Pts[0, 1].Q + .5 * Pts[2, 1].Q;
-			_coef[1, 1] = .25 * Pts[0, 0].Q - .25 * Pts[0, 2].Q - .25 * Pts[2, 0].Q + .25 * Pts[2, 2].Q;
-			_coef[1, 2] = -.5 * Pts[0, 0].Q + 1.25 * Pts[0, 1].Q - Pts[0, 2].Q + .25 * Pts[0, 3].Q
-				+ .5 * Pts[2, 0].Q - 1.25 * Pts[2, 1].Q + Pts[2, 2].Q - .25 * Pts[2, 3].Q;
-			_coef[1, 3] = .25 * Pts[0, 0].Q - .75 * Pts[0, 1].Q + .75 * Pts[0, 2].Q - .25 * Pts[0, 3].Q
-				- .25 * Pts[2, 0].Q + .75 * Pts[2, 1].Q - .75 * Pts[2, 2].Q + .25 * Pts[2, 3].Q;
-			_coef[2, 0] = Pts[0, 1].Q - 2.5 * Pts[1, 1].Q + 2 * Pts[2, 1].Q - .5 * Pts[3, 1].Q;
-			_coef[2, 1] = -.5 * Pts[0, 0].Q + .5 * Pts[0, 2].Q + 1.25 * Pts[1, 0].Q - 1.25 * Pts[1, 2].Q
-				- Pts[2, 0].Q + Pts[2, 2].Q + .25 * Pts[3, 0].Q - .25 * Pts[3, 2].Q;
-			_coef[2, 2] = Pts[0, 0].Q - 2.5 * Pts[0, 1].Q + 2 * Pts[0, 2].Q - .5 * Pts[0, 3].Q
-				- 2.5 * Pts[1, 0].Q + 6.25 * Pts[1, 1].Q - 5 * Pts[1, 2].Q + 1.25 * Pts[1, 3].Q
-				+ 2 * Pts[2, 0].Q - 5 * Pts[2, 1].Q + 4 * Pts[2, 2].Q - Pts[2, 3].Q - .5 * Pts[3, 0].Q
-				+ 1.25 * Pts[3, 1].Q - Pts[3, 2].Q + .25 * Pts[3, 3].Q;
-			_coef[2, 3] = -.5 * Pts[0, 0].Q + 1.5 * Pts[0, 1].Q - 1.5 * Pts[0, 2].Q + .5 * Pts[0, 3].Q
-				+ 1.25 * Pts[1, 0].Q - 3.75 * Pts[1, 1].Q + 3.75 * Pts[1, 2].Q - 1.25 * Pts[1, 3].Q
-				- Pts[2, 0].Q + 3 * Pts[2, 1].Q - 3 * Pts[2, 2].Q + Pts[2, 3].Q + .25 * Pts[3, 0].Q
-				- .75 * Pts[3, 1].Q + .75 * Pts[3, 2].Q - .25 * Pts[3, 3].Q;
-			_coef[3, 0] = -.5 * Pts[0, 1].Q + 1.5 * Pts[1, 1].Q - 1.5 * Pts[2, 1].Q + .5 * Pts[3, 1].Q;
-			_coef[3, 1] = .25 * Pts[0, 0].Q - .25 * Pts[0, 2].Q - .75 * Pts[1, 0].Q + .75 * Pts[1, 2].Q
-				+ .75 * Pts[2, 0].Q - .75 * Pts[2, 2].Q - .25 * Pts[3, 0].Q + .25 * Pts[3, 2].Q;
-			_coef[3, 2] = -.5 * Pts[0, 0].Q + 1.25 * Pts[0, 1].Q - Pts[0, 2].Q + .25 * Pts[0, 3].Q
-				+ 1.5 * Pts[1, 0].Q - 3.75 * Pts[1, 1].Q + 3 * Pts[1, 2].Q - .75 * Pts[1, 3].Q
-				- 1.5 * Pts[2, 0].Q + 3.75 * Pts[2, 1].Q - 3 * Pts[2, 2].Q + .75 * Pts[2, 3].Q
-				+ .5 * Pts[3, 0].Q - 1.25 * Pts[3, 1].Q + Pts[3, 2].Q - .25 * Pts[3, 3].Q;
-			_coef[3, 3] = .25 * Pts[0, 0].Q - .75 * Pts[0, 1].Q + .75 * Pts[0, 2].Q - .25 * Pts[0, 3].Q
-				- .75 * Pts[1, 0].Q + 2.25 * Pts[1, 1].Q - 2.25 * Pts[1, 2].Q + .75 * Pts[1, 3].Q
-				+ .75 * Pts[2, 0].Q - 2.25 * Pts[2, 1].Q + 2.25 * Pts[2, 2].Q - .75 * Pts[2, 3].Q
-				- .25 * Pts[3, 0].Q + .75 * Pts[3, 1].Q - .75 * Pts[3, 2].Q + .25 * Pts[3, 3].Q;
+			_coef[0, 0] = Pts[1, 1].NQ;
+			_coef[0, 1] = -.5 * Pts[1, 0].NQ + .5 * Pts[1, 2].NQ;
+			_coef[0, 2] = Pts[1, 0].NQ - 2.5 * Pts[1, 1].NQ + 2 * Pts[1, 2].NQ - .5 * Pts[1, 3].NQ;
+			_coef[0, 3] = -.5 * Pts[1, 0].NQ + 1.5 * Pts[1, 1].NQ - 1.5 * Pts[1, 2].NQ + .5 * Pts[1, 3].NQ;
+			_coef[1, 0] = -.5 * Pts[0, 1].NQ + .5 * Pts[2, 1].NQ;
+			_coef[1, 1] = .25 * Pts[0, 0].NQ - .25 * Pts[0, 2].NQ - .25 * Pts[2, 0].NQ + .25 * Pts[2, 2].NQ;
+			_coef[1, 2] = -.5 * Pts[0, 0].NQ + 1.25 * Pts[0, 1].NQ - Pts[0, 2].NQ + .25 * Pts[0, 3].NQ
+				+ .5 * Pts[2, 0].NQ - 1.25 * Pts[2, 1].NQ + Pts[2, 2].NQ - .25 * Pts[2, 3].NQ;
+			_coef[1, 3] = .25 * Pts[0, 0].NQ - .75 * Pts[0, 1].NQ + .75 * Pts[0, 2].NQ - .25 * Pts[0, 3].NQ
+				- .25 * Pts[2, 0].NQ + .75 * Pts[2, 1].NQ - .75 * Pts[2, 2].NQ + .25 * Pts[2, 3].NQ;
+			_coef[2, 0] = Pts[0, 1].NQ - 2.5 * Pts[1, 1].NQ + 2 * Pts[2, 1].NQ - .5 * Pts[3, 1].NQ;
+			_coef[2, 1] = -.5 * Pts[0, 0].NQ + .5 * Pts[0, 2].NQ + 1.25 * Pts[1, 0].NQ - 1.25 * Pts[1, 2].NQ
+				- Pts[2, 0].NQ + Pts[2, 2].NQ + .25 * Pts[3, 0].NQ - .25 * Pts[3, 2].NQ;
+			_coef[2, 2] = Pts[0, 0].NQ - 2.5 * Pts[0, 1].NQ + 2 * Pts[0, 2].NQ - .5 * Pts[0, 3].NQ
+				- 2.5 * Pts[1, 0].NQ + 6.25 * Pts[1, 1].NQ - 5 * Pts[1, 2].NQ + 1.25 * Pts[1, 3].NQ
+				+ 2 * Pts[2, 0].NQ - 5 * Pts[2, 1].NQ + 4 * Pts[2, 2].NQ - Pts[2, 3].NQ - .5 * Pts[3, 0].NQ
+				+ 1.25 * Pts[3, 1].NQ - Pts[3, 2].NQ + .25 * Pts[3, 3].NQ;
+			_coef[2, 3] = -.5 * Pts[0, 0].NQ + 1.5 * Pts[0, 1].NQ - 1.5 * Pts[0, 2].NQ + .5 * Pts[0, 3].NQ
+				+ 1.25 * Pts[1, 0].NQ - 3.75 * Pts[1, 1].NQ + 3.75 * Pts[1, 2].NQ - 1.25 * Pts[1, 3].NQ
+				- Pts[2, 0].NQ + 3 * Pts[2, 1].NQ - 3 * Pts[2, 2].NQ + Pts[2, 3].NQ + .25 * Pts[3, 0].NQ
+				- .75 * Pts[3, 1].NQ + .75 * Pts[3, 2].NQ - .25 * Pts[3, 3].NQ;
+			_coef[3, 0] = -.5 * Pts[0, 1].NQ + 1.5 * Pts[1, 1].NQ - 1.5 * Pts[2, 1].NQ + .5 * Pts[3, 1].NQ;
+			_coef[3, 1] = .25 * Pts[0, 0].NQ - .25 * Pts[0, 2].NQ - .75 * Pts[1, 0].NQ + .75 * Pts[1, 2].NQ
+				+ .75 * Pts[2, 0].NQ - .75 * Pts[2, 2].NQ - .25 * Pts[3, 0].NQ + .25 * Pts[3, 2].NQ;
+			_coef[3, 2] = -.5 * Pts[0, 0].NQ + 1.25 * Pts[0, 1].NQ - Pts[0, 2].NQ + .25 * Pts[0, 3].NQ
+				+ 1.5 * Pts[1, 0].NQ - 3.75 * Pts[1, 1].NQ + 3 * Pts[1, 2].NQ - .75 * Pts[1, 3].NQ
+				- 1.5 * Pts[2, 0].NQ + 3.75 * Pts[2, 1].NQ - 3 * Pts[2, 2].NQ + .75 * Pts[2, 3].NQ
+				+ .5 * Pts[3, 0].NQ - 1.25 * Pts[3, 1].NQ + Pts[3, 2].NQ - .25 * Pts[3, 3].NQ;
+			_coef[3, 3] = .25 * Pts[0, 0].NQ - .75 * Pts[0, 1].NQ + .75 * Pts[0, 2].NQ - .25 * Pts[0, 3].NQ
+				- .75 * Pts[1, 0].NQ + 2.25 * Pts[1, 1].NQ - 2.25 * Pts[1, 2].NQ + .75 * Pts[1, 3].NQ
+				+ .75 * Pts[2, 0].NQ - 2.25 * Pts[2, 1].NQ + 2.25 * Pts[2, 2].NQ - .75 * Pts[2, 3].NQ
+				- .25 * Pts[3, 0].NQ + .75 * Pts[3, 1].NQ - .75 * Pts[3, 2].NQ + .25 * Pts[3, 3].NQ;
 		}
 
 		private double ComputeValue(double x, double y)

@@ -21,49 +21,20 @@ namespace SimuElectricity.Common.Media
 
 		public override ElectricStatus BreakDownTest(IMedia media, ElectricStatus elecStatus, WireStatus status, double voltage, out double current)
 		{
-			switch (elecStatus)
-			{
-				case ElectricStatus.Resistence:
-					if (Math.Abs(voltage) > 1000)
-					{
-						current = 10;
-						return ElectricStatus.Ionization;
-					}
-					break;
-				case ElectricStatus.Ionization:
-					if (Math.Abs(voltage) > 1e4)
-					{
-						current = 10;
-						return ElectricStatus.Conduction;
-					}
-					if (Math.Abs(voltage) > 2000)
-					{
-						current = 800;
-						return ElectricStatus.Ionization;
-					}
-					break;
-				case ElectricStatus.Conduction:
-					if (Math.Abs(voltage) > 1e4)
-					{
-						current = Defines.Clamp(voltage, 1e15);
-						return ElectricStatus.Conduction;
-					}
-					break;
-				default:
-					break;
-			}			
-			return base.BreakDownTest(media, elecStatus, status, voltage, out current);
+            current = 10;
+            return ElectricStatus.Resistence;            
 		}
 
 		public override void SetNodeStatus(NodeStatus status)
 		{
 			base.SetNodeStatus(status);
-			status.Q = 0;
-		}
+			status.NQ = 100;
+            status.PQ = 100;
+        }
 
 		public override void Advance()
 		{
-			_status.Q = 0;
+			_status.PQ = 100;
 		}
 	}
 }

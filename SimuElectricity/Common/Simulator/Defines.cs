@@ -21,7 +21,7 @@ namespace SimuElectricity.Common.Simulator
 		public const double TIME_STEP = 1; // 时刻
 		public const double MIN_Q = 1e-10; // 最小电荷
 		public const double MAX_Q = 1e50; // 最大电荷
-		public const double K_ELEC = 1e-8; // 静电力常数
+		public const double K_ELEC = 1; // 静电力常数
 		public const double CELL_CX = 5.0; // 晶格间距X
 		public const double CELL_CY = 5.0; // 晶格间距Y
 		public const double MAX_TRANSFER_Q = 1e40; // 最大传输正电荷
