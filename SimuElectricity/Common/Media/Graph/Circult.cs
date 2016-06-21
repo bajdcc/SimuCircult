@@ -72,11 +72,11 @@ namespace SimuElectricity.Common.Graph
 						Defines.NODE_OFFSET_X + i * Defines.NODE_WIDTH,
 						Defines.NODE_OFFSET_Y + j * Defines.NODE_HEIGHT);
 					node.Coordinate = new Point(i, j);
-					if (2 <= j && j <= 7 && 25 <= i && i <= 35)
+					if (2 <= j && j <= 7 && 0 <= i && i <= 60)
 					{
 						var media = new CloudMedia();
 						media.SetNodeStatus(node.Local);
-                        node.Media = media;
+						node.Media = media;
 					}
                     else if (39 <= j && j <= 40 && 0 <= i && i <= 60)
                     {
@@ -164,8 +164,7 @@ namespace SimuElectricity.Common.Graph
                     _NodeStatusList.Add(node.Local);
                 }
             }
-		    InverseSquareCache.Init(Defines.WIDTH_COUNT, Defines.HEIGHT_COUNT);
-		}
+        }
 
 		public override void Update()
 		{
@@ -315,7 +314,7 @@ namespace SimuElectricity.Common.Graph
 			_stopwatch.Stop();            
             _fps.Display = string.Format("{0}ms Q:{1:0.0},{2:0.0}",
                 _stopwatch.ElapsedMilliseconds,
-                _NodeStatusList.Sum(a => a.Media.EffectiveQ()),
+                _NodeStatusList.Sum(a => a.Q),
                 _NodeStatusList.Max(a => a.Q));
 			_stopwatch.Reset(); 
 		}

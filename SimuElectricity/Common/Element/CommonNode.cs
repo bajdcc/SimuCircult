@@ -10,115 +10,122 @@ using System.Text;
 
 namespace SimuElectricity.Common.Element
 {
-	/// <summary>
-	/// 结点
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <typeparam name="U"></typeparam>
-	public class CommonNode<T, U> : NodeX<T, U>
-		where T : NodeStatus, new()
-		where U : WireStatus, new()
-	{
-		protected override void _FromWireToNode(IEnumerable<Wire<U, T>> inputs)
-		{
-			Next.PQ += inputs.Sum(a => a.Local.Q);//电荷增量
-		}
+    /// <summary>
+    /// 结点
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="U"></typeparam>
+    public class CommonNode<T, U> : NodeX<T, U>
+        where T : NodeStatus, new()
+        where U : WireStatus, new()
+    {
+        protected override void _FromWireToNode(IEnumerable<Wire<U, T>> inputs)
+        {
+            Next.Q += inputs.Sum(a => a.Local.Q);//电荷增量
+        }
 
-		protected override void _FromNodeToWire(IEnumerable<Wire<U, T>> outputs)
-		{
-			var seX = Math.Sign(Local.EX);
-			var seY = Math.Sign(Local.EY);
+        protected override void _FromNodeToWire(IEnumerable<Wire<U, T>> outputs)
+        {
+            if (Local.Q < 0)
+            {
+                return;
+            }
+            var seX = Math.Sign(Local.EX);
+            var seY = Math.Sign(Local.EY);
             U x = null, y = null;
             double ix = 0, iy = 0;
-			foreach (var output in outputs)
-			{
-				var scX = Math.Sign(output.Right.Coordinate.X - Coordinate.X);
-				var scY = Math.Sign(output.Right.Coordinate.Y - Coordinate.Y);				
-				if (seX == scX)
-				{
-					double current;
-					output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
-                    ix = Defines.Clamp(current, 0, Defines.MAX_TRANSFER_I);
-					//output.Next.Current = ix;
+            foreach (var output in outputs)
+            {
+                var scX = Math.Sign(output.Right.Coordinate.X - Coordinate.X);
+                var scY = Math.Sign(output.Right.Coordinate.Y - Coordinate.Y);
+                if (seX == scX)
+                {
+                    double current;
+                    output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EX) * Defines.CELL_CX, out current);
+                    ix = Math.Min(current, Defines.MAX_TRANSFER_I);
+                    //output.Next.Current = ix;
                     x = output.Next;
                 }
                 if (seY == scY)
                 {
                     double current;
                     output.Next.ElecStatus = Media.BreakDownTest(output.Right.Media, Local.ElecStatus, output.Local, Math.Abs(Local.EY) * Defines.CELL_CY, out current);
-                    iy = Defines.Clamp(current, 0, Defines.MAX_TRANSFER_I);
+                    iy = Math.Min(current, Defines.MAX_TRANSFER_I);
                     //output.Next.Current = iy;
                     y = output.Next;
-                }                
-			}
+                }
+            }
             if (x != null && y != null)
             {
                 double ixy = ix + iy;
-                double i = Defines.Clamp(Local.PQ, 0, ixy);
-                Next.PQ -= i;
-                if (i != 0)
+                if (Local.Q > ixy)
                 {
-                    x.Current = ix * i / ixy;
-                    y.Current = iy * i / ixy;
+                    Next.Q -= ixy;
+                    x.Current = ix;
+                    y.Current = iy;
                 }
                 else
                 {
-                    x.Current = 0;
-                    y.Current = 0;
-                }                
+                    if (Math.Abs(Local.Q) > Defines.MIN_Q)
+                    {
+                        Next.Q -= Local.Q;
+                        x.Current = ix * Local.Q / ixy;
+                        y.Current = iy * Local.Q / ixy;
+                    }
+                }
             }
             else
             {
                 if (x != null)
                 {
-                    x.Current = Defines.Clamp(Local.PQ, 0, ix);
-                    Next.PQ -= x.Current;
+                    x.Current = Math.Min(Local.Q, ix);
+                    Next.Q -= x.Current;
                 }
-                else if (y !=null)
+                else if (y != null)
                 {
-                    y.Current = Defines.Clamp(Local.PQ, 0, iy);
-                    Next.PQ -= y.Current;
+                    y.Current = Math.Min(Local.Q, iy);
+                    Next.Q -= y.Current;
                 }
-            }            
+            }
 
             switch (Local.ElecStatus)
-			{
-				case ElectricStatus.Resistence:
-					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
-						Next.ElecStatus = ElectricStatus.Ionization;
-					else
-						Next.ElecStatus = ElectricStatus.Resistence;
-					break;
-				case ElectricStatus.Ionization:
-					if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
-						Next.ElecStatus = ElectricStatus.Conduction;
-					else if (outputs.All(a => a.Next.ElecStatus == ElectricStatus.Resistence))
-						Next.ElecStatus = ElectricStatus.Resistence;
-					else
-						Next.ElecStatus = ElectricStatus.Ionization;
-					break;
-				case ElectricStatus.Conduction:
-					if (!outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Conduction))
-						Next.ElecStatus = ElectricStatus.Ionization;
-					else
-						Next.ElecStatus = ElectricStatus.Conduction;
-					break;
-				default:
-					break;
-			}
-		}
+            {
+                case ElectricStatus.Resistence:
+                    if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
+                        Next.ElecStatus = ElectricStatus.Ionization;
+                    else
+                        Next.ElecStatus = ElectricStatus.Resistence;
+                    break;
+                case ElectricStatus.Ionization:
+                    if (outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Ionization))
+                        Next.ElecStatus = ElectricStatus.Conduction;
+                    else if (outputs.All(a => a.Next.ElecStatus == ElectricStatus.Resistence))
+                        Next.ElecStatus = ElectricStatus.Resistence;
+                    else
+                        Next.ElecStatus = ElectricStatus.Ionization;
+                    break;
+                case ElectricStatus.Conduction:
+                    if (!outputs.Any(a => a.Next.ElecStatus == ElectricStatus.Conduction))
+                        Next.ElecStatus = ElectricStatus.Ionization;
+                    else
+                        Next.ElecStatus = ElectricStatus.Conduction;
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		public override void Update()
-		{
-			Local.PQ += Next.PQ;
-            Next.PQ = 0;
-            Local.PQ = Defines.Clamp(Local.PQ, Defines.MAX_Q);
-			Local.EX = Next.EX;
-			Local.EY = Next.EY;
-			Local.ElecStatus = Next.ElecStatus;
-			Next.EX = 0;
-			Next.EY = 0;
-			Media.Advance();
-		}
-	}
+        public override void Update()
+        {
+            Local.Q += Next.Q;
+            Next.Q = 0;
+            Local.Q = Defines.Clamp(Local.Q, Defines.MAX_Q);
+            Local.EX = Next.EX;
+            Local.EY = Next.EY;
+            Local.ElecStatus = Next.ElecStatus;
+            Next.EX = 0;
+            Next.EY = 0;
+            Media.Advance();
+        }
+    }
 }

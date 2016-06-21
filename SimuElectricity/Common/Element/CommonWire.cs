@@ -38,7 +38,8 @@ namespace SimuElectricity.Common.Element
 			Local.Q = Next.Q;
 			Next.Q = 0;
             Local.Current = Next.Current;
-			Local.ElecStatus = Next.ElecStatus;
+		    Next.Current = 0;
+            Local.ElecStatus = Next.ElecStatus;
 		}
 
 		public override void Prepare(Rectangle bound)

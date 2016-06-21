@@ -23,7 +23,6 @@ namespace SimuElectricity.Common.Media
 		{            
             if (media.GetId() == _id)
 			{
-                voltage *= 0.7;
                 switch (elecStatus)
 				{
 					case ElectricStatus.Resistence:
@@ -66,7 +65,6 @@ namespace SimuElectricity.Common.Media
 			else if (media.GetId() == MediaId.M_GROUND)
 
 			{
-                voltage *= 0.1;
                 switch (elecStatus)
                 {
                     case ElectricStatus.Resistence:
@@ -80,19 +78,19 @@ namespace SimuElectricity.Common.Media
                             return elecStatus;
                         }
                     case ElectricStatus.Ionization:
-                        if (Math.Abs(voltage) > 700)
+                        if (Math.Abs(voltage) > 40)
                         {
                             current = Defines.Clamp(voltage, 1e6);
                             return ElectricStatus.Conduction;
                         }
                         if (Math.Abs(voltage) > 600)
                         {
-                            current = Defines.Clamp(voltage, 1e4);
+                            current = Defines.Clamp(voltage, 1e6);
                             return ElectricStatus.Ionization;
                         }
                         break;
                     case ElectricStatus.Conduction:
-                        if (Math.Abs(voltage) > 300)
+                        if (Math.Abs(voltage) > 5)
                         {
                             current = Defines.Clamp(voltage, 1e6);
                             return ElectricStatus.Conduction;
@@ -112,9 +110,8 @@ namespace SimuElectricity.Common.Media
 		public override void SetNodeStatus(NodeStatus status)
 		{
 			base.SetNodeStatus(status);
-            status.NQ = 1;
-            status.PQ = 1;
-        }
+		    status.Q = 5 * Defines.NRand.Next();
+		}
 
 		public override void Advance()
 		{
@@ -123,5 +120,10 @@ namespace SimuElectricity.Common.Media
 				_status.Q *= 0.01;
 			}*/
 		}
-	}
+
+        public override double EffectiveQ()
+        {
+            return _status.Q;
+        }
+    }
 }

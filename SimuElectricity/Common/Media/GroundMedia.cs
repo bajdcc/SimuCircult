@@ -23,7 +23,6 @@ namespace SimuElectricity.Common.Media
 		{            
             if (media.GetId() == _id)
 			{
-                voltage *= 0.5;
                 switch (elecStatus)
                 {
                     case ElectricStatus.Resistence:
@@ -83,8 +82,7 @@ namespace SimuElectricity.Common.Media
 			base.SetNodeStatus(status);
 			//status.Q = 1e10 * (Defines.NRand.Next() + 0.3);
 			//status.Q = 0;
-			status.NQ = 5;
-            status.PQ = 5;
+			status.Q = -20 * (Defines.NRand.Next() + 1);
         }
-	}
+    }
 }

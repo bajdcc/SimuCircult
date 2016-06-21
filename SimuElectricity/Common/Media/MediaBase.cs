@@ -34,6 +34,7 @@ namespace SimuElectricity.Common.Media
 		public virtual void SetNodeStatus(NodeStatus status)
 		{
 			_status = status;
+		    status.Media = this;
 		}
 
 		public virtual void Advance()
@@ -45,5 +46,10 @@ namespace SimuElectricity.Common.Media
 		{
 			return 1.0;
 		}
+
+	    public virtual double EffectiveQ()
+	    {
+	        return 0.0;
+	    }
 	}
 }

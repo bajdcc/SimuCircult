@@ -5,39 +5,21 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using SimuElectricity.Common.Media;
 
 namespace SimuElectricity.Common.Base
 {
 	public class NodeStatus : Status
 	{
-		private double _NQ = 0;
-
-		/// <summary>
-		/// 基础负电荷
-		/// </summary>
-		public double NQ
-		{
-			get { return _NQ; }
-			set { _NQ = value; }
-		}
-
-        private double _PQ = 0;
-
-        /// <summary>
-        /// 基础正电荷
-        /// </summary>
-        public double PQ
-        {
-            get { return _PQ; }
-            set { _PQ = value; }
-        }
+		private double _Q = 0;
 
         /// <summary>
         /// 基础电荷
         /// </summary>
         public double Q
         {
-            get { return PQ - NQ; }
+            get { return _Q; }
+            set { _Q = value; }
         }
 
         private double _EX = 0;
@@ -62,7 +44,19 @@ namespace SimuElectricity.Common.Base
 			set { _EY = value; }
 		}
 
-		/// <summary>
+        /// <summary>
+		/// 介质
+		/// </summary>
+	    private IMedia _Media;
+
+	    public IMedia Media
+	    {
+	        get { return _Media; }
+	        set { _Media = value; }
+	    }
+
+
+	    /// <summary>
 		/// 状态
 		/// </summary>
 		public ElectricStatus ElecStatus

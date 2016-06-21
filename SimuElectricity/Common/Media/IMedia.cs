@@ -41,5 +41,11 @@ namespace SimuElectricity.Common.Media
 		/// </summary>
 		/// <returns></returns>
 		double? CalculateElectricField();
-	}
+
+        /// <summary>
+		/// 计算有效电荷
+		/// </summary>
+		/// <returns></returns>
+		double EffectiveQ();
+    }
 }

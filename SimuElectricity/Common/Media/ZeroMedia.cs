@@ -28,13 +28,7 @@ namespace SimuElectricity.Common.Media
 		public override void SetNodeStatus(NodeStatus status)
 		{
 			base.SetNodeStatus(status);
-			status.NQ = 100;
-            status.PQ = 100;
+			status.Q = -100;
         }
-
-		public override void Advance()
-		{
-			_status.PQ = 100;
-		}
 	}
 }

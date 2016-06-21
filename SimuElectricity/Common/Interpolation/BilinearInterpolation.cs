@@ -37,10 +37,10 @@ namespace SimuElectricity.Common.Interpolation
 		/// </summary>
 		private void ComputeCoefficient()
 		{
-			_coef[0] = Pts[0, 0].NQ;
-			_coef[1] = Pts[1, 0].NQ - Pts[0, 0].NQ;
-			_coef[2] = Pts[0, 1].NQ - Pts[0, 0].NQ;
-			_coef[3] = Pts[1, 1].NQ - _coef[2];
+			_coef[0] = Pts[0, 0].Q;
+			_coef[1] = Pts[1, 0].Q - Pts[0, 0].Q;
+			_coef[2] = Pts[0, 1].Q - Pts[0, 0].Q;
+			_coef[3] = Pts[1, 1].Q - _coef[2];
 		}
 
 		private double ComputeValue(double x, double y)
